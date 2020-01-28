@@ -18,7 +18,7 @@ class Main(Gtk.Window):
         self.set_border_width(10)
         self.set_icon_from_file(os.path.join(
             GUI.base_dir, 'images/arcolinux.png'))
-        self.set_size_request(850, 350)
+        self.set_size_request(750, 150)
         self.set_position(Gtk.WindowPosition.CENTER)
 
         if not os.path.exists(GUI.home + "/.config/arcolinux-welcome-app/"):
@@ -70,8 +70,8 @@ class Main(Gtk.Window):
         webbrowser.open_new_tab(link)
 
     def on_social_clicked(self, widget, event, link):
-        print(link)
-        
+        webbrowser.open_new_tab(link)
+
 if __name__ == "__main__":
     w = Main()
     w.connect("delete-event", Gtk.main_quit)

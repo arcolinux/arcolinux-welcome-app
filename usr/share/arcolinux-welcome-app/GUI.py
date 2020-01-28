@@ -16,7 +16,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox2 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox3 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox4 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    # hbox5 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox5 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -53,18 +53,17 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   MAIN BUTTONS
     # ======================================================================
 
-    if username == "liveuser":
-        button1 = Gtk.Button(label="Run GParted")
-        button1.connect("clicked", self.on_gp_clicked)
-        button1.set_size_request(0, 100)
+    button1 = Gtk.Button(label="Run GParted")
+    button1.connect("clicked", self.on_gp_clicked)
+    button1.set_size_request(0, 100)
 
-        button2 = Gtk.Button(label="Run Arcolinux Installer")
-        button2.connect("clicked", self.on_ai_clicked)
-        button2.set_size_request(0, 100)
+    button2 = Gtk.Button(label="Run Calamares")
+    button2.connect("clicked", self.on_ai_clicked)
+    button2.set_size_request(0, 100)
 
-        grid.add(button1)
-        grid.attach(button1, 0, 0, 1, 2)
-        grid.attach(button2, 1, 0, 1, 2)
+    grid.add(button1)
+    grid.attach(button1, 0, 0, 1, 2)
+    grid.attach(button2, 1, 0, 1, 2)
     grid.set_column_homogeneous(True)
     # grid.set_row_homogeneous(True)
 
@@ -93,6 +92,23 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox2.pack_start(button6, True, True, 0)
     hbox2.pack_start(button7, True, True, 0)
 
+    button8 = Gtk.Button(label="Donate")
+    button8.connect("clicked", self.on_link_clicked, "https://arcolinux.info/donation/")
+    
+    button9 = Gtk.Button(label="Get Involved")
+    button9.connect("clicked", self.on_link_clicked, "https://arcolinux.info/looking-for-betatesters/")
+
+    button10 = Gtk.Button(label="Debug")
+    button10.connect("clicked", self.on_link_clicked, "https://arcolinux.info/arcolinux-editions/")
+    
+    button11 = Gtk.Button(label="Youtube")
+    button11.connect("clicked", self.on_link_clicked, "https://www.youtube.com/erikdubois")
+      
+    hbox5.pack_start(button8, True, True, 0)
+    hbox5.pack_start(button9, True, True, 0)
+    hbox5.pack_start(button10, True, True, 0)
+    hbox5.pack_start(button11, True, True, 0)
+
     # ======================================================================
     #                   Add to startup
     # ======================================================================
@@ -108,32 +124,39 @@ def GUI(self, Gtk, GdkPixbuf):
     tE = Gtk.EventBox()
     meE = Gtk.EventBox()
     inE = Gtk.EventBox()
+    liE = Gtk.EventBox()
     
     pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/facebook.png'), 45, 45)
+        os.path.join(base_dir, 'images/facebook.png'), 25, 25)
     fbimage = Gtk.Image().new_from_pixbuf(pbfb)
 
     pbt = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/twitter.png'), 45, 45)
+        os.path.join(base_dir, 'images/twitter.png'), 25, 25)
     timage = Gtk.Image().new_from_pixbuf(pbt)
 
     pbme = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/mewe.png'), 40, 40)
+        os.path.join(base_dir, 'images/mewe.png'), 20, 20)
     meimage = Gtk.Image().new_from_pixbuf(pbme)
 
     pbin = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/insta.png'), 45, 45)
+        os.path.join(base_dir, 'images/insta.png'), 25, 25)
     inimage = Gtk.Image().new_from_pixbuf(pbin)
+
+    pbli = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/linkedin.png'), 25, 25)
+    liimage = Gtk.Image().new_from_pixbuf(pbli)
 
     fbE.add(fbimage)
     tE.add(timage)
     meE.add(meimage)
     inE.add(inimage)
+    liE.add(liimage)
 
-    fbE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
-    tE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
-    meE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
-    inE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
+    fbE.connect("button_press_event", self.on_social_clicked, "https://www.facebook.com/groups/arcolinux")
+    tE.connect("button_press_event", self.on_social_clicked, "https://twitter.com/arcolinux")
+    meE.connect("button_press_event", self.on_social_clicked, "https://mewe.com/group/5bbc4577a40f3002b313671d")
+    inE.connect("button_press_event", self.on_social_clicked, "https://www.instagram.com/arcolinux/")
+    liE.connect("button_press_event", self.on_social_clicked, "https://www.linkedin.com/in/arcolinux/")
 
     
 
@@ -141,6 +164,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox3.pack_start(tE, False, False, 0)
     hbox3.pack_start(meE, False, False, 0)
     hbox3.pack_start(inE, False, False, 0)
+    hbox3.pack_start(liE, False, False, 0)
     
     # ======================================================================
     #                   PACK TO WINDOW
@@ -150,6 +174,9 @@ def GUI(self, Gtk, GdkPixbuf):
 
     vbox.pack_start(hbox1, False, False, 0)  # welcome Label
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
-    vbox.pack_start(grid, True, False, 0)  # Run GParted    
-    vbox.pack_start(hbox2, False, False, 0)  # Run Installer
-    vbox.pack_start(hbox3, False, False, 0)  # Run Installer
+    if username == "liveuser":
+        vbox.pack_start(grid, True, False, 0)  # Run GParted          
+    vbox.pack_end(hbox3, False, False, 0)  # Footer
+    vbox.pack_end(hbox5, False, False, 0)  # Buttons
+    vbox.pack_end(hbox2, False, False, 0)  # Buttons
+    
