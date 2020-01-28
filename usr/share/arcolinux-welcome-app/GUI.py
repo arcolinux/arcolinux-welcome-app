@@ -43,7 +43,7 @@ def GUI(self, Gtk, GdkPixbuf):
     label2.set_line_wrap(True)
     label2.set_markup(
         "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
-"The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to know the latest news, to ask questions or for a casual talk. \n\n" +
+"The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
 "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
 "The ArcoLinux Team")
     # label2.connect( "size-allocate", self.cb_allocate )
