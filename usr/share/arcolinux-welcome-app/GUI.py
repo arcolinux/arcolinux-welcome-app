@@ -204,6 +204,23 @@ def GUI(self, Gtk, GdkPixbuf):
     dE.connect("button_press_event", self.on_social_clicked, "https://discordapp.com/invite/R2amEEz")
     tgE.connect("button_press_event", self.on_social_clicked, "https://t.me/arcolinux_d_b")
 
+    fbE.set_property("has-tooltip", True)
+    tE.set_property("has-tooltip", True)
+    meE.set_property("has-tooltip", True)
+    inE.set_property("has-tooltip", True)
+    liE.set_property("has-tooltip", True)
+    pE.set_property("has-tooltip", True)
+    dE.set_property("has-tooltip", True)
+    tgE.set_property("has-tooltip", True)
+
+    fbE.connect("query-tooltip", self.tooltip_callback, "Facebook")
+    tE.connect("query-tooltip", self.tooltip_callback, "Twitter")
+    meE.connect("query-tooltip", self.tooltip_callback, "Mewe")
+    inE.connect("query-tooltip", self.tooltip_callback, "Instagram")
+    liE.connect("query-tooltip", self.tooltip_callback, "LinkedIn")
+    pE.connect("query-tooltip", self.tooltip_callback, "Patreon")
+    dE.connect("query-tooltip", self.tooltip_callback, "Discord")
+    tgE.connect("query-tooltip", self.tooltip_callback, "Telegram")
 
 
     hbox3.pack_start(fbE, False, False, 0)

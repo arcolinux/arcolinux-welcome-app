@@ -83,6 +83,9 @@ class Main(Gtk.Window):
         except:
             pass
         return False
+    def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip, text):
+        tooltip.set_text(text)
+        return True
 
 if __name__ == "__main__":
     w = Main()
