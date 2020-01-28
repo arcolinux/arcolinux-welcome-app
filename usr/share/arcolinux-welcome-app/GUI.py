@@ -31,8 +31,8 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     
     cc = Gtk.Label()
-    if not self.is_connected():
-        cc.set_markup("<span foreground='orange'>Not connected to internet. \nCalamares will not install additional software</span>")
+    if not self.is_connected() and username == user:
+        cc.set_markup("<span foreground='orange'>Not connected to internet \nCalamares will not install additional software</span>")
 
     label = Gtk.Label(xalign=0)
     label.set_markup(
