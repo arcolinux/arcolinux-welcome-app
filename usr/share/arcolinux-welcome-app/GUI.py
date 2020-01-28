@@ -7,8 +7,7 @@ home = expanduser("~")
 username = getpass.getuser()
 
 def GUI(self, Gtk, GdkPixbuf):
-    self.set_default_size(800, 500)
-        
+
     autostart = eval(self.load_settings())
 
 
@@ -24,8 +23,8 @@ def GUI(self, Gtk, GdkPixbuf):
     # hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
-    vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-    vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    # vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # ======================================================================
     #                   WELCOME LABEL
     # ======================================================================
@@ -52,7 +51,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
     hbox1.pack_start(label, False, False, 0)
-    hbox4.set_homogeneous(False)
+    # hbox4.set_homogeneous(False)
     hbox4.pack_start(label2, False, False, 0)
 
     grid = Gtk.Grid()

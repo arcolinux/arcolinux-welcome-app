@@ -16,8 +16,7 @@ class Main(Gtk.Window):
     def __init__(self):
         super(Main, self).__init__(title="Arcolinux Welcome App")
         self.set_border_width(10)
-        # self.set_resizable(False)
-        #self.set_size_request(750, 150)
+        self.set_default_size(750, 250)
         self.set_icon_from_file(os.path.join(
             GUI.base_dir, 'images/arcolinux.png'))
         self.set_position(Gtk.WindowPosition.CENTER)
