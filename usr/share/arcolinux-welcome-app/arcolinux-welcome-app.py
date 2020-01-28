@@ -30,7 +30,7 @@ class Main(Gtk.Window):
         GUI.GUI(self, Gtk, GdkPixbuf)
 
     def on_ai_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["pkexec /usr/bin/calamares"],))
+        t = threading.Thread(target=self.run_app, args=(["pkexec","/usr/bin/calamares"],))
         t.daemon = True
         t.start()
 
