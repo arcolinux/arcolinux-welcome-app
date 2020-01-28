@@ -30,9 +30,7 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   WELCOME LABEL
     # ======================================================================
     
-    cc = Gtk.Label()
-    if not self.is_connected() and username == user:
-        cc.set_markup("<span foreground='orange'>Not connected to internet \nCalamares will not install additional software</span>")
+    self.cc = Gtk.Label()    
 
     label = Gtk.Label(xalign=0)
     label.set_markup(
@@ -63,7 +61,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
     hbox1.pack_start(label, False, False, 0)
-    hbox1.pack_end(cc, False, False, 0)
+    hbox1.pack_end(self.cc, False, False, 0)
     # hbox4.set_homogeneous(False)
     hbox4.pack_start(label2, False, False, 0)
 
