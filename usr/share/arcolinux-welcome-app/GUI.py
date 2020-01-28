@@ -5,6 +5,7 @@ from os.path import expanduser
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
+user = "liveuser"
 
 def GUI(self, Gtk, GdkPixbuf):
 
@@ -19,7 +20,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox3 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox4 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox5 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    # hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
@@ -41,11 +42,18 @@ def GUI(self, Gtk, GdkPixbuf):
     label2 = Gtk.Label(xalign=0)
     label2.set_justify(Gtk.Justification.CENTER)
     label2.set_line_wrap(True)
-    label2.set_markup(
-        "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
-"The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
-"We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
-"The ArcoLinux Team")
+
+    if username == user:
+
+        label2.set_markup(
+            "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
+    "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
+    "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+    "The ArcoLinux Team")
+    else:
+        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
+    "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+    "The ArcoLinux Team")
     # label2.connect( "size-allocate", self.cb_allocate )
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
@@ -60,11 +68,16 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   MAIN BUTTONS
     # ======================================================================
 
-    button1 = Gtk.Button(label="Run GParted")
+    button1 = Gtk.Button(label="")
+    button1_label = button1.get_child()
+    button1_label.set_markup("<span size='large'><b>Run GParted</b></span>")
     button1.connect("clicked", self.on_gp_clicked)
     button1.set_size_request(0, 100)
 
-    button2 = Gtk.Button(label="Run Calamares")
+    button2 = Gtk.Button(label="")
+    button2_label = button2.get_child()
+    button2_label.set_markup("<span size='large'><b>Run Calamares</b></span>")
+
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 100)
 
@@ -133,30 +146,40 @@ def GUI(self, Gtk, GdkPixbuf):
     inE = Gtk.EventBox()
     liE = Gtk.EventBox()
     pE = Gtk.EventBox()
+    dE = Gtk.EventBox()
+    tgE = Gtk.EventBox()
 
     pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/facebook.png'), 25, 25)
+        os.path.join(base_dir, 'images/facebook.png'), 28, 28)
     fbimage = Gtk.Image().new_from_pixbuf(pbfb)
 
     pbt = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/twitter.png'), 25, 25)
+        os.path.join(base_dir, 'images/twitter.png'), 28, 28)
     timage = Gtk.Image().new_from_pixbuf(pbt)
 
     pbme = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/mewe.png'), 20, 20)
+        os.path.join(base_dir, 'images/mewe.png'), 23, 23)
     meimage = Gtk.Image().new_from_pixbuf(pbme)
 
     pbin = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/insta.png'), 25, 25)
+        os.path.join(base_dir, 'images/insta.png'), 28, 28)
     inimage = Gtk.Image().new_from_pixbuf(pbin)
 
     pbli = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/linkedin.png'), 25, 25)
+        os.path.join(base_dir, 'images/linkedin.png'), 28, 28)
     liimage = Gtk.Image().new_from_pixbuf(pbli)
 
     pbp = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/patreon.png'), 25, 25)
+        os.path.join(base_dir, 'images/patreon.png'), 28, 28)
     pimage = Gtk.Image().new_from_pixbuf(pbp)
+
+    pbd = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/discord.png'), 28, 28)
+    dimage = Gtk.Image().new_from_pixbuf(pbd)
+    
+    pbtg = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/tg.png'), 28, 28)
+    tgimage = Gtk.Image().new_from_pixbuf(pbtg)
 
     fbE.add(fbimage)
     tE.add(timage)
@@ -164,6 +187,8 @@ def GUI(self, Gtk, GdkPixbuf):
     inE.add(inimage)
     liE.add(liimage)
     pE.add(pimage)
+    dE.add(dimage)
+    tgE.add(tgimage)
 
     fbE.connect("button_press_event", self.on_social_clicked, "https://www.facebook.com/groups/arcolinux")
     tE.connect("button_press_event", self.on_social_clicked, "https://twitter.com/arcolinux")
@@ -171,6 +196,8 @@ def GUI(self, Gtk, GdkPixbuf):
     inE.connect("button_press_event", self.on_social_clicked, "https://www.instagram.com/arcolinux/")
     liE.connect("button_press_event", self.on_social_clicked, "https://www.linkedin.com/in/arcolinux/")
     pE.connect("button_press_event", self.on_social_clicked, "https://www.patreon.com/arcolinux")
+    dE.connect("button_press_event", self.on_social_clicked, "https://discordapp.com/invite/R2amEEz")
+    tgE.connect("button_press_event", self.on_social_clicked, "https://t.me/arcolinux_d_b")
 
 
 
@@ -181,6 +208,10 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox3.pack_start(liE, False, False, 0)
     hbox3.pack_start(pE, False, False, 0)
 
+    hbox6.pack_start(dE, False, False, 0)
+    hbox6.pack_start(tgE, False, False, 0)
+    hbox3.pack_start(hbox6, True, False, 0)
+
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
@@ -190,7 +221,7 @@ def GUI(self, Gtk, GdkPixbuf):
     vbox.pack_start(hbox1, False, False, 0)  # Logo
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
 
-    if username == "liveuser":
+    if username == user:
         vbox.pack_start(grid, True, False, 0)  # Run GParted
     vbox.pack_end(hbox3, False, False, 0)  # Footer
     vbox.pack_end(hbox5, False, False, 0)  # Buttons
