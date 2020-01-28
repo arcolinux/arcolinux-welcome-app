@@ -69,6 +69,9 @@ class Main(Gtk.Window):
     def on_link_clicked(self, widget, link):
         webbrowser.open_new_tab(link)
 
+    def on_social_clicked(self, widget, event, link):
+        print(link)
+        
 if __name__ == "__main__":
     w = Main()
     w.connect("delete-event", Gtk.main_quit)

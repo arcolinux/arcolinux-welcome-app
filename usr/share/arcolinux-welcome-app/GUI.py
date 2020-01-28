@@ -100,6 +100,47 @@ def GUI(self, Gtk, GdkPixbuf):
     check.connect("toggled", self.statup_toggle)
     check.set_active(autostart)
     hbox3.pack_end(check, False, False, 0)
+
+    # ======================================================================
+    #                   SOCIAL LINKS
+    # ======================================================================
+    fbE = Gtk.EventBox()
+    tE = Gtk.EventBox()
+    meE = Gtk.EventBox()
+    inE = Gtk.EventBox()
+    
+    pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/facebook.png'), 45, 45)
+    fbimage = Gtk.Image().new_from_pixbuf(pbfb)
+
+    pbt = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/twitter.png'), 45, 45)
+    timage = Gtk.Image().new_from_pixbuf(pbt)
+
+    pbme = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/mewe.png'), 40, 40)
+    meimage = Gtk.Image().new_from_pixbuf(pbme)
+
+    pbin = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/insta.png'), 45, 45)
+    inimage = Gtk.Image().new_from_pixbuf(pbin)
+
+    fbE.add(fbimage)
+    tE.add(timage)
+    meE.add(meimage)
+    inE.add(inimage)
+
+    fbE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
+    tE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
+    meE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
+    inE.connect("button_press_event", self.on_social_clicked, "https://facebook.com")
+
+    
+
+    hbox3.pack_start(fbE, False, False, 0)
+    hbox3.pack_start(tE, False, False, 0)
+    hbox3.pack_start(meE, False, False, 0)
+    hbox3.pack_start(inE, False, False, 0)
     
     # ======================================================================
     #                   PACK TO WINDOW
