@@ -33,12 +33,12 @@ class Main(Gtk.Window):
         t = threading.Thread(target=self.run_app, args=(["pkexec /usr/bin/calamares"],))
         t.daemon = True
         t.start()
-        
+
     def on_gp_clicked(self, widget):
         t = threading.Thread(target=self.run_app, args=(["/usr/bin/gparted"],))
         t.daemon = True
         t.start()
-        
+
     def run_app(self, command):
         subprocess.call(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -55,7 +55,7 @@ class Main(Gtk.Window):
         with open(GUI.home + "/.config/arcolinux-welcome-app/settings.conf", "w") as f:
             f.write("autostart=" + str(state))
             f.close()
-            
+
     def load_settings(self):
         line = "False"
         with open(GUI.home + "/.config/arcolinux-welcome-app/settings.conf", "r") as f:
