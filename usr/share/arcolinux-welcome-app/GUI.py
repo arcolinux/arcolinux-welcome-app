@@ -27,31 +27,30 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   WELCOME LABEL
     # ======================================================================
 
-    # label = Gtk.Label(xalign=0)
-    # label.set_markup(
-    #     "<big>Welcome to <b>Arcolinux</b></big>")
-    # label.set_line_wrap(True)
+    label = Gtk.Label(xalign=0)
+    label.set_markup(
+        "<big>Welcome to <b>Arcolinux</b></big>")
+    label.set_line_wrap(True)
 
-    pixbuf = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/arcolinux-one-liner.png'), 145, 145)
-    image = Gtk.Image().new_from_pixbuf(pixbuf)
-
+    # pixbuf = GdkPixbuf.Pixbuf().new_from_file_at_size(
+    #     os.path.join(base_dir, 'images/arcolinux-one-liner.png'), 145, 145)
+    # image = Gtk.Image().new_from_pixbuf(pixbuf)
+    
     label2 = Gtk.Label(xalign=0)
-    label2.set_markup(
-        "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. " +
-"You have the freedom of choice. The links below will get you started on ArcoLinux. We communicate with our community via a " +
-"diversity of social media. Do join us to know the latest news, to ask questions or for a casual talk. " +
-"We appreciate your feed-back. Learn, have fun and enjoy. \n\n" +
-"The ArcoLinux Team")
-
+    label2.set_justify(Gtk.Justification.CENTER)
     label2.set_line_wrap(True)
-
+    label2.set_markup(
+        "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. \n" + 
+"The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to know the latest news, to ask questions or for a casual talk. \n" +
+"We appreciate your feed-back and donation. Learn, have fun and enjoy. \n\n" +
+"The ArcoLinux Team")
+    label2.set_lines(4)
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
-    hbox1.pack_start(image, False, False, 0)
+    hbox1.pack_start(label, False, False, 0)
+    hbox4.set_homogeneous(False)
     hbox4.pack_start(label2, False, False, 0)
-
 
     grid = Gtk.Grid()
 
@@ -188,6 +187,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     vbox.pack_start(hbox1, False, False, 0)  # Logo
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
+    
     if username == "liveuser":
         vbox.pack_start(grid, True, False, 0)  # Run GParted
     vbox.pack_end(hbox3, False, False, 0)  # Footer
