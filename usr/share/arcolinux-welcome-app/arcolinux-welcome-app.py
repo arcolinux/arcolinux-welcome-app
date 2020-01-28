@@ -7,10 +7,12 @@ import subprocess
 import threading
 import webbrowser
 import shutil
-
+import socket
+    
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf
 
+REMOTE_SERVER = "www.google.com"
 
 class Main(Gtk.Window):
     def __init__(self):
@@ -72,8 +74,15 @@ class Main(Gtk.Window):
     def on_social_clicked(self, widget, event, link):
         webbrowser.open_new_tab(link)
 
-    def cb_allocate( self, label, allocation ):
-        label.set_size_request( allocation.width - 2, -1 )
+    def is_connected(self):
+        try:
+            host = socket.gethostbyname(REMOTE_SERVER)
+            s = socket.create_connection((host, 80), 2)
+            s.close()
+            return True
+        except:
+            pass
+        return False
 
 if __name__ == "__main__":
     w = Main()
