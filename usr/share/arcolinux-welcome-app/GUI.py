@@ -48,7 +48,6 @@ def GUI(self, Gtk, GdkPixbuf):
 
 
     grid = Gtk.Grid()
-    grid2 = Gtk.Grid()
      
     # ======================================================================
     #                   MAIN BUTTONS
