@@ -44,11 +44,11 @@ class Main(Gtk.Window):
 
     def statup_toggle(self, widget):
         if widget.get_active() == True:
-            if os.path.isfile("/usr/share/applications/arcolinux-welocome-app.desktop"):
-                shutil.copy("/usr/share/applications/arcolinux-welocome-app.desktop", GUI.home + "/.config/autostart/arcolinux-welocome-app.desktop")
+            if os.path.isfile("/usr/share/applications/arcolinux-welcome-app.desktop"):
+                shutil.copy("/usr/share/applications/arcolinux-welcome-app.desktop", GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop")
         else:
-            if os.path.isfile(GUI.home + "/.config/autostart/arcolinux-welocome-app.desktop"):
-                os.unlink(GUI.home + "/.config/autostart/arcolinux-welocome-app.desktop")
+            if os.path.isfile(GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop"):
+                os.unlink(GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop")
         self.save_settings(widget.get_active())
 
     def save_settings(self, state):
