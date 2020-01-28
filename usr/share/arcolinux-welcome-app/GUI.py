@@ -21,6 +21,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
+    vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # ======================================================================
     #                   WELCOME LABEL
@@ -36,14 +37,22 @@ def GUI(self, Gtk, GdkPixbuf):
     image = Gtk.Image().new_from_pixbuf(pixbuf)
 
     label2 = Gtk.Label(xalign=0)    
-    label2.set_text(
-        "Follow the steps below to get started installing <b>Arcolinux</b>\nsomething something else and more on that subject later today :D")
+    label2.set_markup(
+        "We advise to clean  the computer with Gparted before installing.\n" +  
+"During the Calamares installation many options will be open to you. \n" +
+"You have the freedom of choice. The links below will get you started on \n" +
+"ArcoLinux. We communicate with our community via a diversity of \n" +
+"social media. Do join us to know the latest news,  \n" + 
+"to ask questions or for a casual talk. \n" + 
+"We appreciate your feed-back. Learn, have fun and enjoy. \nThe ArcoLinux Team")
+    
     label2.set_line_wrap(True)
     
     # hbox4.pack_start(label2, False, False, 0)
     vbox2.pack_start(label, True, False, 0)
     vbox2.pack_start(label2, True, False, 0)
-    hbox1.pack_start(image, False, False, 0)
+    vbox1.pack_start(image, False, False, 0)
+    hbox1.pack_start(vbox1, False, False, 0)
     hbox1.pack_end(vbox2, False, False, 0)
 
 
