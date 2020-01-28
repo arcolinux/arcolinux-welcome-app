@@ -99,7 +99,7 @@ def GUI(self, Gtk, GdkPixbuf):
     button9.connect("clicked", self.on_link_clicked, "https://arcolinux.info/looking-for-betatesters/")
 
     button10 = Gtk.Button(label="Debug")
-    button10.connect("clicked", self.on_link_clicked, "https://arcolinux.info/arcolinux-editions/")
+    button10.connect("clicked", self.on_link_clicked, "https://github.com/arcolinux")
     
     button11 = Gtk.Button(label="Youtube")
     button11.connect("clicked", self.on_link_clicked, "https://www.youtube.com/erikdubois")
@@ -125,6 +125,7 @@ def GUI(self, Gtk, GdkPixbuf):
     meE = Gtk.EventBox()
     inE = Gtk.EventBox()
     liE = Gtk.EventBox()
+    pE = Gtk.EventBox()
     
     pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/facebook.png'), 25, 25)
@@ -146,17 +147,23 @@ def GUI(self, Gtk, GdkPixbuf):
         os.path.join(base_dir, 'images/linkedin.png'), 25, 25)
     liimage = Gtk.Image().new_from_pixbuf(pbli)
 
+    pbp = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/patreon.png'), 25, 25)
+    pimage = Gtk.Image().new_from_pixbuf(pbp)
+
     fbE.add(fbimage)
     tE.add(timage)
     meE.add(meimage)
     inE.add(inimage)
     liE.add(liimage)
+    pE.add(pimage)
 
     fbE.connect("button_press_event", self.on_social_clicked, "https://www.facebook.com/groups/arcolinux")
     tE.connect("button_press_event", self.on_social_clicked, "https://twitter.com/arcolinux")
     meE.connect("button_press_event", self.on_social_clicked, "https://mewe.com/group/5bbc4577a40f3002b313671d")
     inE.connect("button_press_event", self.on_social_clicked, "https://www.instagram.com/arcolinux/")
     liE.connect("button_press_event", self.on_social_clicked, "https://www.linkedin.com/in/arcolinux/")
+    pE.connect("button_press_event", self.on_social_clicked, "https://www.patreon.com/arcolinux")
 
     
 
@@ -165,6 +172,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox3.pack_start(meE, False, False, 0)
     hbox3.pack_start(inE, False, False, 0)
     hbox3.pack_start(liE, False, False, 0)
+    hbox3.pack_start(pE, False, False, 0)
     
     # ======================================================================
     #                   PACK TO WINDOW
