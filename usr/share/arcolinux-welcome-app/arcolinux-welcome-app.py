@@ -18,7 +18,6 @@ class Main(Gtk.Window):
         self.set_border_width(10)
         # self.set_resizable(False)
         #self.set_size_request(750, 150)
-        self.set_default_size(800, 500)
         self.set_icon_from_file(os.path.join(
             GUI.base_dir, 'images/arcolinux.png'))
         self.set_position(Gtk.WindowPosition.CENTER)
@@ -73,6 +72,9 @@ class Main(Gtk.Window):
 
     def on_social_clicked(self, widget, event, link):
         webbrowser.open_new_tab(link)
+
+    def cb_allocate( self, label, allocation ):
+        label.set_size_request( allocation.width - 2, -1 )
 
 if __name__ == "__main__":
     w = Main()

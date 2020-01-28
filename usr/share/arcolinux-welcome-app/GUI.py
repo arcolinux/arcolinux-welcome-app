@@ -7,7 +7,10 @@ home = expanduser("~")
 username = getpass.getuser()
 
 def GUI(self, Gtk, GdkPixbuf):
+    self.set_default_size(800, 500)
+        
     autostart = eval(self.load_settings())
+
 
     vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
     self.add(vbox)
@@ -44,7 +47,7 @@ def GUI(self, Gtk, GdkPixbuf):
 "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to know the latest news, to ask questions or for a casual talk. \n\n" +
 "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
 "The ArcoLinux Team")
-    label2.set_lines(4)
+    # label2.connect( "size-allocate", self.cb_allocate )
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
