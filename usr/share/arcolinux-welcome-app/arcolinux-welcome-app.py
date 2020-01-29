@@ -10,7 +10,7 @@ import shutil
 import socket
 from time import sleep
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, GdkPixbuf, GLib
 
 REMOTE_SERVER = "www.google.com"
 
@@ -31,9 +31,10 @@ class Main(Gtk.Window):
 
         GUI.GUI(self, Gtk, GdkPixbuf)
 
-        t = threading.Thread(target=self.internet_notifier, args=())
-        t.daemon = True
-        t.start()
+        if GUI.username == GUI.user:
+            t = threading.Thread(target=self.internet_notifier, args=())
+            t.daemon = True
+            t.start()
 
 
 
@@ -60,37 +61,31 @@ class Main(Gtk.Window):
         self.save_settings(widget.get_active())
 
     def save_settings(self, state):
-        if GUI.username == GUI.user:
-            with open(GUI.Skel_Settings, "w") as f:
-                f.write("autostart=" + str(state))
-                f.close()
-        else:
-            with open(GUI.Settings, "w") as f:
-                f.write("autostart=" + str(state))
-                f.close()
+        with open(GUI.Settings, "w") as f:
+            f.write("autostart=" + str(state))
+            f.close()
 
     def load_settings(self):
         line = "True"
-        if GUI.username == GUI.user:
-            with open(GUI.Skel_Settings, "r") as f:
-                lines = f.readlines()
-                for i in range(len(lines)):
-                    if "autostart" in lines[i]:
-                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
-                f.close()
-        else:
-            with open(GUI.Settings, "r") as f:
-                lines = f.readlines()
-                for i in range(len(lines)):
-                    if "autostart" in lines[i]:
-                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
-                f.close()
+        with open(GUI.Settings, "r") as f:
+            lines = f.readlines()
+            for i in range(len(lines)):
+                if "autostart" in lines[i]:
+                    line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
+            f.close()
         return line
 
     def on_link_clicked(self, widget, link):
-        webbrowser.open_new_tab(link)
+        t = threading.Thread(target=self.weblink, args=(link,))
+        t.daemon = True
+        t.start()
 
     def on_social_clicked(self, widget, event, link):
+        t = threading.Thread(target=self.weblink, args=(link,))
+        t.daemon = True
+        t.start()
+
+    def weblink(self, link):
         webbrowser.open_new_tab(link)
 
     def is_connected(self):
@@ -102,16 +97,17 @@ class Main(Gtk.Window):
         except:
             pass
         return False
+
     def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip, text):
         tooltip.set_text(text)
         return True
 
     def internet_notifier(self):
         while(True):
-            if not self.is_connected() and GUI.username == GUI.user:
-                self.cc.set_markup("<span foreground='orange'>Not connected to internet \nCalamares will not install additional software</span>")
+            if not self.is_connected():
+                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'>Not connected to internet \nCalamares will not install additional software</span>")
             else:
-                self.cc.set_text("")
+                GLib.idle_add(self.cc.set_text,"")
             sleep(3)
 
 if __name__ == "__main__":
