@@ -29,8 +29,8 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   WELCOME LABEL
     # ======================================================================
-    
-    self.cc = Gtk.Label()    
+
+    self.cc = Gtk.Label()
 
     label = Gtk.Label(xalign=0)
     label.set_markup(
@@ -179,7 +179,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pbd = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/discord.png'), 28, 28)
     dimage = Gtk.Image().new_from_pixbuf(pbd)
-    
+
     pbtg = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/tg.png'), 28, 28)
     tgimage = Gtk.Image().new_from_pixbuf(pbtg)
