@@ -7,6 +7,11 @@ home = expanduser("~")
 username = getpass.getuser()
 user = "liveuser"
 
+Settings = home + "/.config/arcolinux-welcome-app/settings.conf"
+Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
+dot_desktop = "/usr/share/applications/arcolinux-welcome-app.desktop"
+autostart = home + "/.config/autostart/arcolinux-welcome-app.desktop"
+
 def GUI(self, Gtk, GdkPixbuf):
 
     autostart = eval(self.load_settings())

@@ -25,7 +25,7 @@ class Main(Gtk.Window):
 
         if not os.path.exists(GUI.home + "/.config/arcolinux-welcome-app/"):
             os.mkdir(GUI.home + "/.config/arcolinux-welcome-app/")
-            with open(GUI.home + "/.config/arcolinux-welcome-app/settings.conf", "w") as f:
+            with open(GUI.Settings, "w") as f:
                 f.write("autostart=True")
                 f.close()
 
@@ -52,26 +52,39 @@ class Main(Gtk.Window):
 
     def statup_toggle(self, widget):
         if widget.get_active() == True:
-            if os.path.isfile("/usr/share/applications/arcolinux-welcome-app.desktop"):
-                shutil.copy("/usr/share/applications/arcolinux-welcome-app.desktop", GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop")
+            if os.path.isfile(GUI.dot_desktop):
+                shutil.copy(GUI.dot_desktop, GUI.autostart)
         else:
-            if os.path.isfile(GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop"):
-                os.unlink(GUI.home + "/.config/autostart/arcolinux-welcome-app.desktop")
+            if os.path.isfile(GUI.autostart):
+                os.unlink(GUI.autostart)
         self.save_settings(widget.get_active())
 
     def save_settings(self, state):
-        with open(GUI.home + "/.config/arcolinux-welcome-app/settings.conf", "w") as f:
-            f.write("autostart=" + str(state))
-            f.close()
+        if GUI.username == GUI.user:
+            with open(GUI.Skel_Settings, "w") as f:
+                f.write("autostart=" + str(state))
+                f.close()
+        else:
+            with open(GUI.Settings, "w") as f:
+                f.write("autostart=" + str(state))
+                f.close()
 
     def load_settings(self):
-        line = "False"
-        with open(GUI.home + "/.config/arcolinux-welcome-app/settings.conf", "r") as f:
-            lines = f.readlines()
-            for i in range(len(lines)):
-                if "autostart" in lines[i]:
-                    line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
-            f.close()
+        line = "True"
+        if GUI.username == GUI.user:
+            with open(GUI.Skel_Settings, "r") as f:
+                lines = f.readlines()
+                for i in range(len(lines)):
+                    if "autostart" in lines[i]:
+                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
+                f.close()
+        else:
+            with open(GUI.Settings, "r") as f:
+                lines = f.readlines()
+                for i in range(len(lines)):
+                    if "autostart" in lines[i]:
+                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
+                f.close()
         return line
 
     def on_link_clicked(self, widget, link):
