@@ -29,8 +29,8 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   WELCOME LABEL
     # ======================================================================
-    
-    self.cc = Gtk.Label()    
+
+    self.cc = Gtk.Label()
 
     label = Gtk.Label(xalign=0)
     label.set_markup(
@@ -49,11 +49,11 @@ def GUI(self, Gtk, GdkPixbuf):
 
         label2.set_markup(
             "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
-    "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
+    "The links below will get you started with ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
     "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
     "The ArcoLinux Team")
     else:
-        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
+        label2.set_markup("The links below will get you started with ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
     "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
     "The ArcoLinux Team")
     # label2.connect( "size-allocate", self.cb_allocate )
@@ -179,7 +179,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pbd = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/discord.png'), 28, 28)
     dimage = Gtk.Image().new_from_pixbuf(pbd)
-    
+
     pbtg = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/tg.png'), 28, 28)
     tgimage = Gtk.Image().new_from_pixbuf(pbtg)
