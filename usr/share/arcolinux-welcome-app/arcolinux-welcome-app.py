@@ -70,7 +70,7 @@ class Main(Gtk.Window):
             lines = f.readlines()
             for i in range(len(lines)):
                 if "autostart" in lines[i]:
-                    line = lines[i].split("=")[1].rstrip().lstrip()
+                    line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
             f.close()
         return line
 
