@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import base64
+import requests        
 import gi
 import os
 import GUI
@@ -22,7 +23,7 @@ class Main(Gtk.Window):
         self.set_icon_from_file(os.path.join(
             GUI.base_dir, 'images/arcolinux.png'))
         self.set_position(Gtk.WindowPosition.CENTER)
-
+        self.results = ""
         if not os.path.exists(GUI.home + "/.config/arcolinux-welcome-app/"):
             os.mkdir(GUI.home + "/.config/arcolinux-welcome-app/")
             with open(GUI.Settings, "w") as f:
@@ -109,6 +110,29 @@ class Main(Gtk.Window):
             else:
                 GLib.idle_add(self.cc.set_text,"")
             sleep(3)
+    
+    
+    def get_message(self, title, message):
+        t = threading.Thread(target=self.fetch_notice, args=(title, message,))
+        t.daemon = True
+        t.start()
+        t.join()        
+    
+    
+    def fetch_notice(self, title, message):
+        url = 'https://bradheff.github.io/notice/notice'
+        req = requests.get(url)
+        if req.status_code == requests.codes.ok:
+            if not len(req.text) <= 1:
+                title.set_markup(
+                "<big><b><u>Notice</u></b></big>")
+                message.set_markup(req.text)
+                self.results = True
+            else:
+                self.results = False    
+        else:
+            self.results = False
+
 
 if __name__ == "__main__":
     w = Main()

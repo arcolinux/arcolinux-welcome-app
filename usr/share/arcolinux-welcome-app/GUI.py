@@ -95,6 +95,25 @@ def GUI(self, Gtk, GdkPixbuf):
     grid.set_column_homogeneous(True)
     # grid.set_row_homogeneous(True)
 
+
+    # ======================================================================
+    #                   NOTICE
+    # ======================================================================
+    
+    label3 = Gtk.Label(xalign=0)
+    label3.set_line_wrap(True)
+
+    label4 = Gtk.Label(xalign=0)    
+    label4.set_line_wrap(True)
+
+    if self.is_connected():
+        self.get_message(label3, label4)
+
+    vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+
+    vbox2.pack_start(label3, False,False,0)
+    vbox2.pack_start(label4, False,False,0)
+
     # ======================================================================
     #                   USER INFO
     # ======================================================================
@@ -150,7 +169,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     button8 = Gtk.Button(label="")
     button8_label = button8.get_child()
-    button8_label.set_markup("<span foreground='cyan'>Donate</span>")
+    button8_label.set_markup("<b>Donate</b>")
     button8.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/donation/")
 
@@ -288,7 +307,9 @@ def GUI(self, Gtk, GdkPixbuf):
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
 
     if username == user:
-        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares        
+        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
+    if self.is_connected() and self.results:
+        vbox.pack_start(vbox2, False, False, 0)  # Notice        
     vbox.pack_end(hbox3, False, False, 0)  # Footer
     vbox.pack_end(hbox5, False, False, 0)  # Buttons
     vbox.pack_end(hbox2, False, False, 0)  # Buttons
