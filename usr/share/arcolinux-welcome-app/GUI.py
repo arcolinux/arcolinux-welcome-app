@@ -97,6 +97,43 @@ def GUI(self, Gtk, GdkPixbuf):
 
 
     # ======================================================================
+    #                   USER INFO
+    # ======================================================================
+    userImage = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/user.png'), 28, 28)
+    usr_image = Gtk.Image().new_from_pixbuf(userImage)
+
+    passImage = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/password.png'), 28, 28)
+    pass_image = Gtk.Image().new_from_pixbuf(passImage)
+
+    lblusrname = Gtk.Label(xalign=0)
+    lblusrname.set_text("Username:")
+
+    lblpassword = Gtk.Label(xalign=0)
+    lblpassword.set_text("Password:")
+
+    lblusr = Gtk.Label(xalign=0)
+    lblusr.set_text("liveuser")
+    lblpass = Gtk.Label(xalign=0)
+
+    vboxUser = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+
+    hboxUser = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hboxpass = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+
+    hboxUser.pack_start(usr_image, False, False, 0)
+    hboxUser.pack_start(lblusrname, False, False, 0)
+    hboxUser.pack_start(lblusr, False, False, 0)
+
+    hboxpass.pack_start(pass_image, False, False, 0)
+    hboxpass.pack_start(lblpassword, False, False, 0)
+    
+    
+    vboxUser.pack_start(hboxUser, False, False, 0)
+    vboxUser.pack_start(hboxpass, False, False, 0)
+
+    # ======================================================================
     #                   FOOTER BUTTON LINKS
     # ======================================================================
     button3 = Gtk.Button(label="Release info")
@@ -248,6 +285,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     if username == user:
         vbox.pack_start(grid, True, False, 0)  # Run GParted
+        vbox.pack_start(vboxUser, False, False, 0)  # Run GParted
     vbox.pack_end(hbox3, False, False, 0)  # Footer
     vbox.pack_end(hbox5, False, False, 0)  # Buttons
     vbox.pack_end(hbox2, False, False, 0)  # Buttons
