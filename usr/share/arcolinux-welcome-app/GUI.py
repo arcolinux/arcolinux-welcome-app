@@ -148,7 +148,9 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox2.pack_start(button6, True, True, 0)
     hbox2.pack_start(button7, True, True, 0)
 
-    button8 = Gtk.Button(label="Donate")
+    button8 = Gtk.Button(label="")
+    button8_label = button8.get_child()
+    button8_label.set_markup("<span foreground='cyan'>Donate</span>")
     button8.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/donation/")
 
