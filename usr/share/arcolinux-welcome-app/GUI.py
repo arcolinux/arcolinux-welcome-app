@@ -39,7 +39,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     label = Gtk.Label(xalign=0)
     label.set_markup(
-        "<big>Welcome to <b>Arcolinux</b></big>")
+        "<big>Welcome to <b>ArcoLinux</b></big>")
     label.set_line_wrap(True)
 
     # pixbuf = GdkPixbuf.Pixbuf().new_from_file_at_size(
