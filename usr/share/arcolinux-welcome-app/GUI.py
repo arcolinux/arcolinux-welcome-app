@@ -5,7 +5,7 @@ from os.path import expanduser
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
-user = "pheonix"
+user = "liveuser"
 
 Settings = home + "/.config/arcolinux-welcome-app/settings.conf"
 Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
@@ -98,35 +98,26 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   USER INFO
     # ======================================================================
-    userImage = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/user.png'), 28, 28)
-    usr_image = Gtk.Image().new_from_pixbuf(userImage)
-
-    passImage = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/password.png'), 28, 28)
-    pass_image = Gtk.Image().new_from_pixbuf(passImage)
 
     lblusrname = Gtk.Label(xalign=0)
-    lblusrname.set_text("Username:")
+    lblusrname.set_text("User:")
 
     lblpassword = Gtk.Label(xalign=0)
-    lblpassword.set_text("Password:")
+    lblpassword.set_text("Pass:")
 
     lblusr = Gtk.Label(xalign=0)
-    lblusr.set_text("liveuser")
+    lblusr.set_text("liveuser  |")
 
     lblpass = Gtk.Label(xalign=0)
     lblpass.set_markup("<i>No Passwod</i>")
 
     hboxUser = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
-    hboxUser.pack_start(usr_image, False, False, 0)
     hboxUser.pack_start(lblusrname, False, False, 0)
     hboxUser.pack_start(lblusr, False, False, 0)
 
-    hboxUser.pack_end(lblpass, False, False, 0)
-    hboxUser.pack_end(lblpassword, False, False, 0)
-    hboxUser.pack_end(pass_image, False, False, 0)
+    hboxUser.pack_start(lblpassword, False, False, 0)
+    hboxUser.pack_start(lblpass, False, False, 0)
     
     # ======================================================================
     #                   FOOTER BUTTON LINKS
@@ -283,6 +274,8 @@ def GUI(self, Gtk, GdkPixbuf):
 
     hbox6.pack_start(dE, False, False, 0)
     hbox6.pack_start(tgE, False, False, 0)
+    if username == user:
+        hbox3.pack_start(hboxUser, True, False, 0)
     hbox3.pack_start(hbox6, True, False, 0)
 
     # ======================================================================
@@ -293,8 +286,7 @@ def GUI(self, Gtk, GdkPixbuf):
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
 
     if username == user:
-        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
-        vbox.pack_start(hboxUser, False, False, 0)  # User Info
+        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares        
     vbox.pack_end(hbox3, False, False, 0)  # Footer
     vbox.pack_end(hbox5, False, False, 0)  # Buttons
     vbox.pack_end(hbox2, False, False, 0)  # Buttons
