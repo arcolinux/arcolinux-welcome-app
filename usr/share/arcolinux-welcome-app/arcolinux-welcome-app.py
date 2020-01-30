@@ -105,7 +105,7 @@ class Main(Gtk.Window):
     def internet_notifier(self):
         while(True):
             if not self.is_connected():
-                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'>Not connected to internet \nCalamares will not install additional software</span>")
+                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")
             else:
                 GLib.idle_add(self.cc.set_text,"")
             sleep(3)
