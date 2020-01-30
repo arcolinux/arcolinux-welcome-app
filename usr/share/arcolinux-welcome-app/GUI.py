@@ -109,7 +109,7 @@ def GUI(self, Gtk, GdkPixbuf):
     lblusr.set_text("liveuser  |")
 
     lblpass = Gtk.Label(xalign=0)
-    lblpass.set_markup("<i>No Passwod</i>")
+    lblpass.set_markup("<i>No Password</i>")
 
     hboxUser = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
