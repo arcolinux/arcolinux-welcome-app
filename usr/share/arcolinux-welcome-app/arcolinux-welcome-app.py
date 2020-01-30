@@ -120,17 +120,21 @@ class Main(Gtk.Window):
     
     
     def fetch_notice(self, title, message):
-        url = 'https://bradheff.github.io/notice/notice'
-        req = requests.get(url)
-        if req.status_code == requests.codes.ok:
-            if not len(req.text) <= 1:
-                title.set_markup(
-                "<big><b><u>Notice</u></b></big>")
-                message.set_markup(req.text)
-                self.results = True
+        try:
+            url = 'https://bradheff.github.io/notice/notice'
+            req = requests.get(url, verify=True, timeout=1)
+            
+            if req.status_code == requests.codes.ok:
+                if not len(req.text) <= 1:
+                    title.set_markup(
+                    "<big><b><u>Notice</u></b></big>")
+                    message.set_markup(req.text)
+                    self.results = True
+                else:
+                    self.results = False    
             else:
-                self.results = False    
-        else:
+                self.results = False                
+        except:
             self.results = False
 
 

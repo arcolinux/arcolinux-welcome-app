@@ -17,8 +17,8 @@ def GUI(self, Gtk, GdkPixbuf):
 
     autostart = eval(self.load_settings())
 
-    vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
-    self.add(vbox)
+    self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
+    self.add(self.vbox)
 
     hbox1 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox2 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -106,13 +106,10 @@ def GUI(self, Gtk, GdkPixbuf):
     label4 = Gtk.Label(xalign=0)    
     label4.set_line_wrap(True)
 
-    if self.is_connected():
-        self.get_message(label3, label4)
+    self.vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
 
-    vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-
-    vbox2.pack_start(label3, False,False,0)
-    vbox2.pack_start(label4, False,False,0)
+    self.vbox2.pack_start(label3, False,False,0)
+    self.vbox2.pack_start(label4, False,False,0)
 
     # ======================================================================
     #                   USER INFO
@@ -302,14 +299,21 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
+    if self.is_connected():
+        self.get_message(label3, label4)
 
-    vbox.pack_start(hbox1, False, False, 0)  # Logo
-    vbox.pack_start(hbox4, False, False, 0)  # welcome Label
+    self.vbox.pack_start(hbox1, False, False, 0)  # Logo
+    self.vbox.pack_start(hbox4, False, False, 0)  # welcome Label
 
     if username == user:
-        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
-    if self.is_connected() and self.results:
-        vbox.pack_start(vbox2, False, False, 0)  # Notice        
-    vbox.pack_end(hbox3, False, False, 0)  # Footer
-    vbox.pack_end(hbox5, False, False, 0)  # Buttons
-    vbox.pack_end(hbox2, False, False, 0)  # Buttons
+        self.vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
+        
+    if self.results and self.is_connected():
+        self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
+
+    self.vbox.pack_end(hbox3, False, False, 0)  # Footer
+    self.vbox.pack_end(hbox5, False, False, 0)  # Buttons
+    self.vbox.pack_end(hbox2, False, False, 0)  # Buttons
+
+
+    
