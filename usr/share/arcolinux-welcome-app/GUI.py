@@ -12,10 +12,10 @@ Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
 dot_desktop = "/usr/share/applications/arcolinux-welcome-app.desktop"
 autostart = home + "/.config/autostart/arcolinux-welcome-app.desktop"
 
+
 def GUI(self, Gtk, GdkPixbuf):
 
     autostart = eval(self.load_settings())
-
 
     vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
     self.add(vbox)
@@ -54,13 +54,13 @@ def GUI(self, Gtk, GdkPixbuf):
 
         label2.set_markup(
             "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
-    "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
-    "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
-    "The ArcoLinux Team")
+            "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
+            "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+            "The ArcoLinux Team")
     else:
         label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
-    "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
-    "The ArcoLinux Team")
+                          "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+                          "The ArcoLinux Team")
     # label2.connect( "size-allocate", self.cb_allocate )
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
@@ -95,7 +95,6 @@ def GUI(self, Gtk, GdkPixbuf):
     grid.set_column_homogeneous(True)
     # grid.set_row_homogeneous(True)
 
-
     # ======================================================================
     #                   USER INFO
     # ======================================================================
@@ -128,8 +127,8 @@ def GUI(self, Gtk, GdkPixbuf):
 
     hboxpass.pack_start(pass_image, False, False, 0)
     hboxpass.pack_start(lblpassword, False, False, 0)
-    
-    
+    hboxpass.pack_start(lblpass, False, False, 0)
+
     vboxUser.pack_start(hboxUser, False, False, 0)
     vboxUser.pack_start(hboxpass, False, False, 0)
 
@@ -137,19 +136,24 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   FOOTER BUTTON LINKS
     # ======================================================================
     button3 = Gtk.Button(label="Release info")
-    button3.connect("clicked", self.on_link_clicked, "https://arcolinux.info/category/2020/")
+    button3.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/category/2020/")
 
     button4 = Gtk.Button(label="Choose your project")
-    button4.connect("clicked", self.on_link_clicked, "https://arcolinux.info/choose-your-project/")
+    button4.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/choose-your-project/")
 
     button5 = Gtk.Button(label="Core info")
-    button5.connect("clicked", self.on_link_clicked, "https://arcolinux.info/arcolinux-editions/")
+    button5.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/arcolinux-editions/")
 
     button6 = Gtk.Button(label="Fast track")
-    button6.connect("clicked", self.on_link_clicked, "https://arcolinux.info/fast-track/")
+    button6.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/fast-track/")
 
     button7 = Gtk.Button(label="Forum")
-    button7.connect("clicked", self.on_link_clicked, "http://arcolinuxforum.com/")
+    button7.connect("clicked", self.on_link_clicked,
+                    "http://arcolinuxforum.com/")
 
     hbox2.pack_start(button3, True, True, 0)
     hbox2.pack_start(button4, True, True, 0)
@@ -158,16 +162,20 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox2.pack_start(button7, True, True, 0)
 
     button8 = Gtk.Button(label="Donate")
-    button8.connect("clicked", self.on_link_clicked, "https://arcolinux.info/donation/")
+    button8.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/donation/")
 
     button9 = Gtk.Button(label="Get Involved")
-    button9.connect("clicked", self.on_link_clicked, "https://arcolinux.info/looking-for-betatesters/")
+    button9.connect("clicked", self.on_link_clicked,
+                    "https://arcolinux.info/looking-for-betatesters/")
 
     button10 = Gtk.Button(label="Debug")
-    button10.connect("clicked", self.on_link_clicked, "https://github.com/arcolinux")
+    button10.connect("clicked", self.on_link_clicked,
+                     "https://github.com/arcolinux")
 
     button11 = Gtk.Button(label="Youtube")
-    button11.connect("clicked", self.on_link_clicked, "https://www.youtube.com/erikdubois")
+    button11.connect("clicked", self.on_link_clicked,
+                     "https://www.youtube.com/erikdubois")
 
     hbox5.pack_start(button8, True, True, 0)
     hbox5.pack_start(button9, True, True, 0)
@@ -235,14 +243,22 @@ def GUI(self, Gtk, GdkPixbuf):
     dE.add(dimage)
     tgE.add(tgimage)
 
-    fbE.connect("button_press_event", self.on_social_clicked, "https://www.facebook.com/groups/arcolinux")
-    tE.connect("button_press_event", self.on_social_clicked, "https://twitter.com/arcolinux")
-    meE.connect("button_press_event", self.on_social_clicked, "https://mewe.com/group/5bbc4577a40f3002b313671d")
-    inE.connect("button_press_event", self.on_social_clicked, "https://www.instagram.com/arcolinux/")
-    liE.connect("button_press_event", self.on_social_clicked, "https://www.linkedin.com/in/arcolinux/")
-    pE.connect("button_press_event", self.on_social_clicked, "https://www.patreon.com/arcolinux")
-    dE.connect("button_press_event", self.on_social_clicked, "https://discordapp.com/invite/R2amEEz")
-    tgE.connect("button_press_event", self.on_social_clicked, "https://t.me/arcolinux_d_b")
+    fbE.connect("button_press_event", self.on_social_clicked,
+                "https://www.facebook.com/groups/arcolinux")
+    tE.connect("button_press_event", self.on_social_clicked,
+               "https://twitter.com/arcolinux")
+    meE.connect("button_press_event", self.on_social_clicked,
+                "https://mewe.com/group/5bbc4577a40f3002b313671d")
+    inE.connect("button_press_event", self.on_social_clicked,
+                "https://www.instagram.com/arcolinux/")
+    liE.connect("button_press_event", self.on_social_clicked,
+                "https://www.linkedin.com/in/arcolinux/")
+    pE.connect("button_press_event", self.on_social_clicked,
+               "https://www.patreon.com/arcolinux")
+    dE.connect("button_press_event", self.on_social_clicked,
+               "https://discordapp.com/invite/R2amEEz")
+    tgE.connect("button_press_event", self.on_social_clicked,
+                "https://t.me/arcolinux_d_b")
 
     fbE.set_property("has-tooltip", True)
     tE.set_property("has-tooltip", True)
@@ -262,7 +278,6 @@ def GUI(self, Gtk, GdkPixbuf):
     dE.connect("query-tooltip", self.tooltip_callback, "Discord")
     tgE.connect("query-tooltip", self.tooltip_callback, "Telegram")
 
-
     hbox3.pack_start(fbE, False, False, 0)
     hbox3.pack_start(tE, False, False, 0)
     hbox3.pack_start(meE, False, False, 0)
@@ -277,8 +292,6 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-
-
 
     vbox.pack_start(hbox1, False, False, 0)  # Logo
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
