@@ -5,7 +5,7 @@ from os.path import expanduser
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
-user = "liveuser"
+user = "pheonix"
 
 Settings = home + "/.config/arcolinux-welcome-app/settings.conf"
 Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
@@ -114,24 +114,20 @@ def GUI(self, Gtk, GdkPixbuf):
 
     lblusr = Gtk.Label(xalign=0)
     lblusr.set_text("liveuser")
-    lblpass = Gtk.Label(xalign=0)
 
-    vboxUser = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    lblpass = Gtk.Label(xalign=0)
+    lblpass.set_markup("<i>No Passwod</i>")
 
     hboxUser = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    hboxpass = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     hboxUser.pack_start(usr_image, False, False, 0)
     hboxUser.pack_start(lblusrname, False, False, 0)
     hboxUser.pack_start(lblusr, False, False, 0)
 
-    hboxpass.pack_start(pass_image, False, False, 0)
-    hboxpass.pack_start(lblpassword, False, False, 0)
-    hboxpass.pack_start(lblpass, False, False, 0)
-
-    vboxUser.pack_start(hboxUser, False, False, 0)
-    vboxUser.pack_start(hboxpass, False, False, 0)
-
+    hboxUser.pack_end(lblpass, False, False, 0)
+    hboxUser.pack_end(lblpassword, False, False, 0)
+    hboxUser.pack_end(pass_image, False, False, 0)
+    
     # ======================================================================
     #                   FOOTER BUTTON LINKS
     # ======================================================================
@@ -297,8 +293,8 @@ def GUI(self, Gtk, GdkPixbuf):
     vbox.pack_start(hbox4, False, False, 0)  # welcome Label
 
     if username == user:
-        vbox.pack_start(grid, True, False, 0)  # Run GParted
-        vbox.pack_start(vboxUser, False, False, 0)  # Run GParted
+        vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
+        vbox.pack_start(hboxUser, False, False, 0)  # User Info
     vbox.pack_end(hbox3, False, False, 0)  # Footer
     vbox.pack_end(hbox5, False, False, 0)  # Buttons
     vbox.pack_end(hbox2, False, False, 0)  # Buttons
