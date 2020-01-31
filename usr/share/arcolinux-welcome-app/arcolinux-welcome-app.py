@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-import base64
-import requests        
+import base64 
 import gi
 import os
 import GUI
@@ -110,20 +109,20 @@ class Main(Gtk.Window):
             else:
                 GLib.idle_add(self.cc.set_text,"")
             sleep(3)
-    
-    
+
+
     # def get_message(self, title, message):
     #     t = threading.Thread(target=self.fetch_notice, args=(title, message,))
     #     t.daemon = True
     #     t.start()
-    #     t.join()        
-    
-    
+    #     t.join()
+
+
     # def fetch_notice(self, title, message):
     #     try:
     #         url = 'https://bradheff.github.io/notice/notice'
     #         req = requests.get(url, verify=True, timeout=1)
-            
+
     #         if req.status_code == requests.codes.ok:
     #             if not len(req.text) <= 1:
     #                 title.set_markup(
@@ -131,9 +130,9 @@ class Main(Gtk.Window):
     #                 message.set_markup(req.text)
     #                 self.results = True
     #             else:
-    #                 self.results = False    
+    #                 self.results = False
     #         else:
-    #             self.results = False                
+    #             self.results = False
     #     except:
     #         self.results = False
 
