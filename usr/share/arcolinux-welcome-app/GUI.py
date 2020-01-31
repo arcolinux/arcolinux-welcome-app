@@ -89,7 +89,7 @@ def GUI(self, Gtk, GdkPixbuf):
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 100)
 
-    grid.add(button1)
+    # grid.add(button1)
     grid.attach(button1, 0, 0, 1, 2)
     grid.attach(button2, 1, 0, 1, 2)
     grid.set_column_homogeneous(True)
