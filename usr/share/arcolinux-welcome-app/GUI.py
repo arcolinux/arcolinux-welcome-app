@@ -53,7 +53,7 @@ def GUI(self, Gtk, GdkPixbuf):
     if username == user:
 
         label2.set_markup(
-            "We advise to clean  the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
+            "We advise to clean the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
             "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
             "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
             "The ArcoLinux Team")
@@ -99,11 +99,11 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   NOTICE
     # ======================================================================
-    
+
     # label3 = Gtk.Label(xalign=0)
     # label3.set_line_wrap(True)
 
-    # label4 = Gtk.Label(xalign=0)    
+    # label4 = Gtk.Label(xalign=0)
     # label4.set_line_wrap(True)
 
     # self.vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -134,7 +134,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     hboxUser.pack_start(lblpassword, False, False, 0)
     hboxUser.pack_start(lblpass, False, False, 0)
-    
+
     # ======================================================================
     #                   FOOTER BUTTON LINKS
     # ======================================================================
@@ -307,13 +307,10 @@ def GUI(self, Gtk, GdkPixbuf):
 
     if username == user:
         self.vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
-        
+
     # if self.results and self.is_connected():
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
 
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
     self.vbox.pack_end(hbox5, False, False, 0)  # Buttons
     self.vbox.pack_end(hbox2, False, False, 0)  # Buttons
-
-
-    
