@@ -100,16 +100,16 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   NOTICE
     # ======================================================================
     
-    label3 = Gtk.Label(xalign=0)
-    label3.set_line_wrap(True)
+    # label3 = Gtk.Label(xalign=0)
+    # label3.set_line_wrap(True)
 
-    label4 = Gtk.Label(xalign=0)    
-    label4.set_line_wrap(True)
+    # label4 = Gtk.Label(xalign=0)    
+    # label4.set_line_wrap(True)
 
-    self.vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+    # self.vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
 
-    self.vbox2.pack_start(label3, False,False,0)
-    self.vbox2.pack_start(label4, False,False,0)
+    # self.vbox2.pack_start(label3, False,False,0)
+    # self.vbox2.pack_start(label4, False,False,0)
 
     # ======================================================================
     #                   USER INFO
@@ -299,8 +299,8 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    if self.is_connected():
-        self.get_message(label3, label4)
+    # if self.is_connected():
+    #     self.get_message(label3, label4)
 
     self.vbox.pack_start(hbox1, False, False, 0)  # Logo
     self.vbox.pack_start(hbox4, False, False, 0)  # welcome Label
@@ -308,8 +308,8 @@ def GUI(self, Gtk, GdkPixbuf):
     if username == user:
         self.vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
         
-    if self.results and self.is_connected():
-        self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
+    # if self.results and self.is_connected():
+    #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
 
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
     self.vbox.pack_end(hbox5, False, False, 0)  # Buttons
