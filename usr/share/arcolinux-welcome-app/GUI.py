@@ -1,3 +1,7 @@
+#=================================================================
+#=                  Author: Brad Heffernan                       =
+#=================================================================
+
 import os
 import getpass
 from os.path import expanduser
@@ -187,6 +191,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
 
+
     # ======================================================================
     #                   Add to startup
     # ======================================================================
@@ -297,6 +302,23 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox3.pack_start(hbox6, True, False, 0)
 
     # ======================================================================
+    #                   Start Arcolinux Tweak Tool
+    # ======================================================================
+    launchBox = Gtk.EventBox()
+    pblaunch = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/hefftor.svg'), 40, 40)
+    launchimage = Gtk.Image().new_from_pixbuf(pblaunch)
+
+    launchBox.add(launchimage)
+    launchBox.connect("button_press_event", self.on_launch_clicked,
+                "https://t.me/arcolinux_d_b")
+
+    launchBox.set_property("has-tooltip", True)
+    launchBox.connect("query-tooltip", self.tooltip_callback, "Run Arcolinux Tweak Tool")
+
+    hbox6.pack_start(launchBox, False, False, 0)
+
+    # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
     # if self.is_connected():
@@ -310,7 +332,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     # if self.results and self.is_connected():
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
-
+    
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
     self.vbox.pack_end(hbox5, False, False, 0)  # Buttons
     self.vbox.pack_end(hbox2, False, False, 0)  # Buttons

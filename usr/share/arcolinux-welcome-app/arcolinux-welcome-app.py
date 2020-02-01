@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+#=================================================================
+#=                  Author: Brad Heffernan                       =
+#=================================================================
+
 # import base64 
 import gi
 import os
@@ -101,6 +106,14 @@ class Main(Gtk.Window):
     def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip, text):
         tooltip.set_text(text)
         return True
+
+    def on_launch_clicked(self, widget, event, link):
+        t = threading.Thread(target=self.run_app, args=("/usr/local/bin/arcolinux-tweak-tool",))
+        t.daemon = True
+        t.start()
+
+    def launch_tweak_tool():
+        subprocess.call([])
 
     def internet_notifier(self):
         while(True):
