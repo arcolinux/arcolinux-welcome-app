@@ -128,6 +128,7 @@ Do you want to install it?")
                 t1 = threading.Thread(target=self.installATT, args=())
                 t1.daemon = True
                 t1.start()
+                
             
             
     def internet_notifier(self):
@@ -138,10 +139,17 @@ Do you want to install it?")
                 GLib.idle_add(self.cc.set_text,"")
             sleep(3)
 
+    def MessageBox(self, title, message):
+        md = Gtk.MessageDialog(parent=self, flags=0, message_type=Gtk.MessageType.INFO,
+                               buttons=Gtk.ButtonsType.OK, text=title)
+        md.format_secondary_markup(message)
+        md.run()
+        md.destroy()
+
     def installATT(self):
-        subprocess.call(["exo-open", "--launch",  "TerminalEmulator", "sudo", "pacman", "-S", "arcolinux-tweak-tool-git", "--noconfirm"], shell=False)
-    
-    
+        # subprocess.call(["exo-open", "--launch",  "TerminalEmulator", "sudo pacman -S arcolinux-tweak-tool-git --noconfirm"], shell=False)
+        subprocess.call(["pkexec", "/usr/bin/pacman", "-S", "arcolinux-tweak-tool-git", "--noconfirm"], shell=False)        
+        GLib.idle_add(self.MessageBox, "Success!", "<b>ArcoLinux Tweak Tool</b> has been installed successfully")
     # def get_message(self, title, message):
     #     t = threading.Thread(target=self.fetch_notice, args=(title, message,))
     #     t.daemon = True
