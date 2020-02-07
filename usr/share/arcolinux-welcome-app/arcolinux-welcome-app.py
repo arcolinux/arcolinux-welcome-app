@@ -72,12 +72,13 @@ class Main(Gtk.Window):
 
     def load_settings(self):
         line = "True"
-        with open(GUI.Settings, "r") as f:
-            lines = f.readlines()
-            for i in range(len(lines)):
-                if "autostart" in lines[i]:
-                    line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
-            f.close()
+        if os.path.isfile(GUI.Settings):
+            with open(GUI.Settings, "r") as f:
+                lines = f.readlines()
+                for i in range(len(lines)):
+                    if "autostart" in lines[i]:
+                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
+                f.close()
         return line
 
     def on_link_clicked(self, widget, link):
@@ -108,13 +109,27 @@ class Main(Gtk.Window):
         return True
 
     def on_launch_clicked(self, widget, event, link):
-        t = threading.Thread(target=self.run_app, args=("/usr/local/bin/arcolinux-tweak-tool",))
-        t.daemon = True
-        t.start()
+        if os.path.isfile("/usr/local/bin/arcolinux-tweak-tool"):
+            t = threading.Thread(target=self.run_app, args=("/usr/local/bin/arcolinux-tweak-tool",))
+            t.daemon = True
+            t.start()
+        else:
+            md = Gtk.MessageDialog(parent=self, flags=0, message_type=Gtk.MessageType.INFO,
+                               buttons=Gtk.ButtonsType.YES_NO, text="Not Found!")
+            md.format_secondary_markup(
+                "<b>ArcoLinux Tweak Tool</b> was not found on your system\n\
+Do you want to install it?")
 
-    def launch_tweak_tool():
-        subprocess.call([])
+            result = md.run()
 
+            md.destroy()
+
+            if result in (Gtk.ResponseType.OK, Gtk.ResponseType.YES):
+                t1 = threading.Thread(target=self.installATT, args=())
+                t1.daemon = True
+                t1.start()
+            
+            
     def internet_notifier(self):
         while(True):
             if not self.is_connected():
@@ -123,7 +138,10 @@ class Main(Gtk.Window):
                 GLib.idle_add(self.cc.set_text,"")
             sleep(3)
 
-
+    def installATT(self):
+        subprocess.call(["pamac-installer", "arcolinux-tweak-tool-git"], shell=False)
+    
+    
     # def get_message(self, title, message):
     #     t = threading.Thread(target=self.fetch_notice, args=(title, message,))
     #     t.daemon = True

@@ -310,8 +310,7 @@ def GUI(self, Gtk, GdkPixbuf):
     launchimage = Gtk.Image().new_from_pixbuf(pblaunch)
 
     launchBox.add(launchimage)
-    launchBox.connect("button_press_event", self.on_launch_clicked,
-                "https://t.me/arcolinux_d_b")
+    launchBox.connect("button_press_event", self.on_launch_clicked, "")
 
     launchBox.set_property("has-tooltip", True)
     launchBox.connect("query-tooltip", self.tooltip_callback, "Run Arcolinux Tweak Tool")
