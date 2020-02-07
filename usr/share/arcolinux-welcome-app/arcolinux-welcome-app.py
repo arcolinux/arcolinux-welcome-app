@@ -139,7 +139,7 @@ Do you want to install it?")
             sleep(3)
 
     def installATT(self):
-        subprocess.call(["exo-open", "--launch",  "TerminalEmulator", "sudo pacman -S arcolinux-tweak-tool-git --noconfirm"], shell=False)
+        subprocess.call(["exo-open", "--launch",  "TerminalEmulator", "sudo", "pacman", "-S", "arcolinux-tweak-tool-git", "--noconfirm"], shell=False)
     
     
     # def get_message(self, title, message):
