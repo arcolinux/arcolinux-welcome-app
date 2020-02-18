@@ -1,6 +1,6 @@
-#=================================================================
-#=                  Author: Brad Heffernan                       =
-#=================================================================
+# =================================================================
+# =                  Author: Brad Heffernan                       =
+# =================================================================
 
 import os
 import getpass
@@ -21,7 +21,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     autostart = eval(self.load_settings())
 
-    self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=15)
+    self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
     self.add(self.vbox)
 
     hbox1 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
@@ -30,7 +30,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox4 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox5 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    # hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -57,13 +57,13 @@ def GUI(self, Gtk, GdkPixbuf):
     if username == user:
 
         label2.set_markup(
-            "We advise to clean the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +
-            "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
-            "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+            "We advise to clean the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +  # noqa
+            "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
+            "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
             "The ArcoLinux Team")
     else:
-        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +
-                          "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +
+        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
+                          "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
                           "The ArcoLinux Team")
     # label2.connect( "size-allocate", self.cb_allocate )
     # vbox1.pack_start(image, False, False, 0)
@@ -98,7 +98,6 @@ def GUI(self, Gtk, GdkPixbuf):
     grid.attach(button2, 1, 0, 1, 2)
     grid.set_column_homogeneous(True)
     # grid.set_row_homogeneous(True)
-
 
     # ======================================================================
     #                   NOTICE
@@ -191,10 +190,10 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
 
-
     # ======================================================================
     #                   Add to startup
     # ======================================================================
+
     check = Gtk.CheckButton(label="Start on Startup")
     check.connect("toggled", self.statup_toggle)
     check.set_active(autostart)
@@ -313,25 +312,30 @@ def GUI(self, Gtk, GdkPixbuf):
     launchBox.connect("button_press_event", self.on_launch_clicked, "")
 
     launchBox.set_property("has-tooltip", True)
-    launchBox.connect("query-tooltip", self.tooltip_callback, "Run Arcolinux Tweak Tool")
+    launchBox.connect("query-tooltip",
+                      self.tooltip_callback,
+                      "Run Arcolinux Tweak Tool")
 
     hbox6.pack_start(launchBox, False, False, 0)
 
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
+    label3 = Gtk.Label("v20.3.6")
+    hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
 
-    self.vbox.pack_start(hbox1, False, False, 0)  # Logo
-    self.vbox.pack_start(hbox4, False, False, 0)  # welcome Label
+    self.vbox.pack_start(hbox1, False, False, 7)  # Logo
+    self.vbox.pack_start(hbox4, False, False, 7)  # welcome Label
 
     if username == user:
-        self.vbox.pack_start(grid, True, False, 0)  # Run GParted/Calamares
+        self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares
 
     # if self.results and self.is_connected():
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
-    
+
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
-    self.vbox.pack_end(hbox5, False, False, 0)  # Buttons
-    self.vbox.pack_end(hbox2, False, False, 0)  # Buttons
+    self.vbox.pack_end(hbox7, False, False, 0)  # Version
+    self.vbox.pack_end(hbox5, False, False, 7)  # Buttons
+    self.vbox.pack_end(hbox2, False, False, 7)  # Buttons

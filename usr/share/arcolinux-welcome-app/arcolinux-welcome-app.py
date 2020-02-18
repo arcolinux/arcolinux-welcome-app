@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-
-#=================================================================
-#=                  Author: Brad Heffernan                       =
-#=================================================================
-
-# import base64 
+# =================================================================
+# =                  Author: Brad Heffernan                       =
+# =================================================================
 import gi
 import os
 import GUI
@@ -15,9 +12,10 @@ import shutil
 import socket
 from time import sleep
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GdkPixbuf, GLib
+from gi.repository import Gtk, GdkPixbuf, GLib  # noqa
 
 REMOTE_SERVER = "www.google.com"
+
 
 class Main(Gtk.Window):
     def __init__(self):
@@ -41,23 +39,26 @@ class Main(Gtk.Window):
             t.daemon = True
             t.start()
 
-
-
     def on_ai_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["pkexec","/usr/bin/calamares"],))
+        t = threading.Thread(target=self.run_app,
+                             args=(["pkexec", "/usr/bin/calamares"],))
         t.daemon = True
         t.start()
 
     def on_gp_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["/usr/bin/gparted"],))
+        t = threading.Thread(target=self.run_app,
+                             args=(["/usr/bin/gparted"],))
         t.daemon = True
         t.start()
 
     def run_app(self, command):
-        subprocess.call(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        subprocess.call(command,
+                        shell=False,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT)
 
     def statup_toggle(self, widget):
-        if widget.get_active() == True:
+        if widget.get_active() is True:
             if os.path.isfile(GUI.dot_desktop):
                 shutil.copy(GUI.dot_desktop, GUI.autostart)
         else:
@@ -77,7 +78,7 @@ class Main(Gtk.Window):
                 lines = f.readlines()
                 for i in range(len(lines)):
                     if "autostart" in lines[i]:
-                        line = lines[i].split("=")[1].rstrip().lstrip().capitalize()
+                        line = lines[i].split("=")[1].strip().capitalize()
                 f.close()
         return line
 
@@ -100,7 +101,7 @@ class Main(Gtk.Window):
             s = socket.create_connection((host, 80), 2)
             s.close()
             return True
-        except:
+        except:  # noqa
             pass
         return False
 
@@ -110,12 +111,16 @@ class Main(Gtk.Window):
 
     def on_launch_clicked(self, widget, event, link):
         if os.path.isfile("/usr/local/bin/arcolinux-tweak-tool"):
-            t = threading.Thread(target=self.run_app, args=("/usr/local/bin/arcolinux-tweak-tool",))
+            t = threading.Thread(target=self.run_app,
+                                 args=("/usr/local/bin/arcolinux-tweak-tool",))
             t.daemon = True
             t.start()
         else:
-            md = Gtk.MessageDialog(parent=self, flags=0, message_type=Gtk.MessageType.INFO,
-                               buttons=Gtk.ButtonsType.YES_NO, text="Not Found!")
+            md = Gtk.MessageDialog(parent=self,
+                                   flags=0,
+                                   message_type=Gtk.MessageType.INFO,
+                                   buttons=Gtk.ButtonsType.YES_NO,
+                                   text="Not Found!")
             md.format_secondary_markup(
                 "<b>ArcoLinux Tweak Tool</b> was not found on your system\n\
 Do you want to install it?")
@@ -128,34 +133,40 @@ Do you want to install it?")
                 t1 = threading.Thread(target=self.installATT, args=())
                 t1.daemon = True
                 t1.start()
-                
-            
-            
+
     def internet_notifier(self):
         while(True):
             if not self.is_connected():
-                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")
+                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")  # noqa
             else:
-                GLib.idle_add(self.cc.set_text,"")
+                GLib.idle_add(self.cc.set_text, "")
             sleep(3)
 
     def MessageBox(self, title, message):
-        md = Gtk.MessageDialog(parent=self, flags=0, message_type=Gtk.MessageType.INFO,
-                               buttons=Gtk.ButtonsType.OK, text=title)
+        md = Gtk.MessageDialog(parent=self,
+                               flags=0,
+                               message_type=Gtk.MessageType.INFO,
+                               buttons=Gtk.ButtonsType.OK,
+                               text=title)
         md.format_secondary_markup(message)
         md.run()
         md.destroy()
 
     def installATT(self):
-        # subprocess.call(["exo-open", "--launch",  "TerminalEmulator", "sudo pacman -S arcolinux-tweak-tool-git --noconfirm"], shell=False)
-        subprocess.call(["pkexec", "/usr/bin/pacman", "-S", "arcolinux-tweak-tool-git", "--noconfirm"], shell=False)        
-        GLib.idle_add(self.MessageBox, "Success!", "<b>ArcoLinux Tweak Tool</b> has been installed successfully")
+        subprocess.call(["pkexec",
+                         "/usr/bin/pacman",
+                         "-S",
+                         "arcolinux-tweak-tool-git",
+                         "--noconfirm"], shell=False)
+        GLib.idle_add(self.MessageBox,
+                      "Success!",
+                      "<b>ArcoLinux Tweak Tool</b> has been installed successfully")  # noqa
     # def get_message(self, title, message):
-    #     t = threading.Thread(target=self.fetch_notice, args=(title, message,))
+    #     t = threading.Thread(target=self.fetch_notice,
+#                              args=(title, message,))
     #     t.daemon = True
     #     t.start()
     #     t.join()
-
 
     # def fetch_notice(self, title, message):
     #     try:
