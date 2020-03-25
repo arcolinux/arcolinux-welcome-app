@@ -20,34 +20,35 @@ class Conflicts(Gtk.Window):
 
         # If you want header in middle then remove xalign=0
         lblh1 = Gtk.Label(xalign=0)
-        lblh1.set_markup("<b><i>HEADER 1</i></b>")
-
-        lblh2 = Gtk.Label(xalign=0)
-        lblh2.set_markup("<b><i>HEADER 2</i></b>")
-
-        lblh3 = Gtk.Label(xalign=0)
-        lblh3.set_markup("<b><i>HEADER 2</i></b>")
-
-        lblh4 = Gtk.Label(xalign=0)
-        lblh4.set_markup("<b><i>HEADER 2</i></b>")
-
-        lblh5 = Gtk.Label(xalign=0)
-        lblh5.set_markup("<b><i>HEADER 2</i></b>")
+        lblh1.set_markup("<b><i>Conflict 1</i></b>")
 
         lblm1 = Gtk.Label()
-        lblm1.set_text("App #1 conflicts with App #2")
+        lblm1.set_text("xcursor-breeze conflicts with breeze")
+
+        lblh2 = Gtk.Label(xalign=0)
+        lblh2.set_markup("<b><i>Conflict 2</i></b>")
 
         lblm2 = Gtk.Label()
-        lblm2.set_text("App #1 conflicts with App #2")
+        lblm2.set_text("visual-studio-code-bin conflicts with code")
+
+        lblh3 = Gtk.Label(xalign=0)
+        lblh3.set_markup("<b><i>Conflict3</i></b>")
 
         lblm3 = Gtk.Label()
-        lblm3.set_text("App #1 conflicts with App #2")
+        lblm3.set_text("synapse conflicts with catfish and zeitgeist")
+
+        lblh4 = Gtk.Label(xalign=0)
+        lblh4.set_markup("<b><i>Choose</i></b>")
 
         lblm4 = Gtk.Label()
-        lblm4.set_text("App #1 conflicts with App #2")
+        lblm4.set_text("Either choose libreoffice-fresh or libreoffice-still")
+
+        lblh5 = Gtk.Label(xalign=0)
+        lblh5.set_markup("<b><i>Choose</i></b>")
 
         lblm5 = Gtk.Label()
-        lblm5.set_text("App #1 conflicts with App #2")
+        lblm5.set_text("Either choose virtualbox for linux or linux-lts")
+
 
         vbox.pack_start(lblh1, False, False, 0)
         vbox.pack_start(lblm1, False, False, 0)
