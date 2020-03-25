@@ -47,7 +47,7 @@ class Conflicts(Gtk.Window):
         lblh5.set_markup("<b><i>Choose</i></b>")
 
         lblm5 = Gtk.Label()
-        lblm5.set_text("Either choose virtualbox for linux or linux-lts")
+        lblm5.set_text("Either choose <b>virtualbox</b> for linux or linux-lts")
 
 
         vbox.pack_start(lblh1, False, False, 0)
