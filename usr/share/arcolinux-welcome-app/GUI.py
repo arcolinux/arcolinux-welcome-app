@@ -38,7 +38,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     infoE = Gtk.EventBox()
     pbinfo = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, 'images/question.png'), 28, 28)
+        os.path.join(base_dir, 'images/question.png'), 38, 38)
     infoimage = Gtk.Image().new_from_pixbuf(pbinfo)
     infoE.add(infoimage)
     infoE.connect("button_press_event", self.on_info_clicked)
