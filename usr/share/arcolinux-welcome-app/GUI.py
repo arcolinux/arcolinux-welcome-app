@@ -205,7 +205,7 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   Add to startup
     # ======================================================================
 
-    check = Gtk.CheckButton(label="autostart")
+    check = Gtk.CheckButton(label="Autostart")
     check.connect("toggled", self.statup_toggle)
     check.set_active(autostart)
     hbox3.pack_end(check, False, False, 0)
