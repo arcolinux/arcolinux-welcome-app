@@ -32,9 +32,20 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox9 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+
+    infoE = Gtk.EventBox()
+    pbinfo = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/question.png'), 28, 28)
+    infoimage = Gtk.Image().new_from_pixbuf(pbinfo)
+    infoE.add(infoimage)
+    infoE.connect("button_press_event", self.on_info_clicked)
+    infoE.set_property("has-tooltip", True)
+    infoE.connect("query-tooltip", self.tooltip_callback, "Conflicts Info")
+    
     # ======================================================================
     #                   WELCOME LABEL
     # ======================================================================
@@ -69,6 +80,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
+    hbox1.pack_start(infoE, False, False, 0)
     hbox1.pack_start(label, False, False, 0)
     hbox1.pack_end(self.cc, False, False, 0)
     # hbox4.set_homogeneous(False)
@@ -194,7 +206,7 @@ def GUI(self, Gtk, GdkPixbuf):
     #                   Add to startup
     # ======================================================================
 
-    check = Gtk.CheckButton(label="Start on Startup")
+    check = Gtk.CheckButton(label="autostart")
     check.connect("toggled", self.statup_toggle)
     check.set_active(autostart)
     hbox3.pack_end(check, False, False, 0)
@@ -251,7 +263,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE.add(pimage)
     dE.add(dimage)
     tgE.add(tgimage)
-
+    
     fbE.connect("button_press_event", self.on_social_clicked,
                 "https://www.facebook.com/groups/arcolinux")
     tE.connect("button_press_event", self.on_social_clicked,

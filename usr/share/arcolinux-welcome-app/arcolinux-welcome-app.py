@@ -5,6 +5,7 @@
 import gi
 import os
 import GUI
+import conflicts
 import subprocess
 import threading
 import webbrowser
@@ -91,6 +92,10 @@ class Main(Gtk.Window):
         t = threading.Thread(target=self.weblink, args=(link,))
         t.daemon = True
         t.start()
+
+    def on_info_clicked(self, widget, event):
+        w = conflicts.Conflicts()
+        w.show_all()
 
     def weblink(self, link):
         webbrowser.open_new_tab(link)
