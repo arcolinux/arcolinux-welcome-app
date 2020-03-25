@@ -79,7 +79,6 @@ def GUI(self, Gtk, GdkPixbuf):
     # vbox1.pack_start(image, False, False, 0)
     # vbox2.pack_start(label, False, False, 0)
     # vbox2.pack_start(label2, False, False, 0)
-    hbox1.pack_start(infoE, False, False, 0)
     hbox1.pack_start(label, False, False, 0)
     hbox1.pack_end(self.cc, False, False, 0)
     # hbox4.set_homogeneous(False)
@@ -328,7 +327,7 @@ def GUI(self, Gtk, GdkPixbuf):
                       "Run Arcolinux Tweak Tool")
 
     hbox6.pack_start(launchBox, False, False, 0)
-
+    hbox6.pack_start(infoE, False, False, 0)
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
