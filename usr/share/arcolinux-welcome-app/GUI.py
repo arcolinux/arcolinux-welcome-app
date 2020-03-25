@@ -32,7 +32,6 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    hbox9 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -45,7 +44,7 @@ def GUI(self, Gtk, GdkPixbuf):
     infoE.connect("button_press_event", self.on_info_clicked)
     infoE.set_property("has-tooltip", True)
     infoE.connect("query-tooltip", self.tooltip_callback, "Conflicts Info")
-    
+
     # ======================================================================
     #                   WELCOME LABEL
     # ======================================================================
@@ -263,7 +262,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE.add(pimage)
     dE.add(dimage)
     tgE.add(tgimage)
-    
+
     fbE.connect("button_press_event", self.on_social_clicked,
                 "https://www.facebook.com/groups/arcolinux")
     tE.connect("button_press_event", self.on_social_clicked,
