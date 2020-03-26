@@ -35,7 +35,7 @@ class Conflicts(Gtk.Window):
         lblh3.set_markup("<b><i>Conflict3</i></b>")
 
         lblm3 = Gtk.Label()
-        lblm3.set_text("synapse conflicts with catfish and zeitgeist")
+        lblm3.set_text("synapse (zeitgeist) conflicts with catfish")
 
         lblh4 = Gtk.Label(xalign=0)
         lblh4.set_markup("<b><i>Choose</i></b>")
