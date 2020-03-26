@@ -8,7 +8,7 @@ base_dir = os.path.dirname(os.path.realpath(__file__))
 
 class Conflicts(Gtk.Window):
     def __init__(self):
-        super(Conflicts, self).__init__(title="Conflicts Info")
+        super(Conflicts, self).__init__(title="Information")
         self.set_border_width(10)
         self.set_default_size(550, 250)
         self.connect("delete-event", self.close)
@@ -20,31 +20,31 @@ class Conflicts(Gtk.Window):
 
         # If you want header in middle then remove xalign=0
         lblh1 = Gtk.Label(xalign=0)
-        lblh1.set_markup("<b><i>Conflict 1</i></b>")
+        lblh1.set_markup("<b><i>Warning 1</i></b>")
 
         lblm1 = Gtk.Label()
         lblm1.set_text("xcursor-breeze conflicts with breeze")
 
         lblh2 = Gtk.Label(xalign=0)
-        lblh2.set_markup("<b><i>Conflict 2</i></b>")
+        lblh2.set_markup("<b><i>Warning 2</i></b>")
 
         lblm2 = Gtk.Label()
         lblm2.set_text("visual-studio-code-bin conflicts with code")
 
         lblh3 = Gtk.Label(xalign=0)
-        lblh3.set_markup("<b><i>Conflict3</i></b>")
+        lblh3.set_markup("<b><i>Warning 3</i></b>")
 
         lblm3 = Gtk.Label()
         lblm3.set_text("synapse (zeitgeist) conflicts with catfish")
 
         lblh4 = Gtk.Label(xalign=0)
-        lblh4.set_markup("<b><i>Choose</i></b>")
+        lblh4.set_markup("<b><i>Warning 4</i></b>")
 
         lblm4 = Gtk.Label()
         lblm4.set_text("Either choose libreoffice-fresh or libreoffice-still")
 
         lblh5 = Gtk.Label(xalign=0)
-        lblh5.set_markup("<b><i>Choose</i></b>")
+        lblh5.set_markup("<b><i>Warning 5</i></b>")
 
         lblm5 = Gtk.Label()
         lblm5.set_text("Either choose virtualbox for linux or linux-lts")
