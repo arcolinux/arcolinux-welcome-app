@@ -99,7 +99,7 @@ class Main(Gtk.Window):
         window_list = Wnck.Screen.get_default().get_windows()
         state = False
         for win in window_list:
-            if "AWA Conflicts" in win.get_name():
+            if "Conflicts Info" in win.get_name():
                 state = True
         if not state:
             w = conflicts.Conflicts()

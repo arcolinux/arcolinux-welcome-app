@@ -8,7 +8,7 @@ base_dir = os.path.dirname(os.path.realpath(__file__))
 
 class Conflicts(Gtk.Window):
     def __init__(self):
-        super(Conflicts, self).__init__(title="AWA Conflicts")
+        super(Conflicts, self).__init__(title="Conflicts Info")
         self.set_border_width(10)
         self.set_default_size(550, 250)
         self.connect("delete-event", self.close)
