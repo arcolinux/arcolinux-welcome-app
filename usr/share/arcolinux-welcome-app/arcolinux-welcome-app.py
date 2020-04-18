@@ -148,12 +148,57 @@ Do you want to install it?")
                 t1.start()
 
     def internet_notifier(self):
+        bb = 0
+        dis = 0
+        updating = False
         while(True):
             if not self.is_connected():
+                dis = 1
                 GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")  # noqa
             else:
-                GLib.idle_add(self.cc.set_text, "")
+                if bb == 0 and dis == 1:
+                    GLib.idle_add(self.mirror_reload)
+                    bb = 1
+                    updating = True
+                else:
+                    if not updating:
+                        GLib.idle_add(self.cc.set_text, "")
+
             sleep(3)
+
+    def mirror_reload(self):
+        md = Gtk.MessageDialog(parent=self,
+                               flags=0,
+                               message_type=Gtk.MessageType.INFO,
+                               buttons=Gtk.ButtonsType.YES_NO,
+                               text="You are now connected")
+        md.format_secondary_markup("Would you like to update the <b>Arch Linux</b> mirrorlist?")
+        response = md.run()
+
+        if response == Gtk.ResponseType.YES:
+            GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+            t = threading.Thread(target=self.mirror_update)
+            t.daemon = True
+            t.start()
+        md.destroy()
+
+    def mirror_update(self):
+        subprocess.run(["sudo", "update-mirrors"], shell=False)
+        # GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+        print("FINISHED!!!")
+        GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
+        GLib.idle_add(self.finished_mirrors)
+
+    def finished_mirrors(self):
+        md = Gtk.MessageDialog(parent=self,
+                               flags=0,
+                               message_type=Gtk.MessageType.INFO,
+                               buttons=Gtk.ButtonsType.OK,
+                               text="Finished")
+        md.format_secondary_markup("Mirrorlist has been updated!")
+        md.run()
+        md.destroy()
+        GLib.idle_add(self.cc.set_markup, "")
 
     def MessageBox(self, title, message):
         md = Gtk.MessageDialog(parent=self,
@@ -164,6 +209,7 @@ Do you want to install it?")
         md.format_secondary_markup(message)
         md.run()
         md.destroy()
+    
 
     def installATT(self):
         subprocess.call(["pkexec",
