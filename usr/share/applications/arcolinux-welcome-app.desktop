@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Arcolinux Welcome App
-GenericName=Arcolinux Welcome App
-X-GNOME-FullName=Arcolinux Welcome App
+Name=Arcolinux Welcome
+GenericName=Arcolinux Welcome
+X-GNOME-FullName=Arcolinux Welcome
 Comment=Welcome Application for Arcolinux Installs
 Exec=/usr/local/bin/arcolinux-welcome-app
 Icon=arcolinux-hello
