@@ -9,7 +9,7 @@ from os.path import expanduser
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
-user = "pheonix"
+user = "liveuser"
 
 Settings = home + "/.config/arcolinux-welcome-app/settings.conf"
 Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
