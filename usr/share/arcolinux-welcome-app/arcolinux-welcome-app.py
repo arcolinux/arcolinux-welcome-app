@@ -183,16 +183,16 @@ Do you want to install it?")
     #     response = md.run()
 
     #     if response == Gtk.ResponseType.YES:
-    #         GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+    #         GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa
     #         t = threading.Thread(target=self.mirror_update)
     #         t.daemon = True
     #         t.start()
     #     md.destroy()
 
     def mirror_update(self):
-        GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+        GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa
         GLib.idle_add(self.button8.set_sensitive, False)
-        subprocess.run(["pkexec", "update-mirrors"], shell=False)
+        subprocess.run(["sudo", "update-mirrors"], shell=False)
         print("FINISHED!!!")
         GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
         GLib.idle_add(self.button8.set_sensitive, True)
@@ -218,7 +218,7 @@ Do you want to install it?")
         md.format_secondary_markup(message)
         md.run()
         md.destroy()
-    
+
 
     def installATT(self):
         subprocess.call(["pkexec",
