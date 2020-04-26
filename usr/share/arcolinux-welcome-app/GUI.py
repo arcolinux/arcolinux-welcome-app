@@ -31,7 +31,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-    # hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -199,6 +199,14 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5.pack_start(button9, True, True, 0)
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
+    
+    self.button8 = Gtk.Button(label="Update Arch mirrors")
+    self.button8.connect("clicked", self.on_mirror_clicked)
+
+    self.button9 = Gtk.Button(label="Update System")
+    self.button9.connect("clicked", self.on_update_clicked)
+
+    hbox8.pack_start(self.button8, True, True, 0)
 
     # ======================================================================
     #                   Add to startup
@@ -347,5 +355,6 @@ def GUI(self, Gtk, GdkPixbuf):
 
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
     self.vbox.pack_end(hbox7, False, False, 0)  # Version
+    self.vbox.pack_end(hbox8, False, False, 7)  # Buttons
     self.vbox.pack_end(hbox5, False, False, 7)  # Buttons
     self.vbox.pack_end(hbox2, False, False, 7)  # Buttons

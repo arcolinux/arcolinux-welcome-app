@@ -42,6 +42,12 @@ class Main(Gtk.Window):
             t.daemon = True
             t.start()
 
+    def on_mirror_clicked(self, widget):
+        print("CLICKED")
+
+    def on_update_clicked(self, widget):
+        print("Clicked")
+
     def on_ai_clicked(self, widget):
         t = threading.Thread(target=self.run_app,
                              args=(["pkexec", "/usr/bin/calamares"],))
@@ -166,21 +172,21 @@ Do you want to install it?")
 
             sleep(3)
 
-    def mirror_reload(self):
-        md = Gtk.MessageDialog(parent=self,
-                               flags=0,
-                               message_type=Gtk.MessageType.INFO,
-                               buttons=Gtk.ButtonsType.YES_NO,
-                               text="You are now connected")
-        md.format_secondary_markup("Would you like to update the <b>Arch Linux</b> mirrorlist?")
-        response = md.run()
+    # def mirror_reload(self):
+    #     md = Gtk.MessageDialog(parent=self,
+    #                            flags=0,
+    #                            message_type=Gtk.MessageType.INFO,
+    #                            buttons=Gtk.ButtonsType.YES_NO,
+    #                            text="You are now connected")
+    #     md.format_secondary_markup("Would you like to update the <b>Arch Linux</b> mirrorlist?")
+    #     response = md.run()
 
-        if response == Gtk.ResponseType.YES:
-            GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
-            t = threading.Thread(target=self.mirror_update)
-            t.daemon = True
-            t.start()
-        md.destroy()
+    #     if response == Gtk.ResponseType.YES:
+    #         GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+    #         t = threading.Thread(target=self.mirror_update)
+    #         t.daemon = True
+    #         t.start()
+    #     md.destroy()
 
     def mirror_update(self):
         subprocess.run(["sudo", "update-mirrors"], shell=False)
