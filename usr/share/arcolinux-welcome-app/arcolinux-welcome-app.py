@@ -43,7 +43,9 @@ class Main(Gtk.Window):
             t.start()
 
     def on_mirror_clicked(self, widget):
-        print("CLICKED")
+        t = threading.Thread(target=self.mirror_update)
+        t.daemon = True
+        t.start()
 
     def on_update_clicked(self, widget):
         print("Clicked")
@@ -156,19 +158,18 @@ Do you want to install it?")
     def internet_notifier(self):
         bb = 0
         dis = 0
-        updating = False
         while(True):
             if not self.is_connected():
                 dis = 1
+                GLib.idle_add(self.button8.set_sensitive, False)
                 GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")  # noqa
             else:
                 if bb == 0 and dis == 1:
-                    GLib.idle_add(self.mirror_reload)
+                    GLib.idle_add(self.button8.set_sensitive, True)
                     bb = 1
-                    updating = True
                 else:
-                    if not updating:
-                        GLib.idle_add(self.cc.set_text, "")
+                    GLib.idle_add(self.cc.set_text, "")
+                    GLib.idle_add(self.button8.set_sensitive, True)
 
             sleep(3)
 
@@ -189,8 +190,9 @@ Do you want to install it?")
     #     md.destroy()
 
     def mirror_update(self):
-        subprocess.run(["sudo", "update-mirrors"], shell=False)
-        # GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+        GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa            
+        GLib.idle_add(self.button8.set_sensitive, False)
+        subprocess.run(["pkexec", "update-mirrors"], shell=False)
         print("FINISHED!!!")
         GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
         GLib.idle_add(self.finished_mirrors)
@@ -205,6 +207,7 @@ Do you want to install it?")
         md.run()
         md.destroy()
         GLib.idle_add(self.cc.set_markup, "")
+        GLib.idle_add(self.button8.set_sensitive, True)
 
     def MessageBox(self, title, message):
         md = Gtk.MessageDialog(parent=self,

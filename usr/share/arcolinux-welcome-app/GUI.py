@@ -9,7 +9,7 @@ from os.path import expanduser
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
-user = "liveuser"
+user = "pheonix"
 
 Settings = home + "/.config/arcolinux-welcome-app/settings.conf"
 Skel_Settings = "/etc/skel/.config/arcolinux-welcome-app/settings.conf"
@@ -103,9 +103,17 @@ def GUI(self, Gtk, GdkPixbuf):
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 100)
 
+    self.button8 = Gtk.Button(label="")
+    button8_label = self.button8.get_child()
+    button8_label.set_markup("<span size='large'><b>Update Arch mirrors</b></span>")
+    self.button8.connect("clicked", self.on_mirror_clicked)
+    self.button8.set_size_request(420, 70)
+
     # grid.add(button1)
-    grid.attach(button1, 0, 0, 1, 2)
-    grid.attach(button2, 1, 0, 1, 2)
+    grid.attach(self.button8, 1, 0, 2, 2)
+    if username == user:
+        grid.attach(button1, 0, 2, 2, 2)
+        grid.attach(button2, 2, 2, 2, 2)
     grid.set_column_homogeneous(True)
     # grid.set_row_homogeneous(True)
 
@@ -200,13 +208,8 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
     
-    self.button8 = Gtk.Button(label="Update Arch mirrors")
-    self.button8.connect("clicked", self.on_mirror_clicked)
-
-    self.button9 = Gtk.Button(label="Update System")
-    self.button9.connect("clicked", self.on_update_clicked)
-
-    hbox8.pack_start(self.button8, True, True, 0)
+    
+    # hbox8.pack_start(self.button8, True, False, 0)
 
     # ======================================================================
     #                   Add to startup
@@ -347,14 +350,12 @@ def GUI(self, Gtk, GdkPixbuf):
     self.vbox.pack_start(hbox1, False, False, 7)  # Logo
     self.vbox.pack_start(hbox4, False, False, 7)  # welcome Label
 
-    if username == user:
-        self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares
+    self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares 
 
     # if self.results and self.is_connected():
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
 
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
     self.vbox.pack_end(hbox7, False, False, 0)  # Version
-    self.vbox.pack_end(hbox8, False, False, 7)  # Buttons
     self.vbox.pack_end(hbox5, False, False, 7)  # Buttons
     self.vbox.pack_end(hbox2, False, False, 7)  # Buttons
