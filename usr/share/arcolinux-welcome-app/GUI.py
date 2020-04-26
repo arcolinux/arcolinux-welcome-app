@@ -105,7 +105,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     self.button8 = Gtk.Button(label="")
     button8_label = self.button8.get_child()
-    button8_label.set_markup("<span size='large'><b>Update Arch mirrors</b></span>")
+    button8_label.set_markup("<span size='large'><b>Update ArchLinux mirrors</b></span>")
     self.button8.connect("clicked", self.on_mirror_clicked)
     self.button8.set_size_request(420, 70)
 
@@ -342,7 +342,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    label3 = Gtk.Label("v20.5.2")
+    label3 = Gtk.Label("v20.5-3")
     hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
