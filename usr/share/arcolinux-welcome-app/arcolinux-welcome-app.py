@@ -195,19 +195,19 @@ Do you want to install it?")
         subprocess.run(["pkexec", "update-mirrors"], shell=False)
         print("FINISHED!!!")
         GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
-        GLib.idle_add(self.finished_mirrors)
-
-    def finished_mirrors(self):
-        md = Gtk.MessageDialog(parent=self,
-                               flags=0,
-                               message_type=Gtk.MessageType.INFO,
-                               buttons=Gtk.ButtonsType.OK,
-                               text="Finished")
-        md.format_secondary_markup("Mirrorlist has been updated!")
-        md.run()
-        md.destroy()
-        GLib.idle_add(self.cc.set_markup, "")
         GLib.idle_add(self.button8.set_sensitive, True)
+
+    # def finished_mirrors(self):
+    #     md = Gtk.MessageDialog(parent=self,
+    #                            flags=0,
+    #                            message_type=Gtk.MessageType.INFO,
+    #                            buttons=Gtk.ButtonsType.OK,
+    #                            text="Finished")
+    #     md.format_secondary_markup("Mirrorlist has been updated!")
+    #     md.run()
+    #     md.destroy()
+    #     GLib.idle_add(self.cc.set_markup, "")
+    #     GLib.idle_add(self.button8.set_sensitive, True)
 
     def MessageBox(self, title, message):
         md = Gtk.MessageDialog(parent=self,

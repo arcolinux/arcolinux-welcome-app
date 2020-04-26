@@ -342,7 +342,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    label3 = Gtk.Label("v20.5-4")
+    label3 = Gtk.Label("v20.5-5")
     hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
