@@ -166,11 +166,8 @@ Do you want to install it?")
             else:
                 if bb == 0 and dis == 1:
                     GLib.idle_add(self.button8.set_sensitive, True)
-                    bb = 1
-                else:
                     GLib.idle_add(self.cc.set_text, "")
-                    GLib.idle_add(self.button8.set_sensitive, True)
-
+                    bb = 1                
             sleep(3)
 
     # def mirror_reload(self):
