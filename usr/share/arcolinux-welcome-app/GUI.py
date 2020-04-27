@@ -84,8 +84,6 @@ def GUI(self, Gtk, GdkPixbuf):
     # hbox4.set_homogeneous(False)
     hbox4.pack_start(label2, False, False, 0)
 
-    grid = Gtk.Grid()
-
     # ======================================================================
     #                   MAIN BUTTONS
     # ======================================================================
@@ -110,11 +108,15 @@ def GUI(self, Gtk, GdkPixbuf):
     self.button8.set_size_request(420, 70)
 
     # grid.add(button1)
-    grid.attach(self.button8, 1, 0, 2, 2)
     if username == user:
+        grid = Gtk.Grid()
+        grid.attach(self.button8, 1, 0, 2, 2)
         grid.attach(button1, 0, 2, 2, 2)
         grid.attach(button2, 2, 2, 2, 2)
-    grid.set_column_homogeneous(True)
+        grid.set_column_homogeneous(True)
+    else:
+        grid = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        grid.pack_start(self.button8, True, False, 0)
     # grid.set_row_homogeneous(True)
 
     # ======================================================================
@@ -342,7 +344,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    label3 = Gtk.Label("v20.5-6")
+    label3 = Gtk.Label("v20.5-8")
     hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
