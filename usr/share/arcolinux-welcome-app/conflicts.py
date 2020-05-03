@@ -53,7 +53,7 @@ class Conflicts(Gtk.Window):
         lblh6.set_markup("<b><i>Warning 6</i></b>")
 
         lblm6 = Gtk.Label()
-        lblm6.set_text("Budgie desktop conflicts with catfish - remove catfish")
+        lblm6.set_text("ATT : Budgie desktop conflicts with catfish - remove catfish")
 
 
         vbox.pack_start(lblh1, False, False, 0)
