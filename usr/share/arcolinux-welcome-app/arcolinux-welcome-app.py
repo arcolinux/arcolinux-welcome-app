@@ -52,7 +52,7 @@ class Main(Gtk.Window):
 
     def on_ai_clicked(self, widget):
         t = threading.Thread(target=self.run_app,
-                             args=(["pkexec", "/usr/bin/calamares"],))
+                             args=(["env", "pkexec", "/usr/bin/calamares",  "-style", "breeze"],))
         t.daemon = True
         t.start()
 
@@ -167,7 +167,7 @@ Do you want to install it?")
                 if bb == 0 and dis == 1:
                     GLib.idle_add(self.button8.set_sensitive, True)
                     GLib.idle_add(self.cc.set_text, "")
-                    bb = 1                
+                    bb = 1
             sleep(3)
 
     # def mirror_reload(self):
