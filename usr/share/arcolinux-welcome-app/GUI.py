@@ -209,8 +209,8 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox5.pack_start(button9, True, True, 0)
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
-    
-    
+
+
     # hbox8.pack_start(self.button8, True, False, 0)
 
     # ======================================================================
@@ -344,7 +344,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    label3 = Gtk.Label("v20.5-9")
+    label3 = Gtk.Label("v20.6-2")
     hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
@@ -352,7 +352,7 @@ def GUI(self, Gtk, GdkPixbuf):
     self.vbox.pack_start(hbox1, False, False, 7)  # Logo
     self.vbox.pack_start(hbox4, False, False, 7)  # welcome Label
 
-    self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares 
+    self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares
 
     # if self.results and self.is_connected():
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
