@@ -49,11 +49,11 @@ class Conflicts(Gtk.Window):
         lblm5 = Gtk.Label()
         lblm5.set_text("Either choose virtualbox for linux or linux-lts")
 
-        #lblh6 = Gtk.Label(xalign=0)
-        #lblh6.set_markup("<b><i>Warning 6</i></b>")
+        lblh6 = Gtk.Label(xalign=0)
+        lblh6.set_markup("<b><i>Warning 6</i></b>")
 
-        #lblm6 = Gtk.Label()
-        #lblm6.set_text("ATT : Budgie desktop conflicts with catfish - remove catfish")
+        lblm6 = Gtk.Label()
+        lblm6.set_text("midori (zeitgeist) conflicts with catfish")
 
 
         vbox.pack_start(lblh1, False, False, 0)
@@ -71,8 +71,8 @@ class Conflicts(Gtk.Window):
         vbox.pack_start(lblh5, False, False, 0)
         vbox.pack_start(lblm5, False, False, 0)
 
-        #vbox.pack_start(lblh6, False, False, 0)
-        #vbox.pack_start(lblm6, False, False, 0)
+        vbox.pack_start(lblh6, False, False, 0)
+        vbox.pack_start(lblm6, False, False, 0)
 
     def close(self, widget, event):
         self.destroy()
