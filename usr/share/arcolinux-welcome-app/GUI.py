@@ -233,6 +233,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE = Gtk.EventBox()
     dE = Gtk.EventBox()
     tgE = Gtk.EventBox()
+    reE = Gtk.EventBox()
 
     pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/facebook.png'), 28, 28)
@@ -266,6 +267,10 @@ def GUI(self, Gtk, GdkPixbuf):
         os.path.join(base_dir, 'images/tg.png'), 28, 28)
     tgimage = Gtk.Image().new_from_pixbuf(pbtg)
 
+    pbre = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/reddit.png'), 28, 28)
+    reimage = Gtk.Image().new_from_pixbuf(pbre)
+
     fbE.add(fbimage)
     tE.add(timage)
     meE.add(meimage)
@@ -274,6 +279,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE.add(pimage)
     dE.add(dimage)
     tgE.add(tgimage)
+    reE.add(reimage)
 
     fbE.connect("button_press_event", self.on_social_clicked,
                 "https://www.facebook.com/groups/arcolinux")
@@ -291,6 +297,8 @@ def GUI(self, Gtk, GdkPixbuf):
                "https://discordapp.com/invite/R2amEEz")
     tgE.connect("button_press_event", self.on_social_clicked,
                 "https://t.me/arcolinux_d_b")
+    reE.connect("button_press_event", self.on_social_clicked,
+                "https://www.reddit.com/r/ArcoLinux")
 
     fbE.set_property("has-tooltip", True)
     tE.set_property("has-tooltip", True)
@@ -300,6 +308,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE.set_property("has-tooltip", True)
     dE.set_property("has-tooltip", True)
     tgE.set_property("has-tooltip", True)
+    reE.set_property("has-tooltip", True)
 
     fbE.connect("query-tooltip", self.tooltip_callback, "Facebook")
     tE.connect("query-tooltip", self.tooltip_callback, "Twitter")
@@ -309,6 +318,7 @@ def GUI(self, Gtk, GdkPixbuf):
     pE.connect("query-tooltip", self.tooltip_callback, "Patreon")
     dE.connect("query-tooltip", self.tooltip_callback, "Discord")
     tgE.connect("query-tooltip", self.tooltip_callback, "Telegram")
+    reE.connect("query-tooltip", self.tooltip_callback, "Reddit")
 
     hbox3.pack_start(fbE, False, False, 0)
     hbox3.pack_start(tE, False, False, 0)
@@ -319,6 +329,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     hbox6.pack_start(dE, False, False, 0)
     hbox6.pack_start(tgE, False, False, 0)
+    hbox6.pack_start(reE, False, False, 0)
     if username == user:
         hbox3.pack_start(hboxUser, True, False, 0)
     hbox3.pack_start(hbox6, True, False, 0)
@@ -344,7 +355,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   PACK TO WINDOW
     # ======================================================================
-    label3 = Gtk.Label("v20.6-4")
+    label3 = Gtk.Label("v20.9-1")
     hbox7.pack_end(label3, False, False, 0)
     # if self.is_connected():
     #     self.get_message(label3, label4)
