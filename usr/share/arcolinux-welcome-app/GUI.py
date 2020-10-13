@@ -205,10 +205,16 @@ def GUI(self, Gtk, GdkPixbuf):
     button11.connect("clicked", self.on_link_clicked,
                      "https://www.youtube.com/erikdubois")
 
+    button12 = Gtk.Button(label="Quit")
+    button12.set_size_request(200, 50)
+    button12.connect("clicked", Gtk.main_quit)
+    #button12.set_tooltip_markup("Quit the ArcoLinux Welcome App")
+
     hbox5.pack_start(button8, True, True, 0)
     hbox5.pack_start(button9, True, True, 0)
     hbox5.pack_start(button10, True, True, 0)
     hbox5.pack_start(button11, True, True, 0)
+    hbox5.pack_start(button12, True, True, 0)
 
 
     # hbox8.pack_start(self.button8, True, False, 0)
@@ -358,6 +364,6 @@ def GUI(self, Gtk, GdkPixbuf):
     #     self.vbox.pack_start(self.vbox2, False, False, 0)  # Notice
 
     self.vbox.pack_end(hbox3, False, False, 0)  # Footer
-    self.vbox.pack_end(hbox7, False, False, 0)  # Version
+    #self.vbox.pack_end(hbox7, False, False, 0)  # Version
     self.vbox.pack_end(hbox5, False, False, 7)  # Buttons
     self.vbox.pack_end(hbox2, False, False, 7)  # Buttons
