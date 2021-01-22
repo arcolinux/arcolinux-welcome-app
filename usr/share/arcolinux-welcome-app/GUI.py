@@ -163,7 +163,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     button3 = Gtk.Button(label="Release info")
     button3.connect("clicked", self.on_link_clicked,
-                    "https://arcolinux.info/category/2020/")
+                    "https://arcolinux.info/releases-2021/")
 
     button4 = Gtk.Button(label="Choose your project")
     button4.connect("clicked", self.on_link_clicked,
