@@ -52,7 +52,7 @@ class Main(Gtk.Window):
 
     def on_ai_clicked(self, widget):
         t = threading.Thread(target=self.run_app,
-                             args=(["env", "pkexec", "/usr/bin/calamares", "-D6", "--style", "fusion" ],))
+                             args=(["env", "pkexec", "/usr/bin/calamares", "--style", "fusion" ],))
         t.daemon = True
         t.start()
 
