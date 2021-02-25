@@ -6,7 +6,7 @@ import os
 import getpass
 from os.path import expanduser
 
-DEBUG = True
+DEBUG = False
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
