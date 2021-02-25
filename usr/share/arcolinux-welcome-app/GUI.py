@@ -6,7 +6,7 @@ import os
 import getpass
 from os.path import expanduser
 
-DEBUG = False
+DEBUG = True
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
@@ -110,7 +110,8 @@ def GUI(self, Gtk, GdkPixbuf):
     button8_label = self.button8.get_child()
     button8_label.set_markup("<span size='large'><b>Update Arch Linux mirrors</b></span>")
     self.button8.connect("clicked", self.on_mirror_clicked)
-    self.button8.set_size_request(210, 70)
+    # self.button8.set_size_request(210, 70)
+    self.button8.set_size_request(420, 70)
 
     button13 = Gtk.Button(label="")
     button13_label = button13.get_child()
@@ -121,14 +122,15 @@ def GUI(self, Gtk, GdkPixbuf):
     # grid.add(button1)
     if username == user:
         grid = Gtk.Grid()
-        grid.attach(self.button8, 0, 0, 2, 2)
-        grid.attach(button13, 2, 0, 2, 2)
+        grid.attach(self.button8, 1, 0, 2, 2)
+        # grid.attach(self.button8, 0, 0, 2, 2)
+        # grid.attach(button13, 2, 0, 2, 2)
         grid.attach(button1, 0, 2, 2, 2)
         grid.attach(button2, 2, 2, 2, 2)
         grid.set_column_homogeneous(True)
     else:
         grid = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.button8.set_size_request(420, 70)
+        # self.button8.set_size_request(420, 70)
         grid.pack_start(self.button8, True, False, 0)
     # grid.set_row_homogeneous(True)
 
