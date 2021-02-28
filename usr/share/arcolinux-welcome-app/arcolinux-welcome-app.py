@@ -47,8 +47,9 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-    def on_btrfs_clicked(self, widget):
-        t = threading.Thread(target=self.btrfs_update)
+    def on_arcolinux_calamares_tool_clicked(self, widget):
+        t = threading.Thread(target=self.run_app,
+                             args=(["/usr/local/bin/arcolinux-calamares-tool"],))
         t.daemon = True
         t.start()
 
@@ -211,13 +212,13 @@ Do you want to install it?")
         data = [x for x in lines if "defaultFileSystemType" in x]
         pos = lines.index(data[0])
 
-        lines[pos] = "defaultFileSystemType:  \"btrfs\"\n"
-        
+        lines[pos] = "defaultFileSystemType:  \"ext4\"\n"
+
         with open(path, "w") as f:
             f.writelines(lines)
             f.close()
-        
-        GLib.idle_add(self.MessageBox,"Success", "BTRFS has been set as default filesystem")
+
+        GLib.idle_add(self.MessageBox,"Success", "Your filesystem has been changed.")
 
     # def finished_mirrors(self):
     #     md = Gtk.MessageDialog(parent=self,
