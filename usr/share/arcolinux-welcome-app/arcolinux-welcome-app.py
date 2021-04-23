@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # =================================================================
-# =                  Author: Brad Heffernan                       =
+# =          Authors: Brad Heffernan & Erik Dubois                =
 # =================================================================
 import gi
 import os
