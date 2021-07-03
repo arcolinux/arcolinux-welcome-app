@@ -212,7 +212,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     button10 = Gtk.Button(label="Debug")
     button10.connect("clicked", self.on_link_clicked,
-                     "https://github.com/arcolinux")
+                     "https://github.com/arcolinux/bug-report")
 
     button11 = Gtk.Button(label="Youtube")
     button11.connect("clicked", self.on_link_clicked,
