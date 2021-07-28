@@ -47,11 +47,11 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-    def on_arcolinux_calamares_tool_clicked(self, widget):
-        t = threading.Thread(target=self.run_app,
-                             args=(["/usr/local/bin/arcolinux-calamares-tool"],))
-        t.daemon = True
-        t.start()
+    #def on_arcolinux_calamares_tool_clicked(self, widget):
+    #    t = threading.Thread(target=self.run_app,
+    #                         args=(["/usr/local/bin/arcolinux-calamares-tool"],))
+    #    t.daemon = True
+    #    t.start()
 
     def on_update_clicked(self, widget):
         print("Clicked")
@@ -197,25 +197,25 @@ Do you want to install it?")
         GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
         GLib.idle_add(self.button8.set_sensitive, True)
 
-    def btrfs_update(self):
-        if GUI.DEBUG:
-            path = "/home/bheffernan/Repos/GITS/XFCE/hefftor-calamares-oem-config/calamares/modules/partition.conf"
-        else:
-            path = "/etc/calamares/modules/partition.conf"
+    #def btrfs_update(self):
+    #    if GUI.DEBUG:
+    #        path = "/home/bheffernan/Repos/GITS/XFCE/hefftor-calamares-oem-config/calamares/modules/partition.conf"
+    #    else:
+    #        path = "/etc/calamares/modules/partition.conf"
 
-        with open(path, "r") as f:
-            lines = f.readlines()
-            f.close()
-        data = [x for x in lines if "defaultFileSystemType" in x]
-        pos = lines.index(data[0])
+    #    with open(path, "r") as f:
+    #        lines = f.readlines()
+    #        f.close()
+    #    data = [x for x in lines if "defaultFileSystemType" in x]
+    #    pos = lines.index(data[0])
 
-        lines[pos] = "defaultFileSystemType:  \"ext4\"\n"
+    #    lines[pos] = "defaultFileSystemType:  \"ext4\"\n"
 
-        with open(path, "w") as f:
-            f.writelines(lines)
-            f.close()
+    #    with open(path, "w") as f:
+    #        f.writelines(lines)
+    #        f.close()
 
-        GLib.idle_add(self.MessageBox,"Success", "Your filesystem has been changed.")
+    #    GLib.idle_add(self.MessageBox,"Success", "Your filesystem has been changed.")
 
     # def finished_mirrors(self):
     #     md = Gtk.MessageDialog(parent=self,
