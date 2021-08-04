@@ -9,7 +9,6 @@ from os.path import expanduser
 DEBUG = False
 #DEBUG = True
 
-
 base_dir = os.path.dirname(os.path.realpath(__file__))
 home = expanduser("~")
 username = getpass.getuser()
@@ -40,6 +39,7 @@ def GUI(self, Gtk, GdkPixbuf):
     hbox6 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox7 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
     hbox8 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+    hbox9 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
 
     # vbox1 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
     # vbox2 = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
@@ -100,14 +100,22 @@ def GUI(self, Gtk, GdkPixbuf):
     button1_label = button1.get_child()
     button1_label.set_markup("<span size='large'><b>Run GParted</b></span>")
     button1.connect("clicked", self.on_gp_clicked)
-    button1.set_size_request(0, 100)
+    button1.set_size_request(0, 80)
 
     button2 = Gtk.Button(label="")
     button2_label = button2.get_child()
-    button2_label.set_markup("<span size='large'><b>Run Calamares</b></span>")
-
+    button2_label.set_markup("<span size='large'><b>Beginner Installation</b></span>")
+ 
     button2.connect("clicked", self.on_ai_clicked)
-    button2.set_size_request(0, 100)
+    button2.set_size_request(0, 80)
+
+    buttonca = Gtk.Button(label="")
+    buttonca_label = buttonca.get_child()
+    buttonca_label.set_markup("<span size='large'><b>Advanced Installation</b></span>")
+
+    buttonca.connect("clicked", self.on_aica_clicked)
+    buttonca.set_size_request(0, 80)
+
 
     self.button8 = Gtk.Button(label="")
     button8_label = self.button8.get_child()
@@ -124,11 +132,13 @@ def GUI(self, Gtk, GdkPixbuf):
     # grid.add(button1)
     if username == user:
         grid = Gtk.Grid()
-        grid.attach(self.button8, 1, 0, 2, 2)
+        grid.attach(self.button8, 2, 0, 2, 2)
         #grid.attach(button13, 2, 0, 2, 2)
-        grid.attach(button1, 0, 2, 2, 2)
-        grid.attach(button2, 2, 2, 2, 2)
+        grid.attach(button1, 2, 2, 2, 2)
+        grid.attach(button2, 1, 4, 2, 2)
+        grid.attach(buttonca, 3, 4, 2, 2)
         grid.set_column_homogeneous(True)
+        grid.set_row_homogeneous(True)
     else:
         grid = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         self.button8.set_size_request(420, 70)
