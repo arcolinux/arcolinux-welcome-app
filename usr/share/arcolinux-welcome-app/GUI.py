@@ -104,7 +104,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     button2 = Gtk.Button(label="")
     button2_label = button2.get_child()
-    button2_label.set_markup("<span size='large'><b>Beginner Installation</b></span>")
+    button2_label.set_markup("<span size='large'><b>Safe Installation</b></span>")
  
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 80)
