@@ -148,9 +148,9 @@ class Main(Gtk.Window):
         return True
 
     def on_launch_clicked(self, widget, event, link):
-        if os.path.isfile("/usr/local/bin/arcolinux-tweak-tool"):
+        if os.path.isfile("/usr/local/bin/archlinux-tweak-tool"):
             t = threading.Thread(target=self.run_app,
-                                 args=("/usr/local/bin/arcolinux-tweak-tool",))
+                                 args=("/usr/local/bin/archlinux-tweak-tool",))
             t.daemon = True
             t.start()
         else:
@@ -258,7 +258,7 @@ Do you want to install it?")
         subprocess.call(["pkexec",
                          "/usr/bin/pacman",
                          "-S",
-                         "arcolinux-tweak-tool-git",
+                         "archlinux-tweak-tool-git",
                          "--noconfirm"], shell=False)
         GLib.idle_add(self.MessageBox,
                       "Success!",
