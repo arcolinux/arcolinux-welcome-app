@@ -72,25 +72,29 @@ def GUI(self, Gtk, GdkPixbuf):
     label2.set_justify(Gtk.Justification.CENTER)
     label2.set_line_wrap(True)
 
+    label_warning = Gtk.Label(xalign=0)
+    label_warning.set_justify(Gtk.Justification.CENTER)
+    label_warning.set_line_wrap(True)
+
     if username == user:
 
         label2.set_markup(
             "We advise to clean the computer with Gparted before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +  # noqa
             "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
             "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
-            "The ArcoLinux Team")
+            "The ArcoLinux Team") # noqa
+        label_warning.set_markup(
+            "\n<span size='x-large'><b>Use the Easy Installation\n" + # noqa
+            "if the Advanced Installation fails</b></span>\n")  # noqa
     else:
         label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
                           "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
                           "The ArcoLinux Team")
-    # label2.connect( "size-allocate", self.cb_allocate )
-    # vbox1.pack_start(image, False, False, 0)
-    # vbox2.pack_start(label, False, False, 0)
-    # vbox2.pack_start(label2, False, False, 0)
+
     hbox1.pack_start(label, False, False, 0)
     hbox1.pack_end(self.cc, False, False, 0)
-    # hbox4.set_homogeneous(False)
     hbox4.pack_start(label2, False, False, 0)
+    hbox8.pack_start(label_warning, True, False, 0)
 
     # ======================================================================
     #                   MAIN BUTTONS
@@ -105,7 +109,7 @@ def GUI(self, Gtk, GdkPixbuf):
     button2 = Gtk.Button(label="")
     button2_label = button2.get_child()
     button2_label.set_markup("<span size='large'><b>Easy Installation</b></span>")
- 
+
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 80)
 
@@ -383,6 +387,7 @@ def GUI(self, Gtk, GdkPixbuf):
 
     self.vbox.pack_start(hbox1, False, False, 7)  # Logo
     self.vbox.pack_start(hbox4, False, False, 7)  # welcome Label
+    self.vbox.pack_start(hbox8, False, False, 7)  # warning Label
 
     self.vbox.pack_start(grid, True, False, 7)  # Run GParted/Calamares
 
