@@ -79,6 +79,11 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
+    def on_buttonatt_clicked(self, widget):
+        t = threading.Thread(target=self.run_app, args=(["/usr/local/bin/archlinux-tweak-tool"],))
+        t.daemon = True
+        t.start()
+
     def run_app(self, command):
         subprocess.call(command,
                         shell=False,
