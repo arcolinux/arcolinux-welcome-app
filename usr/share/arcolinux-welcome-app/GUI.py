@@ -139,12 +139,6 @@ def GUI(self, Gtk, GdkPixbuf):
     self.buttonatt.connect("clicked", self.on_buttonatt_clicked)
     self.buttonatt.set_size_request(420, 70)
 
-    #button13 = Gtk.Button(label="")
-    #button13_label = button13.get_child()
-    #button13_label.set_markup("<span size='large'><b>ArcoLinux Calamares Tool</b></span>")
-    #button13.connect("clicked", self.on_arcolinux_calamares_tool_clicked)
-    #button13.set_size_request(210, 70)
-
     # grid.add(button1)
     if username == user:
         grid = Gtk.Grid()
@@ -205,25 +199,32 @@ def GUI(self, Gtk, GdkPixbuf):
     # ======================================================================
     #                   FOOTER BUTTON LINKS
     # ======================================================================
+
+    # change this one every year
     button3 = Gtk.Button(label="Release info")
     button3.connect("clicked", self.on_link_clicked,
-                    "https://arcolinux.info/releases-2021/")
+                    "https://arcolinux.info/releases-2022/")
+    button3.set_size_request(200, 50)
 
     button4 = Gtk.Button(label="Choose your project")
     button4.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/choose-your-project/")
+    button4.set_size_request(200, 50)
 
     button5 = Gtk.Button(label="Core info")
     button5.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/arcolinux-editions/")
+    button5.set_size_request(200, 50)
 
     button6 = Gtk.Button(label="Fast track")
     button6.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/fast-track/")
+    button6.set_size_request(200, 50)
 
     button7 = Gtk.Button(label="Forum")
     button7.connect("clicked", self.on_link_clicked,
                     "http://arcolinuxforum.com/")
+    button7.set_size_request(200, 50)
 
     hbox2.pack_start(button3, True, True, 0)
     hbox2.pack_start(button4, True, True, 0)
@@ -237,15 +238,15 @@ def GUI(self, Gtk, GdkPixbuf):
     button8.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/donation/")
 
-    button9 = Gtk.Button(label="Get Involved")
+    button9 = Gtk.Button(label="Get Involved - Betatester")
     button9.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/looking-for-betatesters/")
 
-    button10 = Gtk.Button(label="Debug")
+    button10 = Gtk.Button(label="Get Involved - AAG")
     button10.connect("clicked", self.on_link_clicked,
-                     "https://github.com/arcolinux/bug-report")
+                     "https://www.arcolinux.info/joining-the-arcolinux-auditing-group/")
 
-    button11 = Gtk.Button(label="Youtube")
+    button11 = Gtk.Button(label="Youtube ArcoLinux Channel")
     button11.connect("clicked", self.on_link_clicked,
                      "https://www.youtube.com/erikdubois")
 
@@ -281,8 +282,10 @@ def GUI(self, Gtk, GdkPixbuf):
     inE = Gtk.EventBox()
     liE = Gtk.EventBox()
     pE = Gtk.EventBox()
+    yE = Gtk.EventBox()
     dE = Gtk.EventBox()
     tgE = Gtk.EventBox()
+    elE = Gtk.EventBox()
 
     pbfb = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/facebook.png'), 28, 28)
@@ -308,6 +311,10 @@ def GUI(self, Gtk, GdkPixbuf):
         os.path.join(base_dir, 'images/patreon.png'), 28, 28)
     pimage = Gtk.Image().new_from_pixbuf(pbp)
 
+    pby = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/youtube.png'), 28, 28)
+    yimage = Gtk.Image().new_from_pixbuf(pby)
+
     pbd = GdkPixbuf.Pixbuf().new_from_file_at_size(
         os.path.join(base_dir, 'images/discord.png'), 28, 28)
     dimage = Gtk.Image().new_from_pixbuf(pbd)
@@ -316,14 +323,20 @@ def GUI(self, Gtk, GdkPixbuf):
         os.path.join(base_dir, 'images/tg.png'), 28, 28)
     tgimage = Gtk.Image().new_from_pixbuf(pbtg)
 
+    pbel = GdkPixbuf.Pixbuf().new_from_file_at_size(
+        os.path.join(base_dir, 'images/element.png'), 28, 28)
+    elimage = Gtk.Image().new_from_pixbuf(pbel)
+
     fbE.add(fbimage)
     tE.add(timage)
     meE.add(meimage)
     inE.add(inimage)
     liE.add(liimage)
     pE.add(pimage)
+    yE.add(yimage)
     dE.add(dimage)
     tgE.add(tgimage)
+    elE.add(elimage)
 
     fbE.connect("button_press_event", self.on_social_clicked,
                 "https://www.facebook.com/groups/arcolinux")
@@ -337,10 +350,14 @@ def GUI(self, Gtk, GdkPixbuf):
                 "https://www.linkedin.com/in/arcolinux/")
     pE.connect("button_press_event", self.on_social_clicked,
                "https://www.patreon.com/arcolinux")
+    yE.connect("button_press_event", self.on_social_clicked,
+               "https://youtube.com/c/erikdubois")
     dE.connect("button_press_event", self.on_social_clicked,
                "https://discordapp.com/invite/R2amEEz")
     tgE.connect("button_press_event", self.on_social_clicked,
                 "https://t.me/arcolinux_d_b")
+    elE.connect("button_press_event", self.on_social_clicked,
+                "https://app.element.io/#/room/!jUDkosOsuDbGWNzKYl:matrix.org")
 
     fbE.set_property("has-tooltip", True)
     tE.set_property("has-tooltip", True)
@@ -348,8 +365,10 @@ def GUI(self, Gtk, GdkPixbuf):
     inE.set_property("has-tooltip", True)
     liE.set_property("has-tooltip", True)
     pE.set_property("has-tooltip", True)
+    yE.set_property("has-tooltip", True)
     dE.set_property("has-tooltip", True)
     tgE.set_property("has-tooltip", True)
+    elE.set_property("has-tooltip", True)
 
     fbE.connect("query-tooltip", self.tooltip_callback, "Facebook")
     tE.connect("query-tooltip", self.tooltip_callback, "Twitter")
@@ -357,16 +376,20 @@ def GUI(self, Gtk, GdkPixbuf):
     inE.connect("query-tooltip", self.tooltip_callback, "Instagram")
     liE.connect("query-tooltip", self.tooltip_callback, "LinkedIn")
     pE.connect("query-tooltip", self.tooltip_callback, "Patreon")
+    yE.connect("query-tooltip", self.tooltip_callback, "Youtube")
     dE.connect("query-tooltip", self.tooltip_callback, "Discord")
     tgE.connect("query-tooltip", self.tooltip_callback, "Telegram")
+    elE.connect("query-tooltip", self.tooltip_callback, "Element-Matrix")
 
     hbox3.pack_start(fbE, False, False, 0)
     hbox3.pack_start(tE, False, False, 0)
     hbox3.pack_start(meE, False, False, 0)
     hbox3.pack_start(inE, False, False, 0)
     hbox3.pack_start(liE, False, False, 0)
-    hbox3.pack_start(pE, False, False, 0)
+    hbox3.pack_start(elE, False, False, 0)
 
+    hbox6.pack_start(pE, False, False, 50)
+    hbox6.pack_start(yE, False, False, 0)
     hbox6.pack_start(dE, False, False, 0)
     hbox6.pack_start(tgE, False, False, 0)
     if username == user:
