@@ -157,9 +157,9 @@ def GUI(self, Gtk, GdkPixbuf):
         grid.set_row_homogeneous(True)
     else:
         grid = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.button8.set_size_request(420, 70)
-        self.buttonatt.set_size_request(420, 70)
-        self.buttonpamac.set_size_request(420, 70)
+        self.button8.set_size_request(300, 70)
+        self.buttonatt.set_size_request(300, 70)
+        self.buttonpamac.set_size_request(300, 70)
         grid.pack_start(self.buttonpamac, True, False, 0)
         grid.pack_start(self.buttonatt, True, False, 0)
         grid.pack_start(self.button8, True, False, 0)
