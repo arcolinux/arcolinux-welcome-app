@@ -84,6 +84,11 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
+    def on_buttonpamac_clicked(self, widget):
+        t = threading.Thread(target=self.run_app, args=(["/usr/bin/pamac-manager"],))
+        t.daemon = True
+        t.start()
+
     def run_app(self, command):
         subprocess.call(command,
                         shell=False,

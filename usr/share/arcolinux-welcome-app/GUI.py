@@ -139,6 +139,12 @@ def GUI(self, Gtk, GdkPixbuf):
     self.buttonatt.connect("clicked", self.on_buttonatt_clicked)
     self.buttonatt.set_size_request(420, 70)
 
+    self.buttonpamac = Gtk.Button(label="")
+    buttonpamac_label = self.buttonpamac.get_child()
+    buttonpamac_label.set_markup("<span size='large'><b>Install software</b></span>")
+    self.buttonpamac.connect("clicked", self.on_buttonpamac_clicked)
+    self.buttonpamac.set_size_request(420, 70)
+
     # grid.add(button1)
     if username == user:
         grid = Gtk.Grid()
@@ -153,8 +159,10 @@ def GUI(self, Gtk, GdkPixbuf):
         grid = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         self.button8.set_size_request(420, 70)
         self.buttonatt.set_size_request(420, 70)
-        grid.pack_start(self.button8, True, False, 0)
+        self.buttonpamac.set_size_request(420, 70)
+        grid.pack_start(self.buttonpamac, True, False, 0)
         grid.pack_start(self.buttonatt, True, False, 0)
+        grid.pack_start(self.button8, True, False, 0)
     # grid.set_row_homogeneous(True)
 
     # ======================================================================
