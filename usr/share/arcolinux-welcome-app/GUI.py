@@ -79,23 +79,21 @@ def GUI(self, Gtk, GdkPixbuf):
     if username == user:
 
         label2.set_markup(
-            "We advise to clean the computer with <b>Gparted</b> before installing. During the Calamares installation many options will be open to you. You have the freedom of choice. " +  # noqa
-            "The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. " +  # noqa
-            "Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
-            "<b>Telegram</b> is for chitchat - <b>Discord</b> is for assistance.\n\n" +  # noqa
-            "We have a <b>forum</b> for the longer and more technical questions. \n\n" +  # noqa
-            "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
-            "The ArcoLinux Team.") # noqa
+            "We advise to clean the computer with <b>Gparted</b> before installing.\n" +
+            "During the Calamares installation many options will be open to you. You have the freedom of choice.\n" +  # noqa
+            "We communicate with our community via a diversity of social media." +  # noqa
+            "Do join us to learn the latest news, ask questions or for casual talk.\n" +  # noqa
+            "<b>Telegram</b> is for chitchat - <b>Discord</b> is for assistance.\n" +  # noqa
+            "We have a <b>forum</b> for the longer and more technical questions.\n")
         label_warning.set_markup(
             "\n<span size='x-large'><b>Use the Easy Installation\n" + # noqa
             "if the Advanced Installation fails</b></span>\n")  # noqa
     else:
         label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. "
-                          "Do join us to learn the latest news, ask questions or for casual talk. \n\n" +  # noqa
-                          "<b>Telegram</b> is for chitchat - <b>Discord</b> is for assistance.\n\n" +  # noqa
-                          "We appreciate your feed-back and donation.  \nLearn, have fun and enjoy. \n\n" +  # noqa
-                          "We have a <b>forum</b> for the longer and more technical questions. \n\n" +  # noqa
-                          "The ArcoLinux Team.")
+                          "Do join us to learn the latest news, ask questions or for casual talk.\n" +  # noqa
+                          "<b>Telegram</b> is for chitchat - <b>Discord</b> is for assistance.\n" +  # noqa
+                          "We have a <b>forum</b> for the longer and more technical questions.\n" +  # noqa
+                          "Learn, have fun and enjoy.")
 
     hbox1.pack_start(label, False, False, 0)
     hbox1.pack_end(self.cc, False, False, 0)
