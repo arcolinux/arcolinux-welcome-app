@@ -89,7 +89,7 @@ def GUI(self, Gtk, GdkPixbuf):
             "\n<span size='x-large'><b>Use the Easy Installation\n" + # noqa
             "if the Advanced Installation fails</b></span>\n")  # noqa
     else:
-        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media. "
+        label2.set_markup("The links below will get you started on ArcoLinux. We communicate with our community via a diversity of social media.\n"
                           "Do join us to learn the latest news, ask questions or for casual talk.\n" +  # noqa
                           "<b>Telegram</b> is for chitchat - <b>Discord</b> is for assistance.\n" +  # noqa
                           "We have a <b>forum</b> for the longer and more technical questions.\n" +  # noqa
