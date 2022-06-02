@@ -95,9 +95,10 @@ def GUI(self, Gtk, GdkPixbuf):
                           "We have a <b>forum</b> for the longer and more technical questions.\n" +  # noqa
                           "Learn, have fun and enjoy.")
 
+    hbox4.set_center_widget(label2)
     hbox1.pack_start(label, False, False, 0)
     hbox1.pack_end(self.cc, False, False, 0)
-    hbox4.pack_start(label2, False, False, 0)
+    #hbox4.pack_start(label2, False, False, 0)
     hbox8.pack_start(label_warning, True, False, 0)
 
     # ======================================================================
