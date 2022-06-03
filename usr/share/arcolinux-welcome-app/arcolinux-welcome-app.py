@@ -47,12 +47,6 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-    #def on_arcolinux_calamares_tool_clicked(self, widget):
-    #    t = threading.Thread(target=self.run_app,
-    #                         args=(["/usr/local/bin/arcolinux-calamares-tool"],))
-    #    t.daemon = True
-    #    t.start()
-
     def on_update_clicked(self, widget):
         print("Clicked")
 
@@ -80,7 +74,7 @@ class Main(Gtk.Window):
         t.start()
 
     def on_buttonatt_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["/usr/local/bin/archlinux-tweak-tool"],))
+        t = threading.Thread(target=self.run_app, args=(["/usr/bin/archlinux-tweak-tool"],))
         t.daemon = True
         t.start()
 
@@ -158,9 +152,9 @@ class Main(Gtk.Window):
         return True
 
     def on_launch_clicked(self, widget, event, link):
-        if os.path.isfile("/usr/local/bin/archlinux-tweak-tool"):
+        if os.path.isfile("/usr/bin/archlinux-tweak-tool"):
             t = threading.Thread(target=self.run_app,
-                                 args=("/usr/local/bin/archlinux-tweak-tool",))
+                                 args=("/usr/bin/archlinux-tweak-tool",))
             t.daemon = True
             t.start()
         else:
