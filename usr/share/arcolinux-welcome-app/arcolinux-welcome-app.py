@@ -78,6 +78,30 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
+    def check_package_installed(self,package):
+        try:
+            subprocess.check_output("pacman -Qi " + package,shell=True,stderr=subprocess.STDOUT)
+            #package is installed
+            return True
+        except subprocess.CalledProcessError as e:
+            #package is not installed
+            return False
+
+    def on_buttonarandr_clicked(self,widget):
+        if not self.check_package_installed("arandr"):
+            install = 'pacman -S arandr --noconfirm'
+            subprocess.call(install.split(" "),
+                            shell=False,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT)
+            t = threading.Thread(target=self.run_app, args=(["/usr/bin/arandr"],))
+            t.daemon = True
+            t.start()
+        else:
+            t = threading.Thread(target=self.run_app, args=(["/usr/bin/arandr"],))
+            t.daemon = True
+            t.start()
+
     def on_buttonpamac_clicked(self, widget):
         t = threading.Thread(target=self.run_app, args=(["/usr/bin/pamac-manager"],))
         t.daemon = True

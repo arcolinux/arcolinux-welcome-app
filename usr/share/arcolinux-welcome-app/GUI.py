@@ -211,33 +211,42 @@ def GUI(self, Gtk, GdkPixbuf):
     button3 = Gtk.Button(label="Release info")
     button3.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/releases-2022/")
-    button3.set_size_request(200, 50)
+    button3.set_size_request(180, 50)
 
     button4 = Gtk.Button(label="Choose your project")
     button4.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/choose-your-project/")
-    button4.set_size_request(200, 50)
+    button4.set_size_request(180, 50)
 
     button5 = Gtk.Button(label="Core info")
     button5.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/arcolinux-editions/")
-    button5.set_size_request(200, 50)
+    button5.set_size_request(180, 50)
 
     button6 = Gtk.Button(label="Fast track")
     button6.connect("clicked", self.on_link_clicked,
                     "https://arcolinux.info/fast-track/")
-    button6.set_size_request(200, 50)
+    button6.set_size_request(180, 50)
 
     button7 = Gtk.Button(label="Forum")
     button7.connect("clicked", self.on_link_clicked,
                     "http://arcolinuxforum.com/")
-    button7.set_size_request(200, 50)
+    button7.set_size_request(180, 50)
+
+    button70 = Gtk.Button(label="Screen resolution")
+    button70.set_size_request(180, 50)
+    button70.set_property("has-tooltip", True)
+    button70.connect("query-tooltip",
+                      self.tooltip_callback,
+                      "Launch Arandr")
+    button70.connect("clicked", self.on_buttonarandr_clicked)
 
     hbox2.pack_start(button3, True, True, 0)
     hbox2.pack_start(button4, True, True, 0)
     hbox2.pack_start(button5, True, True, 0)
     hbox2.pack_start(button6, True, True, 0)
     hbox2.pack_start(button7, True, True, 0)
+    hbox2.pack_start(button70, True, True, 0)
 
     button8 = Gtk.Button(label="")
     button8_label = button8.get_child()
