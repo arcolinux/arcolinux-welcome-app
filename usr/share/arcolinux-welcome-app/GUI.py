@@ -113,14 +113,14 @@ def GUI(self, Gtk, GdkPixbuf):
 
     button2 = Gtk.Button(label="")
     button2_label = button2.get_child()
-    button2_label.set_markup("<span size='large'><b>Easy Installation</b></span>")
+    button2_label.set_markup("<span size='large'><b>Easy Installation (Offline)</b></span>")
 
     button2.connect("clicked", self.on_ai_clicked)
     button2.set_size_request(0, 80)
 
     buttonca = Gtk.Button(label="")
     buttonca_label = buttonca.get_child()
-    buttonca_label.set_markup("<span size='large'><b>Advanced Installation</b></span>")
+    buttonca_label.set_markup("<span size='large'><b>Advanced Installation (Online)</b></span>")
 
     buttonca.connect("clicked", self.on_aica_clicked)
     buttonca.set_size_request(0, 80)
