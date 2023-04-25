@@ -210,7 +210,7 @@ def GUI(self, Gtk, GdkPixbuf):
     # change this one every year
     button3 = Gtk.Button(label="Release info")
     button3.connect("clicked", self.on_link_clicked,
-                    "https://arcolinux.info/releases-2022/")
+                    "https://arcolinux.info/releases-2023/")
     button3.set_size_request(180, 50)
 
     button4 = Gtk.Button(label="Choose your project")
