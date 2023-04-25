@@ -369,7 +369,7 @@ def GUI(self, Gtk, GdkPixbuf):
     yE.connect("button_press_event", self.on_social_clicked,
                "https://youtube.com/c/erikdubois")
     dE.connect("button_press_event", self.on_social_clicked,
-               "https://discordapp.com/invite/R2amEEz")
+               "https://discordapp.com/invite/stBhS4taje")
     tgE.connect("button_press_event", self.on_social_clicked,
                 "https://t.me/arcolinux_d_b")
     elE.connect("button_press_event", self.on_social_clicked,
