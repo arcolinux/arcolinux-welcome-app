@@ -6,6 +6,7 @@ import gi
 import os
 import GUI
 import conflicts
+
 # import wnck
 import subprocess
 import threading
@@ -13,8 +14,9 @@ import webbrowser
 import shutil
 import socket
 from time import sleep
-gi.require_version('Gtk', '3.0')
-gi.require_version('Wnck', '3.0')
+
+gi.require_version("Gtk", "3.0")
+gi.require_version("Wnck", "3.0")
 from gi.repository import Gtk, GdkPixbuf, GLib, Wnck  # noqa
 
 REMOTE_SERVER = "www.google.com"
@@ -25,8 +27,7 @@ class Main(Gtk.Window):
         super(Main, self).__init__(title="ArcoLinux Welcome App")
         self.set_border_width(10)
         self.set_default_size(860, 250)
-        self.set_icon_from_file(os.path.join(
-            GUI.base_dir, 'images/arcolinux.png'))
+        self.set_icon_from_file(os.path.join(GUI.base_dir, "images/arcolinux.png"))
         self.set_position(Gtk.WindowPosition.CENTER)
         self.results = ""
         if not os.path.exists(GUI.home + "/.config/arcolinux-welcome-app/"):
@@ -50,20 +51,118 @@ class Main(Gtk.Window):
     def on_update_clicked(self, widget):
         print("Clicked")
 
-    def on_ai_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["sudo", "cp", "/etc/calamares/settings-beginner.conf", "/etc/calamares/settings.conf"],))
+    def on_grub_clicked(self, widget):
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/modules/bootloader-grub.conf",
+                    "/etc/calamares/modules/bootloader.conf",
+                ],
+            ),
+        )
         t.daemon = True
         t.start()
-        t = threading.Thread(target=self.run_app, args=(["sudo", "cp", "/etc/calamares/modules/packages-no-system-update.conf", "/etc/calamares/modules/packages.conf"],))
+        # t = threading.Thread(
+        #     target=self.run_app,
+        #     args=(
+        #         [
+        #             "sudo",
+        #             "cp",
+        #             "/etc/calamares/modules/packages-no-system-update.conf",
+        #             "/etc/calamares/modules/packages.conf",
+        #         ],
+        #     ),
+        # )
+        # t.daemon = True
+        # t.start()
+        subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
+
+    def on_systemboot_clicked(self, widget):
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/modules/bootloader-systemd.conf",
+                    "/etc/calamares/modules/bootloader.conf",
+                ],
+            ),
+        )
+        t.daemon = True
+        t.start()
+        # t = threading.Thread(
+        #     target=self.run_app,
+        #     args=(
+        #         [
+        #             "sudo",
+        #             "cp",
+        #             "/etc/calamares/modules/packages-system-update.conf",
+        #             "/etc/calamares/modules/packages.conf",
+        #         ],
+        #     ),
+        # )
+        # t.daemon = True
+        # t.start()
+        subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
+
+    def on_ai_clicked(self, widget):
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/settings-beginner.conf",
+                    "/etc/calamares/settings.conf",
+                ],
+            ),
+        )
+        t.daemon = True
+        t.start()
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/modules/packages-no-system-update.conf",
+                    "/etc/calamares/modules/packages.conf",
+                ],
+            ),
+        )
         t.daemon = True
         t.start()
         subprocess.Popen(["/usr/bin/calamares_polkit", "-d"], shell=False)
 
     def on_aica_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["sudo", "cp", "/etc/calamares/settings-advanced.conf", "/etc/calamares/settings.conf"],))
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/settings-advanced.conf",
+                    "/etc/calamares/settings.conf",
+                ],
+            ),
+        )
         t.daemon = True
         t.start()
-        t = threading.Thread(target=self.run_app, args=(["sudo", "cp", "/etc/calamares/modules/packages-system-update.conf", "/etc/calamares/modules/packages.conf"],))
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/etc/calamares/modules/packages-system-update.conf",
+                    "/etc/calamares/modules/packages.conf",
+                ],
+            ),
+        )
         t.daemon = True
         t.start()
         subprocess.Popen(["/usr/bin/calamares_polkit", "-d"], shell=False)
@@ -74,26 +173,32 @@ class Main(Gtk.Window):
         t.start()
 
     def on_buttonatt_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["/usr/bin/archlinux-tweak-tool"],))
+        t = threading.Thread(
+            target=self.run_app, args=(["/usr/bin/archlinux-tweak-tool"],)
+        )
         t.daemon = True
         t.start()
 
-    def check_package_installed(self,package):
+    def check_package_installed(self, package):
         try:
-            subprocess.check_output("pacman -Qi " + package,shell=True,stderr=subprocess.STDOUT)
-            #package is installed
+            subprocess.check_output(
+                "pacman -Qi " + package, shell=True, stderr=subprocess.STDOUT
+            )
+            # package is installed
             return True
         except subprocess.CalledProcessError as e:
-            #package is not installed
+            # package is not installed
             return False
 
-    def on_buttonarandr_clicked(self,widget):
+    def on_buttonarandr_clicked(self, widget):
         if not self.check_package_installed("arandr"):
-            install = 'pacman -S arandr --noconfirm'
-            subprocess.call(install.split(" "),
-                            shell=False,
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
+            install = "pacman -S arandr --noconfirm"
+            subprocess.call(
+                install.split(" "),
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
             t = threading.Thread(target=self.run_app, args=(["/usr/bin/arandr"],))
             t.daemon = True
             t.start()
@@ -103,15 +208,26 @@ class Main(Gtk.Window):
             t.start()
 
     def on_buttonpamac_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["/usr/bin/pamac-manager"],))
+        if not self.check_package_installed("sofirem-git"):
+            install = "pacman -S sofirem-git --noconfirm"
+            subprocess.call(
+                install.split(" "),
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+            t = threading.Thread(target=self.run_app, args=(["/usr/bin/sofirem"],))
+            t.daemon = True
+            t.start()
+
+        t = threading.Thread(target=self.run_app, args=(["/usr/bin/sofirem"],))
         t.daemon = True
         t.start()
 
     def run_app(self, command):
-        subprocess.call(command,
-                        shell=False,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT)
+        subprocess.call(
+            command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
 
     def statup_toggle(self, widget):
         if widget.get_active() is True:
@@ -177,19 +293,23 @@ class Main(Gtk.Window):
 
     def on_launch_clicked(self, widget, event, link):
         if os.path.isfile("/usr/bin/archlinux-tweak-tool"):
-            t = threading.Thread(target=self.run_app,
-                                 args=("/usr/bin/archlinux-tweak-tool",))
+            t = threading.Thread(
+                target=self.run_app, args=("/usr/bin/archlinux-tweak-tool",)
+            )
             t.daemon = True
             t.start()
         else:
-            md = Gtk.MessageDialog(parent=self,
-                                   flags=0,
-                                   message_type=Gtk.MessageType.INFO,
-                                   buttons=Gtk.ButtonsType.YES_NO,
-                                   text="Not Found!")
+            md = Gtk.MessageDialog(
+                parent=self,
+                flags=0,
+                message_type=Gtk.MessageType.INFO,
+                buttons=Gtk.ButtonsType.YES_NO,
+                text="Not Found!",
+            )
             md.format_secondary_markup(
                 "<b>ArcoLinux Tweak Tool</b> was not found on your system\n\
-Do you want to install it?")
+Do you want to install it?"
+            )
 
             result = md.run()
 
@@ -203,11 +323,14 @@ Do you want to install it?")
     def internet_notifier(self):
         bb = 0
         dis = 0
-        while(True):
+        while True:
             if not self.is_connected():
                 dis = 1
                 GLib.idle_add(self.button8.set_sensitive, False)
-                GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>")  # noqa
+                GLib.idle_add(
+                    self.cc.set_markup,
+                    "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>",
+                )  # noqa
             else:
                 if bb == 0 and dis == 1:
                     GLib.idle_add(self.button8.set_sensitive, True)
@@ -232,14 +355,37 @@ Do you want to install it?")
     #     md.destroy()
 
     def mirror_update(self):
-        GLib.idle_add(self.cc.set_markup, "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>")  # noqa
+        GLib.idle_add(
+            self.cc.set_markup,
+            "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>",
+        )  # noqa
         GLib.idle_add(self.button8.set_sensitive, False)
-        subprocess.run(["pkexec", "/usr/bin/reflector", "--age", "6", "--latest", "21", "--fastest", "21", "--threads", "21", "--sort", "rate", "--protocol", "https", "--save", "/etc/pacman.d/mirrorlist"], shell=False)
+        subprocess.run(
+            [
+                "pkexec",
+                "/usr/bin/reflector",
+                "--age",
+                "6",
+                "--latest",
+                "21",
+                "--fastest",
+                "21",
+                "--threads",
+                "21",
+                "--sort",
+                "rate",
+                "--protocol",
+                "https",
+                "--save",
+                "/etc/pacman.d/mirrorlist",
+            ],
+            shell=False,
+        )
         print("FINISHED!!!")
         GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
         GLib.idle_add(self.button8.set_sensitive, True)
 
-    #def btrfs_update(self):
+    # def btrfs_update(self):
     #    if GUI.DEBUG:
     #        path = "/home/bheffernan/Repos/GITS/XFCE/hefftor-calamares-oem-config/calamares/modules/partition.conf"
     #    else:
@@ -272,49 +418,60 @@ Do you want to install it?")
     #     GLib.idle_add(self.button8.set_sensitive, True)
 
     def MessageBox(self, title, message):
-        md = Gtk.MessageDialog(parent=self,
-                               flags=0,
-                               message_type=Gtk.MessageType.INFO,
-                               buttons=Gtk.ButtonsType.OK,
-                               text=title)
+        md = Gtk.MessageDialog(
+            parent=self,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text=title,
+        )
         md.format_secondary_markup(message)
         md.run()
         md.destroy()
 
-
     def installATT(self):
-        subprocess.call(["pkexec",
-                         "/usr/bin/pacman",
-                         "-S",
-                         "archlinux-tweak-tool-git",
-                         "--noconfirm"], shell=False)
-        GLib.idle_add(self.MessageBox,
-                      "Success!",
-                      "<b>ArcoLinux Tweak Tool</b> has been installed successfully")  # noqa
+        subprocess.call(
+            [
+                "pkexec",
+                "/usr/bin/pacman",
+                "-S",
+                "archlinux-tweak-tool-git",
+                "--noconfirm",
+            ],
+            shell=False,
+        )
+        GLib.idle_add(
+            self.MessageBox,
+            "Success!",
+            "<b>ArcoLinux Tweak Tool</b> has been installed successfully",
+        )  # noqa
+
     # def get_message(self, title, message):
     #     t = threading.Thread(target=self.fetch_notice,
+
+
 #                              args=(title, message,))
-    #     t.daemon = True
-    #     t.start()
-    #     t.join()
+#     t.daemon = True
+#     t.start()
+#     t.join()
 
-    # def fetch_notice(self, title, message):
-    #     try:
-    #         url = 'https://bradheff.github.io/notice/notice'
-    #         req = requests.get(url, verify=True, timeout=1)
+# def fetch_notice(self, title, message):
+#     try:
+#         url = 'https://bradheff.github.io/notice/notice'
+#         req = requests.get(url, verify=True, timeout=1)
 
-    #         if req.status_code == requests.codes.ok:
-    #             if not len(req.text) <= 1:
-    #                 title.set_markup(
-    #                 "<big><b><u>Notice</u></b></big>")
-    #                 message.set_markup(req.text)
-    #                 self.results = True
-    #             else:
-    #                 self.results = False
-    #         else:
-    #             self.results = False
-    #     except:
-    #         self.results = False
+#         if req.status_code == requests.codes.ok:
+#             if not len(req.text) <= 1:
+#                 title.set_markup(
+#                 "<big><b><u>Notice</u></b></big>")
+#                 message.set_markup(req.text)
+#                 self.results = True
+#             else:
+#                 self.results = False
+#         else:
+#             self.results = False
+#     except:
+#         self.results = False
 
 
 if __name__ == "__main__":
