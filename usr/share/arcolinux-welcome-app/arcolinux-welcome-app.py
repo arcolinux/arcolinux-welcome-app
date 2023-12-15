@@ -65,20 +65,22 @@ class Main(Gtk.Window):
         )
         t.daemon = True
         t.start()
-        # t = threading.Thread(
-        #     target=self.run_app,
-        #     args=(
-        #         [
-        #             "sudo",
-        #             "cp",
-        #             "/etc/calamares/modules/packages-no-system-update.conf",
-        #             "/etc/calamares/modules/packages.conf",
-        #         ],
-        #     ),
-        # )
-        # t.daemon = True
-        # t.start()
-        subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
+
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/usr/local/bin/arcolinux-systemd-empty",
+                    "/usr/local/bin/arcolinux-systemd-dummy",
+                ],
+            ),
+        )
+        t.daemon = True
+        t.start()
+
+        # subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
 
     def on_systemboot_clicked(self, widget):
         t = threading.Thread(
@@ -89,6 +91,20 @@ class Main(Gtk.Window):
                     "cp",
                     "/etc/calamares/modules/bootloader-systemd.conf",
                     "/etc/calamares/modules/bootloader.conf",
+                ],
+            ),
+        )
+        t.daemon = True
+        t.start()
+
+        t = threading.Thread(
+            target=self.run_app,
+            args=(
+                [
+                    "sudo",
+                    "cp",
+                    "/usr/local/bin/arcolinux-systemd-boot",
+                    "/usr/local/bin/arcolinux-systemd-dummy",
                 ],
             ),
         )
@@ -107,7 +123,7 @@ class Main(Gtk.Window):
         # )
         # t.daemon = True
         # t.start()
-        subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
+        # subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
 
     def on_ai_clicked(self, widget):
         t = threading.Thread(
