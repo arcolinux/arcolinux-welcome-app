@@ -80,7 +80,7 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-        # subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
+        subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
 
     def on_systemboot_clicked(self, widget):
         t = threading.Thread(
@@ -110,20 +110,8 @@ class Main(Gtk.Window):
         )
         t.daemon = True
         t.start()
-        # t = threading.Thread(
-        #     target=self.run_app,
-        #     args=(
-        #         [
-        #             "sudo",
-        #             "cp",
-        #             "/etc/calamares/modules/packages-system-update.conf",
-        #             "/etc/calamares/modules/packages.conf",
-        #         ],
-        #     ),
-        # )
-        # t.daemon = True
-        # t.start()
-        # subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
+
+        subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
 
     def on_ai_clicked(self, widget):
         t = threading.Thread(
