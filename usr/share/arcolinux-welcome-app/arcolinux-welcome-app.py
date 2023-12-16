@@ -66,22 +66,6 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/usr/local/bin/arcolinux-systemd-empty",
-                    "/usr/local/bin/arcolinux-systemd-dummy",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-
-        subprocess.Popen(["rm", "-f", "/tmp/systemd-boot"], shell=False)
-
     def on_systemboot_clicked(self, widget):
         t = threading.Thread(
             target=self.run_app,
@@ -96,22 +80,6 @@ class Main(Gtk.Window):
         )
         t.daemon = True
         t.start()
-
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/usr/local/bin/arcolinux-systemd-boot",
-                    "/usr/local/bin/arcolinux-systemd-dummy",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-
-        subprocess.Popen(["touch", "/tmp/systemd-boot"], shell=False)
 
     def on_ai_clicked(self, widget):
         t = threading.Thread(
