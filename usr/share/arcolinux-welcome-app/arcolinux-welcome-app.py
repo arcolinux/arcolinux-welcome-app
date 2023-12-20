@@ -14,6 +14,7 @@ import webbrowser
 import shutil
 import socket
 from time import sleep
+from queue import Queue
 
 gi.require_version("Gtk", "3.0")
 gi.require_version("Wnck", "3.0")
@@ -36,170 +37,527 @@ class Main(Gtk.Window):
                 f.write("autostart=True")
                 f.close()
 
+        # a queue to store package install progress
+        self.pkg_queue = Queue()
+
+        # default pacman lockfile
+        self.pacman_lockfile = "/var/lib/pacman/db.lck"
+
+        # get the username of the user running the welcome app
+        self.sudo_username = os.getlogin()
+
         GUI.GUI(self, Gtk, GdkPixbuf)
 
         if GUI.username == GUI.user:
-            t = threading.Thread(target=self.internet_notifier, args=())
-            t.daemon = True
-            t.start()
+            threading.Thread(
+                target=self.internet_notifier, args=(), daemon=True
+            ).start()
 
     def on_mirror_clicked(self, widget):
-        t = threading.Thread(target=self.mirror_update)
-        t.daemon = True
-        t.start()
+        threading.Thread(target=self.mirror_update, daemon=True).start()
 
     def on_update_clicked(self, widget):
         print("Clicked")
 
     def on_grub_clicked(self, widget):
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/modules/bootloader-grub.conf",
-                    "/etc/calamares/modules/bootloader.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
+        if not os.path.exists(self.pacman_lockfile):
+            bootloader_file = "/etc/calamares/modules/bootloader-grub.conf"
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                bootloader_file,
+                "/etc/calamares/modules/bootloader.conf",
+            ]
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+        else:
+            print(
+                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile
+            )
+            md = Gtk.MessageDialog(
+                parent=self,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile,
+                title="Warning",
+            )
+            md.run()
+            md.destroy()
 
     def on_systemboot_clicked(self, widget):
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/modules/bootloader-systemd.conf",
-                    "/etc/calamares/modules/bootloader.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
+        if not os.path.exists(self.pacman_lockfile):
+            bootloader_file = "/etc/calamares/modules/bootloader-systemd.conf"
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                bootloader_file,
+                "/etc/calamares/modules/bootloader.conf",
+            ]
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+        else:
+            print(
+                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile
+            )
+            md = Gtk.MessageDialog(
+                parent=self,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile,
+                title="Warning",
+            )
+            md.run()
+            md.destroy()
 
     def on_ai_clicked(self, widget):
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/settings-beginner.conf",
-                    "/etc/calamares/settings.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/modules/packages-no-system-update.conf",
-                    "/etc/calamares/modules/packages.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-        subprocess.Popen(["/usr/bin/calamares_polkit", "-d"], shell=False)
+        if not os.path.exists(self.pacman_lockfile):
+            settings_beginner_file = "/etc/calamares/settings-beginner.conf"
+            packages_no_sys_update_file = (
+                "/etc/calamares/modules/packages-no-system-update.conf"
+            )
+            clamares_polkit = "/usr/bin/calamares_polkit"
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                settings_beginner_file,
+                "/etc/calamares/settings.conf",
+            ]
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                packages_no_sys_update_file,
+                "/etc/calamares/modules/packages.conf",
+            ]
+
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+            subprocess.Popen([clamares_polkit, "-d"], shell=False)
+        else:
+            print(
+                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile
+            )
+            md = Gtk.MessageDialog(
+                parent=self,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile,
+                title="Warning",
+            )
+            md.run()
+            md.destroy()
 
     def on_aica_clicked(self, widget):
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/settings-advanced.conf",
-                    "/etc/calamares/settings.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-        t = threading.Thread(
-            target=self.run_app,
-            args=(
-                [
-                    "sudo",
-                    "cp",
-                    "/etc/calamares/modules/packages-system-update.conf",
-                    "/etc/calamares/modules/packages.conf",
-                ],
-            ),
-        )
-        t.daemon = True
-        t.start()
-        subprocess.Popen(["/usr/bin/calamares_polkit", "-d"], shell=False)
+        if not os.path.exists(self.pacman_lockfile):
+            settings_adv_file = "/etc/calamares/settings-advanced.conf"
+            system_update_file = "/etc/calamares/modules/packages-system-update.conf"
+            clamares_polkit = "/usr/bin/calamares_polkit"
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                "/etc/calamares/settings-advanced.conf",
+                "/etc/calamares/settings.conf",
+            ]
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            app_cmd = [
+                "sudo",
+                "cp",
+                system_update_file,
+                "/etc/calamares/modules/packages.conf",
+            ]
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            subprocess.Popen([clamares_polkit, "-d"], shell=False)
+        else:
+            print(
+                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile
+            )
+            md = Gtk.MessageDialog(
+                parent=self,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK,
+                text="Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile,
+                title="Warning",
+            )
+            md.run()
+            md.destroy()
 
     def on_gp_clicked(self, widget):
-        t = threading.Thread(target=self.run_app, args=(["/usr/bin/gparted"],))
-        t.daemon = True
-        t.start()
+        app_cmd = ["/usr/bin/gparted"]
+        pacman_cmd = [
+            "sudo",
+            "pacman",
+            "-Sy",
+            "gparted",
+            "--noconfirm",
+            "--needed",
+        ]
+        if not self.check_package_installed("gparted"):
+            if not os.path.exists(self.pacman_lockfile):
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.NONE,
+                    text="%s was not found" % "gparted",
+                    title="Warning",
+                )
+                md.add_buttons("Yes", 1)
+                md.add_buttons("No", 0)
+                md.format_secondary_markup("Would you like to install it ?")
+                response = md.run()
+                md.destroy()
+
+                if response == 1:
+                    threading.Thread(
+                        target=self.check_package_queue, daemon=True
+                    ).start()
+                    threading.Thread(
+                        target=self.install_package,
+                        args=(
+                            app_cmd,
+                            pacman_cmd,
+                            "gparted",
+                        ),
+                        daemon=True,
+                    ).start()
+            else:
+                print(
+                    "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile
+                )
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile,
+                    title="Warning",
+                )
+                md.run()
+                md.destroy()
+        else:
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
     def on_buttonatt_clicked(self, widget):
-        t = threading.Thread(
-            target=self.run_app, args=(["/usr/bin/archlinux-tweak-tool"],)
-        )
-        t.daemon = True
-        t.start()
+        app_cmd = [
+            "sudo",
+            "-u",
+            self.sudo_username,
+            "/usr/bin/archlinux-tweak-tool",
+        ]
+        pacman_cmd = [
+            "sudo",
+            "pacman",
+            "-Sy",
+            "archlinux-tweak-tool-git",
+            "--noconfirm",
+            "--needed",
+        ]
+
+        dev_package = "archlinux-tweak-tool-dev-git"
+
+        if self.check_package_installed(dev_package):
+            print("[WARN]: %s package found ..removing it" % dev_package)
+            self.remove_dev_package(
+                ["sudo", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
+            )
+
+        if not self.check_package_installed("archlinux-tweak-tool-git"):
+            if not os.path.exists(self.pacman_lockfile):
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.NONE,
+                    text="%s was not found" % "Arch Linux Tweak Tool",
+                    title="Warning",
+                )
+                md.add_buttons("Yes", 1)
+                md.add_buttons("No", 0)
+                md.format_secondary_markup("Would you like to install it ?")
+                response = md.run()
+                md.destroy()
+
+                if response == 1:
+                    threading.Thread(
+                        target=self.check_package_queue, daemon=True
+                    ).start()
+                    threading.Thread(
+                        target=self.install_package,
+                        args=(
+                            app_cmd,
+                            pacman_cmd,
+                            "archlinux-tweak-tool-git",
+                        ),
+                        daemon=True,
+                    ).start()
+            else:
+                print(
+                    "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile
+                )
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile,
+                    title="Warning",
+                )
+                md.run()
+                md.destroy()
+        else:
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
     def check_package_installed(self, package):
+        pacman_cmd = ["pacman", "-Qi", package]
         try:
-            subprocess.check_output(
-                "pacman -Qi " + package, shell=True, stderr=subprocess.STDOUT
+            process = subprocess.run(
+                pacman_cmd,
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
             )
-            # package is installed
-            return True
+
+            if process.returncode == 0:
+                # package is installed
+                return True
+            else:
+                return False
         except subprocess.CalledProcessError as e:
             # package is not installed
             return False
 
     def on_buttonarandr_clicked(self, widget):
+        app_cmd = ["/usr/bin/arandr"]
+        pacman_cmd = [
+            "sudo",
+            "pacman",
+            "-Sy",
+            "arandr",
+            "--noconfirm",
+            "--needed",
+        ]
+
         if not self.check_package_installed("arandr"):
-            install = "pacman -S arandr --noconfirm"
-            subprocess.call(
-                install.split(" "),
-                shell=False,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-            )
-            t = threading.Thread(target=self.run_app, args=(["/usr/bin/arandr"],))
-            t.daemon = True
-            t.start()
+            if not os.path.exists(self.pacman_lockfile):
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.NONE,
+                    text="%s was not found\n" % "arandr",
+                    title="Warning",
+                )
+                md.add_buttons("Yes", 1)
+                md.add_buttons("No", 0)
+                md.format_secondary_markup("Would you like to install it ?")
+                response = md.run()
+                md.destroy()
+
+                if response == 1:
+                    threading.Thread(
+                        target=self.check_package_queue, daemon=True
+                    ).start()
+                    threading.Thread(
+                        target=self.install_package,
+                        args=(
+                            app_cmd,
+                            pacman_cmd,
+                            "arandr",
+                        ),
+                        daemon=True,
+                    ).start()
+            else:
+                print(
+                    "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile
+                )
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile,
+                    title="Warning",
+                )
+                md.run()
+                md.destroy()
+
         else:
-            t = threading.Thread(target=self.run_app, args=(["/usr/bin/arandr"],))
-            t.daemon = True
-            t.start()
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
-    def on_buttonpamac_clicked(self, widget):
+    def on_button_sofi_clicked(self, widget):
+        app_cmd = ["sudo", "-u", self.sudo_username, "/usr/bin/sofirem"]
+        pacman_cmd = [
+            "sudo",
+            "pacman",
+            "-Sy",
+            "sofirem-git",
+            "--noconfirm",
+            "--needed",
+        ]
+
+        dev_package = "sofirem-dev-git"
+
+        if self.check_package_installed(dev_package):
+            print("[WARN]: %s package found ..removing it" % dev_package)
+            self.remove_dev_package(
+                ["sudo", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
+            )
+
         if not self.check_package_installed("sofirem-git"):
-            install = "pacman -S sofirem-git --noconfirm"
-            subprocess.call(
-                install.split(" "),
-                shell=False,
+            if not os.path.exists(self.pacman_lockfile):
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.NONE,
+                    text="%s was not found" % "Sofirem",
+                    title="Warning",
+                )
+                md.add_buttons("Yes", 1)
+                md.add_buttons("No", 0)
+                md.format_secondary_markup("Would you like to install it ?")
+                response = md.run()
+                md.destroy()
+
+                if response == 1:
+                    threading.Thread(
+                        target=self.check_package_queue, daemon=True
+                    ).start()
+                    threading.Thread(
+                        target=self.install_package,
+                        args=(
+                            app_cmd,
+                            pacman_cmd,
+                            "sofirem-git",
+                        ),
+                        daemon=True,
+                    ).start()
+            else:
+                print(
+                    "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile
+                )
+                md = Gtk.MessageDialog(
+                    parent=self,
+                    flags=0,
+                    message_type=Gtk.MessageType.WARNING,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Pacman lockfile found %s, is another pacman process running ?"
+                    % self.pacman_lockfile,
+                    title="Warning",
+                )
+                md.run()
+                md.destroy()
+        else:
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+    def check_package_queue(self):
+        while True:
+            items = self.pkg_queue.get()
+
+            if items is not None:
+                status, app_cmd, package = items
+                try:
+                    if status == 0:
+                        print("[INFO]: Launching application")
+                        self.run_app(app_cmd)
+
+                    if status == 1:
+                        print("[ERROR]: Package %s install failed" % package)
+                        break
+
+                    sleep(0.2)
+                except Exception as e:
+                    print("[ERROR]: Exception in check_package_queue(): %s" % e)
+                finally:
+                    self.pkg_queue.task_done()
+
+    def remove_dev_package(self, pacman_cmd, package):
+        try:
+            with subprocess.Popen(
+                pacman_cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-            )
-            t = threading.Thread(target=self.run_app, args=(["/usr/bin/sofirem"],))
-            t.daemon = True
-            t.start()
+                bufsize=1,
+                universal_newlines=True,
+            ) as process:
+                while True:
+                    if process.poll() is not None:
+                        break
 
-        t = threading.Thread(target=self.run_app, args=(["/usr/bin/sofirem"],))
-        t.daemon = True
-        t.start()
+                    for line in process.stdout:
+                        print(line.strip())
 
-    def run_app(self, command):
-        subprocess.call(
-            command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+                if not self.check_package_installed(package):
+                    print("[INFO]: Pacman %s uninstall completed" % package)
+                else:
+                    print("[ERROR]: Pacman %s uninstall failed" % package)
+
+        except Exception as e:
+            print("[ERROR]: Exception in remove_dev_package(): %s" % e)
+
+    def install_package(self, app_cmd, pacman_cmd, package):
+        try:
+            with subprocess.Popen(
+                pacman_cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                bufsize=1,
+                universal_newlines=True,
+            ) as process:
+                while True:
+                    if process.poll() is not None:
+                        break
+
+                    for line in process.stdout:
+                        print(line.strip())
+
+                if self.check_package_installed(package):
+                    self.pkg_queue.put((0, app_cmd, package))
+                    print("[INFO]: Pacman package install completed")
+                else:
+                    self.pkg_queue.put((1, app_cmd, package))
+                    print("[ERROR]: Pacman package install failed")
+
+        except Exception as e:
+            print("[ERROR]: Exception in install_package(): %s" % e)
+        finally:
+            self.pkg_queue.put(None)
+
+    def run_app(self, app_cmd):
+        process = subprocess.run(
+            app_cmd,
+            shell=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
         )
+        # for debugging print stdout to console
+        if GUI.DEBUG is True:
+            print(process.stdout)
 
     def statup_toggle(self, widget):
         if widget.get_active() is True:
@@ -265,11 +623,9 @@ class Main(Gtk.Window):
 
     def on_launch_clicked(self, widget, event, link):
         if os.path.isfile("/usr/bin/archlinux-tweak-tool"):
-            t = threading.Thread(
-                target=self.run_app, args=("/usr/bin/archlinux-tweak-tool",)
-            )
-            t.daemon = True
-            t.start()
+            self.app_cmd = "/usr/bin/archlinux-tweak-tool"
+            threading.Thread(target=self.run_app, daemon=True).start()
+
         else:
             md = Gtk.MessageDialog(
                 parent=self,
