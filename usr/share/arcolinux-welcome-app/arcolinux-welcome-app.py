@@ -410,7 +410,7 @@ class Main(Gtk.Window):
     def on_button_sofi_clicked(self, widget):
         app_cmd = ["sudo", "-u", self.sudo_username, "/usr/bin/sofirem"]
         pacman_cmd = [
-            "sudo",
+            "pkexec",
             "pacman",
             "-Sy",
             "sofirem-git",
