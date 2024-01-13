@@ -18,6 +18,7 @@ app_discord = "https://discord.gg/stBhS4taje"
 app_website = "https://arcolinux.info"
 app_forums = "https://www.arcolinuxforum.com"
 app_telegram = "https://t.me/arcolinux_d_b"
+app_youtube = "https://www.youtube.com/erikdubois"
 
 if debug:
     user = username
@@ -122,6 +123,11 @@ def GUI(self, Gtk, GdkPixbuf):
     label_telegram = Gtk.Label(xalign=0, yalign=0)
     label_telegram.set_markup(
         "<a href='%s' title='%s'>%s</a>" % (app_telegram, app_telegram, "Telegram")
+    )
+
+    label_youtube = Gtk.Label(xalign=0, yalign=0)
+    label_youtube.set_markup(
+        "<a href='%s' title='%s'>%s</a>" % (app_youtube, app_youtube, "Youtube")
     )
 
     label_forums = Gtk.Label(xalign=0, yalign=0)
@@ -342,6 +348,7 @@ def GUI(self, Gtk, GdkPixbuf):
         desc2 = (
             f"We communicate with our community via a diversity of social media.\n"
             f"Do join us to learn the latest news, ask questions or for casual talk.\n"
+            f"Join us <b> <a href='{app_youtube}' title='{app_youtube}'>Youtube</a></b> as we communicate and teach via our Youtube channel.\n"
             f"<b> <a href='{app_telegram}' title='{app_telegram}'>Telegram</a></b> is for chitchat - <b> <a href='{app_discord}' title='{app_discord}'>Discord</a></b> is for assistance.\n"
             f"We have a <b> <a href='{app_forums}' title='{app_forums}'>Forum</a></b> for the longer and more technical questions.\n\n"
         )
@@ -353,6 +360,7 @@ def GUI(self, Gtk, GdkPixbuf):
         desc = (
             f"We communicate with our community via a diversity of social media.\n"
             f"Do join us to learn the latest news, ask questions or for casual talk.\n"
+            f"Join us <b> <a href='{app_youtube}' title='{app_youtube}'>Youtube</a></b> as we communicate and teach via our Youtube channel.\n"
             f"<b> <a href='{app_telegram}' title='{app_telegram}'>Telegram</a></b> is for chitchat - <b> <a href='{app_discord}' title='{app_discord}'>Discord</a></b> is for assistance.\n"
             f"We have a <b> <a href='{app_forums}' title='{app_forums}'>Forum</a></b> for the longer and more technical questions.\n\n"
         )
