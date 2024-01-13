@@ -4,23 +4,61 @@
 # =================================================================
 import gi
 import os
-import GUI
-import conflicts
+
+# import conflicts
+# import sys
 
 # import wnck
 import subprocess
 import threading
-import webbrowser
 import shutil
 import socket
 from time import sleep
 from queue import Queue
 
-gi.require_version("Gtk", "3.0")
-gi.require_version("Wnck", "3.0")
-from gi.repository import Gtk, GdkPixbuf, GLib, Wnck  # noqa
+import ui.GUI as GUI
+from ui.MessageDialog import MessageDialogBootloader
+from ui.MessageDialog import MessageDialog
 
+gi.require_version("Gtk", "3.0")
+# gi.require_version("Wnck", "3.0")
+from gi.repository import Gtk, GdkPixbuf, GLib, Gdk  # Wnck
+
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 REMOTE_SERVER = "www.google.com"
+css = """
+box#stack_box{
+    padding: 10px 10px 10px 10px;
+}
+button#button_grub_boot_enabled{
+     font-weight: bold;
+     background-color: @theme_base_color_button;
+}
+button#button_systemd_boot_enabled{
+     font-weight: bold;
+     background-color: @theme_base_color_button;
+}
+button#button_easy_install_enabled{
+     font-weight: bold;
+     background-color: @theme_base_color_button;
+}
+button#button_adv_install_enabled{
+     font-weight: bold;
+     background-color: @theme_base_color_button;
+}
+label#label_style {
+    background-color: @theme_base_color;
+    border-top: 1px solid @borders;
+    border-bottom: 1px solid @borders;
+    border-left: 1px solid @borders;
+    border-right: 1px solid @borders;
+    padding: 10px 10px 10px 10px;
+    border-radius: 100px;
+    font-weight: bold;
+    color: #fcfcfc;
+    font-family: 'Open Sans', 'Helvetica', sans-serif;
+}
+"""
 
 
 class Main(Gtk.Window):
@@ -28,14 +66,24 @@ class Main(Gtk.Window):
         super(Main, self).__init__(title="ArcoLinux Welcome App")
         self.set_border_width(10)
         self.set_default_size(860, 250)
-        self.set_icon_from_file(os.path.join(GUI.base_dir, "images/arcolinux.png"))
+        self.set_icon_from_file(os.path.join(base_dir, "images/arcolinux.png"))
         self.set_position(Gtk.WindowPosition.CENTER)
         self.results = ""
+
         if not os.path.exists(GUI.home + "/.config/arcolinux-welcome-app/"):
             os.mkdir(GUI.home + "/.config/arcolinux-welcome-app/")
             with open(GUI.Settings, "w") as f:
                 f.write("autostart=True")
                 f.close()
+
+        self.style_provider = Gtk.CssProvider()
+        self.style_provider.load_from_data(css, len(css))
+
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            self.style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+        )
 
         # a queue to store package install progress
         self.pkg_queue = Queue()
@@ -46,6 +94,12 @@ class Main(Gtk.Window):
         # get the username of the user running the welcome app
         self.sudo_username = os.getlogin()
 
+        self.calamares_polkit = "/usr/bin/calamares_polkit"
+
+        self.session = None
+
+        self.get_session()
+
         GUI.GUI(self, Gtk, GdkPixbuf)
 
         if GUI.username == GUI.user:
@@ -53,75 +107,67 @@ class Main(Gtk.Window):
                 target=self.internet_notifier, args=(), daemon=True
             ).start()
 
+    # returns the login session
+    def get_session(self):
+        try:
+            self.session = os.environ.get("XDG_SESSION_TYPE")
+        except Exception as e:
+            print("Exception in get_session(): %s" % e)
+
+    def on_settings_clicked(self, widget):
+        self.toggle_popover()
+
+    def toggle_popover(self):
+        if self.popover.get_visible():
+            self.popover.hide()
+        else:
+            self.popover.show_all()
+
+    # check if path exists
+    # used to check if /sys/firmware/efi/fw_platform_size exists
+    # if yes then display systemd-boot bootloader install option
+    def file_check(self, path):
+        if os.path.isfile(path):
+            return True
+
+        return False
+
     def on_mirror_clicked(self, widget):
         threading.Thread(target=self.mirror_update, daemon=True).start()
 
     def on_update_clicked(self, widget):
         print("Clicked")
 
-    def on_grub_clicked(self, widget):
+    def convert_to_hex(self, rgba_color):
+        red = int(rgba_color.red * 255)
+        green = int(rgba_color.green * 255)
+        blue = int(rgba_color.blue * 255)
+        return "#{r:02x}{g:02x}{b:02x}".format(r=red, g=green, b=blue)
+
+    # offline install option
+    def on_easy_install_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
-            bootloader_file = "/etc/calamares/modules/bootloader-grub.conf"
-
-            app_cmd = [
-                "sudo",
-                "cp",
-                bootloader_file,
-                "/etc/calamares/modules/bootloader.conf",
-            ]
-            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
-        else:
-            print(
-                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
-                % self.pacman_lockfile
+            widget.set_name("button_easy_install_enabled")
+            widget.get_child().set_markup(
+                "<span size='large'><b>Easy Installation (Offline)</b></span>"
             )
-            md = Gtk.MessageDialog(
-                parent=self,
-                flags=0,
-                message_type=Gtk.MessageType.WARNING,
-                buttons=Gtk.ButtonsType.OK,
-                text="Pacman lockfile found %s, is another pacman process running ?"
-                % self.pacman_lockfile,
-                title="Warning",
+            # DEPRECATED NOTICE: get_style_context deprecated in gtk 4.10 and will be removed in gtk 5.0
+            selected_bg_color = widget.get_style_context().lookup_color(
+                "theme_selected_bg_color"
             )
-            md.run()
-            md.destroy()
+            if selected_bg_color[0] is True:
+                theme_bg_hex_color = self.convert_to_hex(selected_bg_color[1])
 
-    def on_systemboot_clicked(self, widget):
-        if not os.path.exists(self.pacman_lockfile):
-            bootloader_file = "/etc/calamares/modules/bootloader-systemd.conf"
+                custom_css = css.replace("@theme_base_color_button", theme_bg_hex_color)
 
-            app_cmd = [
-                "sudo",
-                "cp",
-                bootloader_file,
-                "/etc/calamares/modules/bootloader.conf",
-            ]
-            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
-        else:
-            print(
-                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
-                % self.pacman_lockfile
-            )
-            md = Gtk.MessageDialog(
-                parent=self,
-                flags=0,
-                message_type=Gtk.MessageType.WARNING,
-                buttons=Gtk.ButtonsType.OK,
-                text="Pacman lockfile found %s, is another pacman process running ?"
-                % self.pacman_lockfile,
-                title="Warning",
-            )
-            md.run()
-            md.destroy()
+                self.style_provider.load_from_data(custom_css, len(custom_css))
 
-    def on_ai_clicked(self, widget):
-        if not os.path.exists(self.pacman_lockfile):
+            self.button_adv_install.set_name("button_adv_install")
+
             settings_beginner_file = "/etc/calamares/settings-beginner.conf"
             packages_no_sys_update_file = (
                 "/etc/calamares/modules/packages-no-system-update.conf"
             )
-            clamares_polkit = "/usr/bin/calamares_polkit"
 
             app_cmd = [
                 "sudo",
@@ -139,7 +185,21 @@ class Main(Gtk.Window):
             ]
 
             threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
-            subprocess.Popen([clamares_polkit, "-d"], shell=False)
+
+            efi_file_check = self.file_check("/sys/firmware/efi/fw_platform_size")
+
+            if efi_file_check is True:
+                md = MessageDialogBootloader(
+                    title="Select bootloader to install",
+                    install_method="Easy installation (offline)",
+                    pacman_lockfile=self.pacman_lockfile,
+                    run_app=self.run_app,
+                    calamares_polkit=self.calamares_polkit,
+                )
+                md.show_all()
+
+            else:
+                subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
         else:
             print(
                 "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
@@ -157,11 +217,29 @@ class Main(Gtk.Window):
             md.run()
             md.destroy()
 
-    def on_aica_clicked(self, widget):
+    # online install option
+    def on_adv_install_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
+            widget.set_name("button_adv_install_enabled")
+            widget.get_child().set_markup(
+                "<span size='large'><b>Advanced Installation (Online)</b></span>"
+            )
+
+            # DEPRECATED NOTICE: get_style_context deprecated in gtk 4.10 and will be removed in gtk 5.0
+            selected_bg_color = widget.get_style_context().lookup_color(
+                "theme_selected_bg_color"
+            )
+            if selected_bg_color[0] is True:
+                theme_bg_hex_color = self.convert_to_hex(selected_bg_color[1])
+
+                custom_css = css.replace("@theme_base_color_button", theme_bg_hex_color)
+
+                self.style_provider.load_from_data(custom_css, len(custom_css))
+
+            self.button_easy_install.set_name("button_easy_install")
+
             settings_adv_file = "/etc/calamares/settings-advanced.conf"
             system_update_file = "/etc/calamares/modules/packages-system-update.conf"
-            clamares_polkit = "/usr/bin/calamares_polkit"
 
             app_cmd = [
                 "sudo",
@@ -177,9 +255,24 @@ class Main(Gtk.Window):
                 system_update_file,
                 "/etc/calamares/modules/packages.conf",
             ]
+
             threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
-            subprocess.Popen([clamares_polkit, "-d"], shell=False)
+            efi_file_check = self.file_check("/sys/firmware/efi/fw_platform_size")
+
+            if efi_file_check is True:
+                md = MessageDialogBootloader(
+                    title="Select bootloader to install",
+                    install_method="Advanced installation (Online)",
+                    pacman_lockfile=self.pacman_lockfile,
+                    run_app=self.run_app,
+                    calamares_polkit=self.calamares_polkit,
+                )
+                md.show_all()
+
+            else:
+                subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
+
         else:
             print(
                 "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
@@ -200,7 +293,7 @@ class Main(Gtk.Window):
     def on_gp_clicked(self, widget):
         app_cmd = ["/usr/bin/gparted"]
         pacman_cmd = [
-            "sudo",
+            "pkexec",
             "pacman",
             "-Sy",
             "gparted",
@@ -257,13 +350,10 @@ class Main(Gtk.Window):
 
     def on_buttonatt_clicked(self, widget):
         app_cmd = [
-            "sudo",
-            "-u",
-            self.sudo_username,
             "/usr/bin/archlinux-tweak-tool",
         ]
         pacman_cmd = [
-            "sudo",
+            "pkexec",
             "pacman",
             "-Sy",
             "archlinux-tweak-tool-git",
@@ -276,26 +366,21 @@ class Main(Gtk.Window):
         if self.check_package_installed(dev_package):
             print("[WARN]: %s package found ..removing it" % dev_package)
             self.remove_dev_package(
-                ["sudo", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
+                ["pkexec", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
             )
 
         if not self.check_package_installed("archlinux-tweak-tool-git"):
             if not os.path.exists(self.pacman_lockfile):
-                md = Gtk.MessageDialog(
-                    parent=self,
-                    flags=0,
-                    message_type=Gtk.MessageType.WARNING,
-                    buttons=Gtk.ButtonsType.NONE,
-                    text="%s was not found" % "Arch Linux Tweak Tool",
-                    title="Warning",
+                md = MessageDialog(
+                    title="Install Package",
+                    message="<b>Arch Linux Tweak Tool</b> is missing, would you like to install it ?",
                 )
-                md.add_buttons("Yes", 1)
-                md.add_buttons("No", 0)
-                md.format_secondary_markup("Would you like to install it ?")
-                response = md.run()
+
+                md.show_all()
+                md.run()
                 md.destroy()
 
-                if response == 1:
+                if md.response is True:
                     threading.Thread(
                         target=self.check_package_queue, daemon=True
                     ).start()
@@ -350,7 +435,7 @@ class Main(Gtk.Window):
     def on_buttonarandr_clicked(self, widget):
         app_cmd = ["/usr/bin/arandr"]
         pacman_cmd = [
-            "sudo",
+            "pkexec",
             "pacman",
             "-Sy",
             "arandr",
@@ -408,7 +493,7 @@ class Main(Gtk.Window):
             threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
     def on_button_sofi_clicked(self, widget):
-        app_cmd = ["sudo", "-u", self.sudo_username, "/usr/bin/sofirem"]
+        app_cmd = ["/usr/bin/sofirem"]
         pacman_cmd = [
             "pkexec",
             "pacman",
@@ -423,26 +508,21 @@ class Main(Gtk.Window):
         if self.check_package_installed(dev_package):
             print("[WARN]: %s package found ..removing it" % dev_package)
             self.remove_dev_package(
-                ["sudo", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
+                ["pkexec", "pacman", "-Rs", dev_package, "--noconfirm"], dev_package
             )
 
         if not self.check_package_installed("sofirem-git"):
             if not os.path.exists(self.pacman_lockfile):
-                md = Gtk.MessageDialog(
-                    parent=self,
-                    flags=0,
-                    message_type=Gtk.MessageType.WARNING,
-                    buttons=Gtk.ButtonsType.NONE,
-                    text="%s was not found" % "Sofirem",
-                    title="Warning",
+                md = MessageDialog(
+                    title="Install Package",
+                    message="<b>Sofirem</b> is missing, would you like to install it ?",
                 )
-                md.add_buttons("Yes", 1)
-                md.add_buttons("No", 0)
-                md.format_secondary_markup("Would you like to install it ?")
-                response = md.run()
+
+                md.show_all()
+                md.run()
                 md.destroy()
 
-                if response == 1:
+                if md.response is True:
                     threading.Thread(
                         target=self.check_package_queue, daemon=True
                     ).start()
@@ -497,6 +577,13 @@ class Main(Gtk.Window):
 
     def remove_dev_package(self, pacman_cmd, package):
         try:
+            self.label_notify.set_name("label_style")
+            GLib.idle_add(
+                self.label_notify.set_markup,
+                "<span foreground='orange'><b>Removing dev package %s</b></span>"
+                % package,
+            )
+
             with subprocess.Popen(
                 pacman_cmd,
                 stdout=subprocess.PIPE,
@@ -513,14 +600,40 @@ class Main(Gtk.Window):
 
                 if not self.check_package_installed(package):
                     print("[INFO]: Pacman %s uninstall completed" % package)
+
+                    self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.set_markup,
+                        "<span foreground='orange'><b>Dev package %s removed</b></span>"
+                        % package,
+                    )
                 else:
                     print("[ERROR]: Pacman %s uninstall failed" % package)
+                    self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.set_markup,
+                        "<span foreground='orange'><b>Failed to remove dev package %s</b></span>"
+                        % package,
+                    )
 
         except Exception as e:
             print("[ERROR]: Exception in remove_dev_package(): %s" % e)
+            self.label_notify.set_name("label_style")
+            GLib.idle_add(
+                self.label_notify.set_markup,
+                "<span foreground='orange'><b>Failed to remove dev package %s</b></span>"
+                % package,
+            )
 
     def install_package(self, app_cmd, pacman_cmd, package):
         try:
+            self.label_notify.set_name("label_style")
+
+            GLib.idle_add(
+                self.label_notify.set_markup,
+                "<span foreground='orange'><b>Installing %s</b></span>" % package,
+            )
+
             with subprocess.Popen(
                 pacman_cmd,
                 stdout=subprocess.PIPE,
@@ -538,12 +651,29 @@ class Main(Gtk.Window):
                 if self.check_package_installed(package):
                     self.pkg_queue.put((0, app_cmd, package))
                     print("[INFO]: Pacman package install completed")
+                    self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.set_markup,
+                        "<span foreground='orange'><b>Package %s installed</b></span>"
+                        % package,
+                    )
                 else:
                     self.pkg_queue.put((1, app_cmd, package))
                     print("[ERROR]: Pacman package install failed")
+                    self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.set_markup,
+                        "<span foreground='orange'><b>Package %s install failed</b></span>"
+                        % package,
+                    )
 
         except Exception as e:
             print("[ERROR]: Exception in install_package(): %s" % e)
+            self.label_notify.set_name("label_style")
+            GLib.idle_add(
+                self.label_notify.set_markup,
+                "<span foreground='orange'><b>Package install failed</b></span>",
+            )
         finally:
             self.pkg_queue.put(None)
 
@@ -556,10 +686,10 @@ class Main(Gtk.Window):
             universal_newlines=True,
         )
         # for debugging print stdout to console
-        if GUI.DEBUG is True:
+        if GUI.debug is True:
             print(process.stdout)
 
-    def statup_toggle(self, widget):
+    def startup_toggle(self, widget):
         if widget.get_active() is True:
             if os.path.isfile(GUI.dot_desktop):
                 shutil.copy(GUI.dot_desktop, GUI.autostart)
@@ -594,7 +724,7 @@ class Main(Gtk.Window):
         t.daemon = True
         t.start()
 
-    def on_info_clicked(self, widget, event):
+    def _on_info_clicked(self, widget, event):
         window_list = Wnck.Screen.get_default().get_windows()
         state = False
         for win in window_list:
@@ -605,16 +735,28 @@ class Main(Gtk.Window):
             w.show_all()
 
     def weblink(self, link):
-        webbrowser.open_new_tab(link)
+        # webbrowser.open_new_tab(link)
+        try:
+            # use xdg-open to use the default browser to open the weblink
+            subprocess.Popen(
+                ["xdg-open", link],
+                shell=False,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+        except Exception as e:
+            print("Exception in opening weblink(): %s" % e)
 
     def is_connected(self):
         try:
             host = socket.gethostbyname(REMOTE_SERVER)
             s = socket.create_connection((host, 80), 2)
             s.close()
+
             return True
         except:  # noqa
             pass
+
         return False
 
     def tooltip_callback(self, widget, x, y, keyboard_mode, tooltip, text):
@@ -622,31 +764,42 @@ class Main(Gtk.Window):
         return True
 
     def on_launch_clicked(self, widget, event, link):
+        app_cmd = [
+            "/usr/bin/archlinux-tweak-tool",
+        ]
+        pacman_cmd = [
+            "pkexec",
+            "pacman",
+            "-Sy",
+            "archlinux-tweak-tool-git",
+            "--noconfirm",
+            "--needed",
+        ]
+
         if os.path.isfile("/usr/bin/archlinux-tweak-tool"):
-            self.app_cmd = "/usr/bin/archlinux-tweak-tool"
-            threading.Thread(target=self.run_app, daemon=True).start()
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
         else:
-            md = Gtk.MessageDialog(
-                parent=self,
-                flags=0,
-                message_type=Gtk.MessageType.INFO,
-                buttons=Gtk.ButtonsType.YES_NO,
-                text="Not Found!",
-            )
-            md.format_secondary_markup(
-                "<b>ArcoLinux Tweak Tool</b> was not found on your system\n\
-Do you want to install it?"
+            md = MessageDialog(
+                title="Install Package",
+                message="<b>Arch Linux Tweak Tool</b> is missing, would you like to install it ?",
             )
 
-            result = md.run()
-
+            md.show_all()
+            md.run()
             md.destroy()
 
-            if result in (Gtk.ResponseType.OK, Gtk.ResponseType.YES):
-                t1 = threading.Thread(target=self.installATT, args=())
-                t1.daemon = True
-                t1.start()
+            if md.response is True:
+                threading.Thread(target=self.check_package_queue, daemon=True).start()
+                threading.Thread(
+                    target=self.install_package,
+                    args=(
+                        app_cmd,
+                        pacman_cmd,
+                        "archlinux-tweak-tool-git",
+                    ),
+                    daemon=True,
+                ).start()
 
     def internet_notifier(self):
         bb = 0
@@ -654,15 +807,18 @@ Do you want to install it?"
         while True:
             if not self.is_connected():
                 dis = 1
-                GLib.idle_add(self.button8.set_sensitive, False)
+                GLib.idle_add(self.button_mirrors.set_sensitive, False)
+                self.label_notify.set_name("label_style")
                 GLib.idle_add(
-                    self.cc.set_markup,
-                    "<span foreground='orange'><b><i>Not connected to internet</i></b> \nCalamares will <b>not</b> install additional software</span>",
+                    self.label_notify.set_markup,
+                    f"<span foreground='yellow'><b>Not connected to internet</b>\n"
+                    f"Calamares will <b>not</b> install additional software</span>",
                 )  # noqa
             else:
+                self.label_notify.set_name("")
                 if bb == 0 and dis == 1:
-                    GLib.idle_add(self.button8.set_sensitive, True)
-                    GLib.idle_add(self.cc.set_text, "")
+                    GLib.idle_add(self.button_mirrors.set_sensitive, True)
+                    GLib.idle_add(self.label_notify.set_text, "")
                     bb = 1
             sleep(3)
 
@@ -684,10 +840,11 @@ Do you want to install it?"
 
     def mirror_update(self):
         GLib.idle_add(
-            self.cc.set_markup,
-            "<span foreground='orange'><b><i>Updating your mirrorlist</i></b> \nThis may take some time, please wait...</span>",
+            self.label_notify.set_markup,
+            f"<span foreground='orange'><b>Updating your mirrorlist</b>\n"
+            f"This may take some time, please wait...</span>",
         )  # noqa
-        GLib.idle_add(self.button8.set_sensitive, False)
+        GLib.idle_add(self.button_mirrors.set_sensitive, False)
         subprocess.run(
             [
                 "pkexec",
@@ -709,9 +866,9 @@ Do you want to install it?"
             ],
             shell=False,
         )
-        print("FINISHED!!!")
-        GLib.idle_add(self.cc.set_markup, "<b>DONE</b>")
-        GLib.idle_add(self.button8.set_sensitive, True)
+        print("Update mirrors completed")
+        GLib.idle_add(self.label_notify.set_markup, "<b>Mirrorlist updated</b>")
+        GLib.idle_add(self.button_mirrors.set_sensitive, True)
 
     # def btrfs_update(self):
     #    if GUI.DEBUG:
