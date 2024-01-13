@@ -579,9 +579,15 @@ class Main(Gtk.Window):
         try:
             self.label_notify.set_name("label_style")
             GLib.idle_add(
+                self.label_notify.show,
+            )
+            GLib.idle_add(
                 self.label_notify.set_markup,
                 "<span foreground='orange'><b>Removing dev package %s</b></span>"
                 % package,
+            )
+            GLib.idle_add(
+                self.label_notify.hide,
             )
 
             with subprocess.Popen(
@@ -600,16 +606,24 @@ class Main(Gtk.Window):
 
                 if not self.check_package_installed(package):
                     print("[INFO]: Pacman %s uninstall completed" % package)
-
+                    GLib.idle_add(
+                        self.label_notify.show,
+                    )
                     self.label_notify.set_name("label_style")
                     GLib.idle_add(
                         self.label_notify.set_markup,
                         "<span foreground='orange'><b>Dev package %s removed</b></span>"
                         % package,
                     )
+                    GLib.idle_add(
+                        self.label_notify.hide,
+                    )
                 else:
                     print("[ERROR]: Pacman %s uninstall failed" % package)
                     self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.show,
+                    )
                     GLib.idle_add(
                         self.label_notify.set_markup,
                         "<span foreground='orange'><b>Failed to remove dev package %s</b></span>"
@@ -619,6 +633,9 @@ class Main(Gtk.Window):
         except Exception as e:
             print("[ERROR]: Exception in remove_dev_package(): %s" % e)
             self.label_notify.set_name("label_style")
+            GLib.idle_add(
+                self.label_notify.show,
+            )
             GLib.idle_add(
                 self.label_notify.set_markup,
                 "<span foreground='orange'><b>Failed to remove dev package %s</b></span>"
@@ -653,14 +670,23 @@ class Main(Gtk.Window):
                     print("[INFO]: Pacman package install completed")
                     self.label_notify.set_name("label_style")
                     GLib.idle_add(
+                        self.label_notify.show,
+                    )
+                    GLib.idle_add(
                         self.label_notify.set_markup,
                         "<span foreground='orange'><b>Package %s installed</b></span>"
                         % package,
+                    )
+                    GLib.idle_add(
+                        self.label_notify.hide,
                     )
                 else:
                     self.pkg_queue.put((1, app_cmd, package))
                     print("[ERROR]: Pacman package install failed")
                     self.label_notify.set_name("label_style")
+                    GLib.idle_add(
+                        self.label_notify.show,
+                    )
                     GLib.idle_add(
                         self.label_notify.set_markup,
                         "<span foreground='orange'><b>Package %s install failed</b></span>"
@@ -670,6 +696,9 @@ class Main(Gtk.Window):
         except Exception as e:
             print("[ERROR]: Exception in install_package(): %s" % e)
             self.label_notify.set_name("label_style")
+            GLib.idle_add(
+                self.label_notify.show,
+            )
             GLib.idle_add(
                 self.label_notify.set_markup,
                 "<span foreground='orange'><b>Package install failed</b></span>",
