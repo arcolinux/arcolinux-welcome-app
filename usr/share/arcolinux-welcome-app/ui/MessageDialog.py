@@ -184,8 +184,12 @@ class MessageDialogBootloader(Gtk.Dialog):
                 ]
 
                 Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
-
-                subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
+                if os.path.exists("/usr/share/xsessions/nimdow.desktop"):
+                    subprocess.Popen(
+                        ["sudo", "-E", "/usr/bin/calamares", "-d"], shell=False
+                    )
+                else:
+                    subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
             else:
                 print(
                     "[ERROR]: %s not found, are you sure you are on a Live ISO?"
@@ -234,9 +238,13 @@ class MessageDialogBootloader(Gtk.Dialog):
                     bootloader_file,
                     "/etc/calamares/modules/bootloader.conf",
                 ]
-
-                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
-                subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
+                if os.path.exists("/usr/share/xsessions/nimdow.desktop"):
+                    subprocess.Popen(
+                        ["sudo", "-E", "/usr/bin/calamares", "-d"], shell=False
+                    )
+                else:
+                    Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+                    subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
 
             else:
                 print("[ERROR]: %s not found, are you on a Live ISO?" % bootloader_file)
