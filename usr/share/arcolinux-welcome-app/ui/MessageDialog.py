@@ -95,6 +95,7 @@ class MessageDialogBootloader(Gtk.Dialog):
         self.set_resizable(False)
 
         self.pacman_lockfile = pacman_lockfile
+
         self.run_app = run_app
         self.calamares_polkit = calamares_polkit
 
@@ -122,9 +123,7 @@ class MessageDialogBootloader(Gtk.Dialog):
 
         title_message = "You have chosen the %s option" % install_method
 
-        title_second_message = (
-            "Would you like to install <b>Grub</b> or <b>Systemd-boot</b> ?"
-        )
+        title_second_message = "Which bootloader do you prefer <b>Grub</b>, <b>Systemd-boot</b> or <b>Refind</b> ?"
 
         btn_bootloader_grub = Gtk.Button(label="Install Grub")
         btn_bootloader_grub.set_size_request(100, 30)
@@ -135,6 +134,10 @@ class MessageDialogBootloader(Gtk.Dialog):
         btn_bootloader_systemd_boot.connect(
             "clicked", self.on_bootloader_systemd_boot_clicked
         )
+
+        btn_bootloader_refind = Gtk.Button(label="Install Refind")
+        btn_bootloader_refind.set_size_request(100, 30)
+        btn_bootloader_refind.connect("clicked", self.on_bootloader_refind_clicked)
 
         label_title_message = Gtk.Label(xalign=0.5, yalign=0.5)
         label_title_message.set_markup("<b>%s</b>" % title_message)
@@ -155,6 +158,7 @@ class MessageDialogBootloader(Gtk.Dialog):
         hbox_buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
         hbox_buttons.pack_start(btn_bootloader_grub, False, False, 1)
         hbox_buttons.pack_start(btn_bootloader_systemd_boot, False, False, 1)
+        hbox_buttons.pack_start(btn_bootloader_refind, False, False, 1)
 
         hbox_buttons.set_halign(Gtk.Align.CENTER)
 
@@ -228,6 +232,57 @@ class MessageDialogBootloader(Gtk.Dialog):
     def on_bootloader_systemd_boot_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
             bootloader_file = "/etc/calamares/modules/bootloader-systemd.conf"
+
+            if os.path.exists(bootloader_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    bootloader_file,
+                    "/etc/calamares/modules/bootloader.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+                if os.path.exists("/usr/share/xsessions/nimdow.desktop"):
+                    subprocess.Popen([self.calamares_polkit], shell=False)
+                else:
+                    subprocess.Popen([self.calamares_polkit, "-d"], shell=False)
+
+            else:
+                print("[ERROR]: %s not found, are you on a Live ISO?" % bootloader_file)
+
+                if self.label_message is not None:
+                    self.label_message.destroy()
+
+                self.label_message.set_markup(
+                    "<span foreground='orange'><b>%s not found\nAre you sure you are on a Live ISO?</b></span>"
+                    % bootloader_file
+                )
+
+                self.vbox.add(self.label_message)
+                self.show_all()
+
+        else:
+            print(
+                "[ERROR]: Pacman lockfile found %s, is another pacman process running ?"
+                % self.pacman_lockfile
+            )
+
+            if self.label_message is not None:
+                self.label_message.destroy()
+
+            self.label_message.set_markup(
+                "<span foreground='orange'><b Pacman lockfile found %s, is another pacman process running ?</b></span>"
+                % self.pacman_lockfile
+            )
+
+            self.vbox.add(self.label_message)
+            self.show_all()
+
+        self.destroy()
+
+    # select refind
+    def on_bootloader_refind_clicked(self, widget):
+        if not os.path.exists(self.pacman_lockfile):
+            bootloader_file = "/etc/calamares/modules/bootloader-refind.conf"
 
             if os.path.exists(bootloader_file):
                 app_cmd = [
