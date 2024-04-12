@@ -26,39 +26,41 @@ from gi.repository import Gtk, GdkPixbuf, GLib, Gdk  # Wnck
 
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 REMOTE_SERVER = "www.google.com"
-css = """
-box#stack_box{
-    padding: 10px 10px 10px 10px;
-}
-button#button_grub_boot_enabled{
-     font-weight: bold;
-     background-color: @theme_base_color_button;
-}
-button#button_systemd_boot_enabled{
-     font-weight: bold;
-     background-color: @theme_base_color_button;
-}
-button#button_easy_install_enabled{
-     font-weight: bold;
-     background-color: @theme_base_color_button;
-}
-button#button_adv_install_enabled{
-     font-weight: bold;
-     background-color: @theme_base_color_button;
-}
-label#label_style {
-    background-color: @theme_base_color;
-    border-top: 1px solid @borders;
-    border-bottom: 1px solid @borders;
-    border-left: 1px solid @borders;
-    border-right: 1px solid @borders;
-    padding: 10px 10px 10px 10px;
-    border-radius: 100px;
-    font-weight: bold;
-    color: #fcfcfc;
-    font-family: 'Open Sans', 'Helvetica', sans-serif;
-}
-"""
+# css = """
+# box#stack_box{
+#     padding: 10px 10px 10px 10px;
+# }
+# button#button_grub_boot_enabled{
+#      font-weight: bold;
+#      background-color: @theme_base_color_button;
+# }
+# button#button_systemd_boot_enabled{
+#      font-weight: bold;
+#      background-color: @theme_base_color_button;
+# }
+# button#button_easy_install_enabled{
+#      font-weight: bold;
+#      background-color: @theme_base_color_button;
+# }
+# button#button_adv_install_enabled{
+#      font-weight: bold;
+#      background-color: @theme_base_color_button;
+# }
+# label#label_style {
+#     background-color: @theme_base_color;
+#     border-top: 1px solid @borders;
+#     border-bottom: 1px solid @borders;
+#     border-left: 1px solid @borders;
+#     border-right: 1px solid @borders;
+#     padding: 10px 10px 10px 10px;
+#     border-radius: 100px;
+#     font-weight: bold;
+#     color: #fcfcfc;
+#     font-family: 'Open Sans', 'Helvetica', sans-serif;
+# }
+# """
+
+css = """ """
 
 
 class Main(Gtk.Window):
@@ -186,6 +188,68 @@ class Main(Gtk.Window):
 
             threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
+            # arconet specific
+            check_file_path = "/etc/dev-rel"
+            arconet_found = False
+            # Try to open and read from /etc/dev-rel to check for "arconet"
+            try:
+                with open(check_file_path, "r") as check_file:
+                    for line in check_file:
+                        if "arconet" in line:
+                            arconet_found = True
+                            break
+            except FileNotFoundError:
+                print(f"The file {check_file_path} was not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+            if arconet_found:
+                # The path to the file you want to edit
+                file_path = "/etc/calamares/modules/shellprocess-before.conf"
+                file_path_offline = (
+                    "/etc/calamares/modules/shellprocess-before-offline.conf"
+                )
+
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    file_path_offline,
+                    file_path,
+                ]
+
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            # arcopro specific
+            check_file_path = "/etc/dev-rel"
+            arcopro_found = False
+            # Try to open and read from /etc/dev-rel to check for "arconet"
+            try:
+                with open(check_file_path, "r") as check_file:
+                    for line in check_file:
+                        if "arcopro" in line:
+                            arcopro_found = True
+                            break
+            except FileNotFoundError:
+                print(f"The file {check_file_path} was not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+            if arcopro_found:
+                # The path to the file you want to edit
+                file_path = "/etc/calamares/modules/shellprocess-before.conf"
+                file_path_offline = (
+                    "/etc/calamares/modules/shellprocess-before-easy.conf"
+                )
+
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    file_path_offline,
+                    file_path,
+                ]
+
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
             efi_file_check = self.file_check("/sys/firmware/efi/fw_platform_size")
 
             if efi_file_check is True:
@@ -255,6 +319,68 @@ class Main(Gtk.Window):
                 system_update_file,
                 "/etc/calamares/modules/packages.conf",
             ]
+
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            # arconet specific
+            check_file_path = "/etc/dev-rel"
+            arconet_found = False
+            # Try to open and read from /etc/dev-rel to check for "arconet"
+            try:
+                with open(check_file_path, "r") as check_file:
+                    for line in check_file:
+                        if "arconet" in line:
+                            arconet_found = True
+                            break
+            except FileNotFoundError:
+                print(f"The file {check_file_path} was not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+            if arconet_found:
+                # The path to the file you want to edit
+                file_path = "/etc/calamares/modules/shellprocess-before.conf"
+                file_path_online = (
+                    "/etc/calamares/modules/shellprocess-before-online.conf"
+                )
+
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    file_path_online,
+                    file_path,
+                ]
+
+            threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
+            # arcopro specific
+            check_file_path = "/etc/dev-rel"
+            arcopro_found = False
+            # Try to open and read from /etc/dev-rel to check for "arconet"
+            try:
+                with open(check_file_path, "r") as check_file:
+                    for line in check_file:
+                        if "arcopro" in line:
+                            arcopro_found = True
+                            break
+            except FileNotFoundError:
+                print(f"The file {check_file_path} was not found.")
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+            if arcopro_found:
+                # The path to the file you want to edit
+                file_path = "/etc/calamares/modules/shellprocess-before.conf"
+                file_path_online = (
+                    "/etc/calamares/modules/shellprocess-before-advanced.conf"
+                )
+
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    file_path_online,
+                    file_path,
+                ]
 
             threading.Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
