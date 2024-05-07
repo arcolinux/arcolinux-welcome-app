@@ -4,6 +4,7 @@
 # =================================================================
 import gi
 import os
+import ipaddress
 
 # import conflicts
 # import sys
@@ -1025,37 +1026,45 @@ class Main(Gtk.Window):
         GLib.idle_add(self.label_notify.set_markup, "<b>Mirrorlist updated</b>")
         GLib.idle_add(self.button_mirrors.set_sensitive, True)
 
-    # def btrfs_update(self):
-    #    if GUI.DEBUG:
-    #        path = "/home/bheffernan/Repos/GITS/XFCE/hefftor-calamares-oem-config/calamares/modules/partition.conf"
-    #    else:
-    #        path = "/etc/calamares/modules/partition.conf"
+    def contains_valid_gateway_ip(self):
+        file_path = "/etc/resolv.conf"
+        try:
+            with open(file_path, "r") as file:
+                for line in file:
+                    if line.startswith("nameserver"):
+                        # Extract the IP address part from the line
+                        parts = line.strip().split()
+                        if len(parts) > 1:
+                            ip_address = parts[1]
+                            try:
+                                # Validate the IP address
+                                ipaddress.ip_address(ip_address)
+                                print(f"Valid IP found: {ip_address}")
+                                return True
+                            except ValueError:
+                                # This handles the case where ip_address is not a valid IP
+                                continue
+        except FileNotFoundError:
+            print(f"File not found: {file_path}")
+            GLib.idle_add(
+                self.MessageBox,
+                "File Not Found",
+                f"The file {file_path} does not exist.",
+            )
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            GLib.idle_add(
+                self.MessageBox, "Error", f"An unexpected error occurred: {e}"
+            )
 
-    #    with open(path, "r") as f:
-    #        lines = f.readlines()
-    #        f.close()
-    #    data = [x for x in lines if "defaultFileSystemType" in x]
-    #    pos = lines.index(data[0])
+        print("No valid global IP found in /etc/resolv.conf")
+        GLib.idle_add(
+            self.MessageBox,
+            "PROBLEM!",
+            "<b>No valid IP in /etc/resolv.conf</b>\n\nPlease deactivate and reactivate NetworkManager.",
+        )
 
-    #    lines[pos] = "defaultFileSystemType:  \"ext4\"\n"
-
-    #    with open(path, "w") as f:
-    #        f.writelines(lines)
-    #        f.close()
-
-    #    GLib.idle_add(self.MessageBox,"Success", "Your filesystem has been changed.")
-
-    # def finished_mirrors(self):
-    #     md = Gtk.MessageDialog(parent=self,
-    #                            flags=0,
-    #                            message_type=Gtk.MessageType.INFO,
-    #                            buttons=Gtk.ButtonsType.OK,
-    #                            text="Finished")
-    #     md.format_secondary_markup("Mirrorlist has been updated!")
-    #     md.run()
-    #     md.destroy()
-    #     GLib.idle_add(self.cc.set_markup, "")
-    #     GLib.idle_add(self.button8.set_sensitive, True)
+        return False
 
     def MessageBox(self, title, message):
         md = Gtk.MessageDialog(
@@ -1086,36 +1095,10 @@ class Main(Gtk.Window):
             "<b>ArcoLinux Tweak Tool</b> has been installed successfully",
         )  # noqa
 
-    # def get_message(self, title, message):
-    #     t = threading.Thread(target=self.fetch_notice,
-
-
-#                              args=(title, message,))
-#     t.daemon = True
-#     t.start()
-#     t.join()
-
-# def fetch_notice(self, title, message):
-#     try:
-#         url = 'https://bradheff.github.io/notice/notice'
-#         req = requests.get(url, verify=True, timeout=1)
-
-#         if req.status_code == requests.codes.ok:
-#             if not len(req.text) <= 1:
-#                 title.set_markup(
-#                 "<big><b><u>Notice</u></b></big>")
-#                 message.set_markup(req.text)
-#                 self.results = True
-#             else:
-#                 self.results = False
-#         else:
-#             self.results = False
-#     except:
-#         self.results = False
-
 
 if __name__ == "__main__":
     w = Main()
+    w.contains_valid_gateway_ip()
     w.connect("delete-event", Gtk.main_quit)
     w.show_all()
     Gtk.main()
