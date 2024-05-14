@@ -284,6 +284,7 @@ class Main(Gtk.Window):
 
     # online install option
     def on_adv_install_clicked(self, widget):
+        w.contains_valid_gateway_ip()
         if not os.path.exists(self.pacman_lockfile):
             widget.set_name("button_adv_install_enabled")
             widget.get_child().set_markup(
@@ -1098,7 +1099,6 @@ class Main(Gtk.Window):
 
 if __name__ == "__main__":
     w = Main()
-    w.contains_valid_gateway_ip()
     w.connect("delete-event", Gtk.main_quit)
     w.show_all()
     Gtk.main()
