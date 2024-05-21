@@ -342,11 +342,10 @@ def GUI(self, Gtk, GdkPixbuf):
             f"We advise to clean the computer with GParted before installing.\n"
             f"During the Calamares installation many options will be open to you.\n\n"
             f"<b>Easy installation</b> (Recommended) option is offline, no internet connection required\n"
-            f"<b>Advanced installation</b> option is online, this requires a working internet connection\n"
-            f"\n"
+            f"<b>Advanced installation</b> option is online, this requires a working internet connection\n\n"
             f"<b>Summary</b>\n"
             f"<b>Arconet - Easy</b> - WYSIWYG - you get XFCE4 and all the apps\n"
-            f"<b>Arconet - Advanced</b> - WYSIWYG - you select your desktop and get all the apps but no XFCE4 by default\n\n"
+            f"<b>Arconet - Advanced</b> - XFCE4 is removed - you select your desktop + apps WYSIWYG + select more\n\n"
             f"<b>Arcoplasma - Easy</b> - WYSIWYG - you get Plasma and all the apps\n"
             f"<b>Arcoplasma - Advanced</b> - WYSIWYG - you get Plasma and all the apps + select more\n\n"
             f"<b>Arcopro - Easy</b> - Bare Arch Linux system - no desktop - no apps\n"
@@ -359,6 +358,13 @@ def GUI(self, Gtk, GdkPixbuf):
             f"Join us <b> <a href='{app_youtube}' title='{app_youtube}'>Youtube</a></b> as we communicate and teach via our Youtube channel.\n"
             f"<b> <a href='{app_telegram}' title='{app_telegram}'>Telegram</a></b> is for chitchat - <b> <a href='{app_discord}' title='{app_discord}'>Discord</a></b> is for assistance.\n"
             f"We have a <b> <a href='{app_forums}' title='{app_forums}'>Forum</a></b> for the longer and more technical questions.\n\n"
+            f"<b>Summary</b>\n"
+            f"<b>Arconet - Easy</b> - WYSIWYG - you get XFCE4 and all the apps\n"
+            f"<b>Arconet - Advanced</b> - XFCE4 is removed - you select your desktop + apps WYSIWYG + select more\n\n"
+            f"<b>Arcoplasma - Easy</b> - WYSIWYG - you get Plasma and all the apps\n"
+            f"<b>Arcoplasma - Advanced</b> - WYSIWYG - you get Plasma and all the apps + select more\n\n"
+            f"<b>Arcopro - Easy</b> - Bare Arch Linux system - no desktop - no apps\n"
+            f"<b>Arcopro - Advanced</b> - Select every component of an operating system yourself\n"
         )
 
         label_info2.set_markup(desc2)
@@ -371,6 +377,13 @@ def GUI(self, Gtk, GdkPixbuf):
             f"Join us <b> <a href='{app_youtube}' title='{app_youtube}'>Youtube</a></b> as we communicate and teach via our Youtube channel.\n"
             f"<b> <a href='{app_telegram}' title='{app_telegram}'>Telegram</a></b> is for chitchat - <b> <a href='{app_discord}' title='{app_discord}'>Discord</a></b> is for assistance.\n"
             f"We have a <b> <a href='{app_forums}' title='{app_forums}'>Forum</a></b> for the longer and more technical questions.\n\n"
+            f"<b>Summary</b>\n"
+            f"<b>Arconet - Easy</b> - WYSIWYG - you get XFCE4 and all the apps\n"
+            f"<b>Arconet - Advanced</b> - XFCE4 is removed - you select your desktop + apps WYSIWYG + select more\n\n"
+            f"<b>Arcoplasma - Easy</b> - WYSIWYG - you get Plasma and all the apps\n"
+            f"<b>Arcoplasma - Advanced</b> - WYSIWYG - you get Plasma and all the apps + select more\n\n"
+            f"<b>Arcopro - Easy</b> - Bare Arch Linux system - no desktop - no apps\n"
+            f"<b>Arcopro - Advanced</b> - Select every component of an operating system yourself\n"
         )
 
     label_info = Gtk.Label(xalign=0, yalign=0)
