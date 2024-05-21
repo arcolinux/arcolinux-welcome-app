@@ -342,7 +342,15 @@ def GUI(self, Gtk, GdkPixbuf):
             f"We advise to clean the computer with GParted before installing.\n"
             f"During the Calamares installation many options will be open to you.\n\n"
             f"<b>Easy installation</b> (Recommended) option is offline, no internet connection required\n"
-            f"<b>Advanced installation</b> option is online, this requires a working internet connection"
+            f"<b>Advanced installation</b> option is online, this requires a working internet connection\n"
+            f"\n"
+            f"<b>Summary</b>\n"
+            f"<b>Arconet - Easy</b> - WYSIWYG - you get XFCE4 and all the apps\n"
+            f"<b>Arconet - Advanced</b> - WYSIWYG - you select your desktop and get all the apps but no XFCE4 by default\n\n"
+            f"<b>Arcoplasma - Easy</b> - WYSIWYG - you get Plasma and all the apps\n"
+            f"<b>Arcoplasma - Advanced</b> - WYSIWYG - you get Plasma and all the apps + select more\n\n"
+            f"<b>Arcopro - Easy</b> - Bare Arch Linux system - no desktop - no apps\n"
+            f"<b>Arcopro - Advanced</b> - Select every component of an operating system yourself\n"
         )
 
         desc2 = (
