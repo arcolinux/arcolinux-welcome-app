@@ -166,17 +166,17 @@ def GUI(self, Gtk, GdkPixbuf):
         app_telegram,
     )
 
-    # twitter
+    # bluesky
     tw_event = Gtk.EventBox()
     pbtw = GdkPixbuf.Pixbuf().new_from_file_at_size(
-        os.path.join(base_dir, "images/twitter.png"), 28, 28
+        os.path.join(base_dir, "images/bluesky.png"), 28, 28
     )
     twimage = Gtk.Image().new_from_pixbuf(pbtw)
     tw_event.add(twimage)
     tw_event.connect(
         "button_press_event",
         self.on_social_clicked,
-        "https://twitter.com/arcolinux",
+        "https://bsky.app/profile/arcolinux.bsky.social",
     )
 
     # mewe
@@ -296,7 +296,7 @@ def GUI(self, Gtk, GdkPixbuf):
     att_event.set_property("has-tooltip", True)
 
     fb_event.connect("query-tooltip", self.tooltip_callback, "Facebook")
-    tw_event.connect("query-tooltip", self.tooltip_callback, "Twitter")
+    tw_event.connect("query-tooltip", self.tooltip_callback, "Bluesky")
     mew_event.connect("query-tooltip", self.tooltip_callback, "Mewe")
     insta_event.connect("query-tooltip", self.tooltip_callback, "Instagram")
     lin_event.connect("query-tooltip", self.tooltip_callback, "LinkedIn")
