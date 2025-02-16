@@ -178,16 +178,16 @@ class MessageDialogBootloader(Gtk.Dialog):
     def on_bootloader_grub_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
 
-            # partition_file = "/etc/calamares/modules/partition-luks.conf"
+            partition_file = "/etc/calamares/modules/partition-luks.conf"
 
-            # if os.path.exists(partition_file):
-            #     app_cmd = [
-            #         "sudo",
-            #         "cp",
-            #         partition_file,
-            #         "/etc/calamares/modules/partition.conf",
-            #     ]
-            #     Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
             bootloader_file = "/etc/calamares/modules/bootloader-grub.conf"
 
@@ -244,16 +244,16 @@ class MessageDialogBootloader(Gtk.Dialog):
     def on_bootloader_systemd_boot_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
 
-            # partition_file = "/etc/calamares/modules/partition-no-luks.conf"
+            partition_file = "/etc/calamares/modules/partition-no-luks.conf"
 
-            # if os.path.exists(partition_file):
-            #     app_cmd = [
-            #         "sudo",
-            #         "cp",
-            #         partition_file,
-            #         "/etc/calamares/modules/partition.conf",
-            #     ]
-            #     Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
             bootloader_file = "/etc/calamares/modules/bootloader-systemd.conf"
 
@@ -306,17 +306,17 @@ class MessageDialogBootloader(Gtk.Dialog):
     # select refind
     def on_bootloader_refind_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
-            
-            # partition_file = "/etc/calamares/modules/partition-no-luks.conf"
 
-            # if os.path.exists(partition_file):
-            #     app_cmd = [
-            #         "sudo",
-            #         "cp",
-            #         partition_file,
-            #         "/etc/calamares/modules/partition.conf",
-            #     ]
-            #     Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+            partition_file = "/etc/calamares/modules/partition-no-luks.conf"
+
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
 
             bootloader_file = "/etc/calamares/modules/bootloader-refind.conf"
 
