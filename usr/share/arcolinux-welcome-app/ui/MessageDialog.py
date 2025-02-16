@@ -177,6 +177,18 @@ class MessageDialogBootloader(Gtk.Dialog):
     # select GRUB
     def on_bootloader_grub_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
+
+            partition_file = "/etc/calamares/modules/partition-luks.conf"
+
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
             bootloader_file = "/etc/calamares/modules/bootloader-grub.conf"
 
             if os.path.exists(bootloader_file):
@@ -231,6 +243,18 @@ class MessageDialogBootloader(Gtk.Dialog):
     # select systemd-boot
     def on_bootloader_systemd_boot_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
+
+            partition_file = "/etc/calamares/modules/partition-no-luks.conf"
+
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
             bootloader_file = "/etc/calamares/modules/bootloader-systemd.conf"
 
             if os.path.exists(bootloader_file):
@@ -282,6 +306,17 @@ class MessageDialogBootloader(Gtk.Dialog):
     # select refind
     def on_bootloader_refind_clicked(self, widget):
         if not os.path.exists(self.pacman_lockfile):
+            partition_file = "/etc/calamares/modules/partition-no-luks.conf"
+
+            if os.path.exists(partition_file):
+                app_cmd = [
+                    "sudo",
+                    "cp",
+                    partition_file,
+                    "/etc/calamares/modules/partition.conf",
+                ]
+                Thread(target=self.run_app, args=(app_cmd,), daemon=True).start()
+
             bootloader_file = "/etc/calamares/modules/bootloader-refind.conf"
 
             if os.path.exists(bootloader_file):
