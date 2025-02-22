@@ -1002,27 +1002,28 @@ class Main(Gtk.Window):
             f"This may take some time, please wait...</span>",
         )  # noqa
         GLib.idle_add(self.button_mirrors.set_sensitive, False)
-        subprocess.run(
-            [
-                "pkexec",
-                "/usr/bin/reflector",
-                "--age",
-                "6",
-                "--latest",
-                "21",
-                "--fastest",
-                "21",
-                "--threads",
-                "21",
-                "--sort",
-                "rate",
-                "--protocol",
-                "https",
-                "--save",
-                "/etc/pacman.d/mirrorlist",
-            ],
-            shell=False,
-        )
+
+        critty = "alacritty --hold -e"
+        command = "/usr/local/bin/arcolinux-get-mirrors-with-ram"
+        full_command = f"{critty} {command}"
+
+        # Launching the script
+        try:
+            result = subprocess.run(
+                full_command,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                check=True  # Raises an exception for non-zero exit codes
+            )
+            print(result.stdout.decode())
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with exit code {e.returncode}")
+            GLib.idle_add(self.MessageBox, "Error", f"Command failed: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            GLib.idle_add(self.MessageBox, "Error", f"An unexpected error occurred: {e}")
+
         print("Update mirrors completed")
         GLib.idle_add(self.label_notify.set_markup, "<b>Mirrorlist updated</b>")
         GLib.idle_add(self.button_mirrors.set_sensitive, True)
