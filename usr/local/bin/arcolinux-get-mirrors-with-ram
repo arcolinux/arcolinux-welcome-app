@@ -30,7 +30,7 @@ echo "##########################################################################
 echo "###                           USING RATE-MIRRORS                           ####"
 echo "###############################################################################"
 
-rate-mirrors --allow-root --disable-comments-in-file arch | sudo tee /etc/pacman.d/mirrorlist
+sudo rate-mirrors --allow-root --disable-comments-in-file --save /etc/pacman.d/mirrorlist arch
 
 echo "###############################################################################"
 echo "###                DONE - YOU CAN CLOSE THIS WINDOW                        ####"
