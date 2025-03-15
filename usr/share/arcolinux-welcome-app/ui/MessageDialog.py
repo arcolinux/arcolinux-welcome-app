@@ -123,13 +123,13 @@ class MessageDialogBootloader(Gtk.Dialog):
 
         title_message = "You have chosen the %s option" % install_method
 
-        title_second_message = "Which bootloader do you prefer <b>Grub</b>, <b>Systemd-boot</b> or <b>Refind</b> ?"
+        title_second_message = "Which bootloader do you prefer <b>Systemd-boot</b>, <b>Grub</b> or <b>Refind</b> ?"
 
         btn_bootloader_grub = Gtk.Button(label="Install Grub")
         btn_bootloader_grub.set_size_request(100, 30)
         btn_bootloader_grub.connect("clicked", self.on_bootloader_grub_clicked)
 
-        btn_bootloader_systemd_boot = Gtk.Button(label="Install Systemd-boot")
+        btn_bootloader_systemd_boot = Gtk.Button(label="Install Systemd-boot (recommended)")
         btn_bootloader_systemd_boot.set_size_request(100, 30)
         btn_bootloader_systemd_boot.connect(
             "clicked", self.on_bootloader_systemd_boot_clicked
