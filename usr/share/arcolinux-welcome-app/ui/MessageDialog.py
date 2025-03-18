@@ -156,8 +156,8 @@ class MessageDialogBootloader(Gtk.Dialog):
         lbl_padding2.set_text(" ")
 
         hbox_buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
-        hbox_buttons.pack_start(btn_bootloader_grub, False, False, 1)
         hbox_buttons.pack_start(btn_bootloader_systemd_boot, False, False, 1)
+        hbox_buttons.pack_start(btn_bootloader_grub, False, False, 1)
         hbox_buttons.pack_start(btn_bootloader_refind, False, False, 1)
 
         hbox_buttons.set_halign(Gtk.Align.CENTER)
